@@ -129,6 +129,35 @@ When FILENAME is anything else, ignore"
   (if (equal "rss.org" (file-name-nondirectory filename))
       (org-rss-publish-to-rss plist filename pub-dir)))
 
+(defun rw/publish-redirect (plist filename pub-dir)
+  "Generate redirect files from the old routes to the new.
+PLIST contains the project info, FILENAME is the file to publish
+and PUB-DIR the output directory."
+  (let* ((regexp (org-make-options-regexp '("REDIRECT_FROM")))
+         (from (with-temp-buffer
+                 (insert-file-contents filename)
+                 (if (re-search-forward regexp nil t)
+		     (org-element-property :value (org-element-at-point))))))
+    (when from
+      (let* ((to-name (file-name-sans-extension (file-name-nondirectory filename)))
+             (to-file (format "/%s.html" to-name))
+             (from-dir (concat pub-dir from))
+             (from-file (concat from-dir "index.html"))
+             (other-dir (concat pub-dir to-name))
+             (other-file (concat other-dir "/index.html"))
+             (to (concat (file-name-sans-extension (file-name-nondirectory filename))
+                         ".html"))
+             (layout (plist-get plist :redirect-layout))
+             (content (with-temp-buffer
+                        (insert-file-contents layout)
+                        (while (re-search-forward "REDIRECT_TO" nil t)
+                          (replace-match to-file t t))
+                        (buffer-string))))
+        (make-directory from-dir t)
+        (make-directory other-dir t)
+        (with-temp-file from-file
+          (insert content)
+          (write-file other-file))))))
 
 (defvar rw--publish-project-alist
       (list
@@ -175,7 +204,7 @@ When FILENAME is anything else, ignore"
              :sitemap-format-entry 'rw/format-rss-feed-entry)
        (list "blog-static"
              :base-directory "."
-             :exclude (regexp-opt '("public/" "layouts/" "redirects/"))
+             :exclude (regexp-opt '("public/" "layouts/"))
              :base-extension rw--site-attachments
              :publishing-directory "./public"
              :publishing-function 'org-publish-attachment
@@ -187,13 +216,15 @@ When FILENAME is anything else, ignore"
              :publishing-function 'org-publish-attachment
              :recursive t)
        (list "blog-redirects"
-             :base-directory "redirects"
-             :base-extension "html"
+             :base-directory "posts"
+             :base-extension "org"
+             :recursive nil
+             :exclude (regexp-opt '("rss.org" "index.org"))
+             :publishing-function 'rw/publish-redirect
              :publishing-directory "./public"
-             :publishing-function 'org-publish-attachment
-             :recursive t)
+             :redirect-layout "layouts/redirect.html")
        (list "site"
-             :components '("blog-posts" "blog-rss" "blog-static" "blog-redirects"))
+             :components '("blog-posts" "blog-rss" "blog-static" "blog-acme" "blog-redirects"))
        ))
 
 (defun rw-publish-all ()

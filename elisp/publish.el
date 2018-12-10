@@ -65,8 +65,15 @@ PLIST contains the properties, FILENAME the source file and
   (org-html-publish-to-html plist filename pub-dir))
 
 (defun rw/org-html-format-headline-function (todo todo-type priority text tags info)
-  "Format function for a headline.
-This creates a link for TEXT is INFO contains an :id."
+  "Format a headline with a link to itself.
+
+This function takes six arguments:
+TODO      the todo keyword (string or nil).
+TODO-TYPE the type of todo (symbol: ‘todo’, ‘done’, nil)
+PRIORITY  the priority of the headline (integer or nil)
+TEXT      the main headline text (string).
+TAGS      the tags (string or nil).
+INFO      the export options (plist)."
   (let* ((headline (get-text-property 0 :parent text))
          (id (or (org-element-property :CUSTOM_ID headline)
                  (org-element-property :ID headline)))
@@ -76,9 +83,9 @@ This creates a link for TEXT is INFO contains an :id."
     (org-html-format-headline-default-function todo todo-type priority link tags info)))
 
 (defun rw/org-publish-sitemap (title list)
-  "Generate site map, as a string.
+  "Generate sitemap as a string, having TITLE.
 LIST is an internal representation for the files to include, as
-returned by `org-list-to-lisp'.  PROJECT is the current project."
+returned by `org-list-to-lisp'."
   (concat "#+TITLE: " title "\n"
           "#+OPTIONS: title:nil\n\n"
           "#+ATTR_HTML: :class sitemap\n"
@@ -96,7 +103,8 @@ PROJECT is the current project."
 
 (defun rw/format-rss-feed-entry (entry style project)
   "Format ENTRY for the RSS feed.
-ENTRY is a file name.  PROJECT is the current project."
+ENTRY is a file name.  STYLE is either 'list' or 'tree'.
+PROJECT is the current project."
   (cond ((not (directory-name-p entry))
          (let* ((file (org-publish--expand-file-name entry project))
                 (title (org-publish-find-title entry project))
@@ -124,8 +132,8 @@ representation for the files to include, as returned by
           (org-list-to-subtree list '(:icount "" :istart ""))))
 
 (defun rw/org-rss-publish-to-rss (plist filename pub-dir)
-  "Only publish rss.org to rss.
-When FILENAME is anything else, ignore"
+  "Publish RSS with PLIST, only when FILENAME is 'rss.org'.
+PUB-DIR is when the output will be placed."
   (if (equal "rss.org" (file-name-nondirectory filename))
       (org-rss-publish-to-rss plist filename pub-dir)))
 

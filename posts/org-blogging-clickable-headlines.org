@@ -1,0 +1,103 @@
+#+TITLE: Org mode blogging: Clickable headlines
+#+DATE: <2018-12-10 Mon>
+
+** Intro
+
+Recently I've migrated my blog from [[https://jekyllrb.com/][Jekyll]] to [[https://orgmode.org/][Org mode]]. I'm not gonna
+write about how I did that, cause there are plenty of articles about
+that on the [[https://pages.gitlab.io/org-mode/post3.html][internet]] already. Also the sources of this blog can be
+found [[https://gitlab.com/to1ne/blog][online]].
+
+I gonna write a serie of posts about problems which the internet did
+not solve already.
+
+This first post is about clickable headlines.
+
+** Objective
+
+When Org mode publishes files to HTML, it adds the =id= attribute to
+all headlines. But one should have to web-inspect the page to find the
+id, so most blogging engines make the headlines clickable, with a link
+to their own. But Org mode does not do that out of the box.
+
+** Solution
+
+When you define the =org-publish-project-alist=, you can specify the
+=:html-format-headline-function= property. This property should be set
+to a function taking the following arguments:
+
++ =TODO= :: the todo keyword (string or =nil=)
++ =TODO-TYPE= :: the type of todo (symbol: ='todo=, ='done=, =nil=)
++ =PRIORITY= :: the priority of the headline (integer or =nil=)
++ =TEXT= :: the main headline text (string)
++ =TAGS= :: the tags (string or =nil=)
++ =INFO= :: the export options (plist)
+
+By default this property is set to
+=org-html-format-headline-default-function=, but as said, this
+function does not wrap the headline in a hyperlink.
+
+So I attempted to write a function the calls the original function,
+but return =text= as a link.
+
+This shouldn't be too hard, but there was one problem, where do I get
+the value of the =ID= from?
+
+** Propertized strings
+
+It took me a lot of debugging to understand what was going on. For
+example, printing out the value of =text= returned a /weird/ value.
+
+#+BEGIN_SRC emacs-lisp
+  (princ text)
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+Introduction#("Introduction" 0 12 (:parent (headline (:raw-value "Introduction" :begin 105 :end 507 :pre-blank 0 :contents-begin 121 :contents-end 506 ...) (section ... ...))))
+#+END_EXAMPLE
+
+So the variable contains the text of the headline, but apparently also
+other things.
+
+I tried to inspect the type of the variable:
+
+#+BEGIN_SRC emacs-lisp
+(type-of text)
+#+END_SRC
+
+#+BEGIN_EXAMPLE
+string
+#+END_EXAMPLE
+
+But that didn't help me much...
+
+I could not understand what =#(= meant. So I started searching the web
+and eventually I stumbled on [[https://stackoverflow.com/a/5054150/89376][this StackOverflow answer]]. It turns out,
+and I really didn't know that, strings in Emacs lisp can have [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Props-and-Strings.html#index-g_t_0040samp_007b_0023_0028_007d-read-syntax-105][text
+properties]].
+
+Interesting...
+
+So my plan seems simple from here, find how to read text properties
+from a string and read the =:ID= property and use it to generate a
+link.
+
+Eventually I ended up with this function:
+
+#+BEGIN_SRC emacs-lisp
+(defun my-org-html-format-headline-function (todo todo-type priority text tags info)
+  "Format a headline with a link to itself."
+  (let* ((headline (get-text-property 0 :parent text))
+         (id (or (org-element-property :CUSTOM_ID headline)
+                 (org-element-property :ID headline)))
+         (link (if id
+                   (format "<a href=\"#%s\">%s</a>" id text)
+                 text)))
+    (org-html-format-headline-default-function todo todo-type priority link tags info)))
+#+END_SRC
+
+So it reads =:CUSTOM_ID= or =:ID= and when it is defined, call the
+default function with =text= being wrapped in =<a href...>= & =</a>=
+tags.
+
+You can find the exact function I'm using [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L67-83][here]].

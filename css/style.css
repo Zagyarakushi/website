@@ -312,7 +312,7 @@ pre.src:hover:before { display: inline;}
 }
 pre.src, pre.example {
   position: static;
-  overflow: auto visible;
+  overflow-x: scroll;
   margin: 0;
 }
 pre.src::before {

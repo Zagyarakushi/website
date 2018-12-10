@@ -219,6 +219,7 @@ header .subtitle {
 footer {
   display: flex;
   margin-bottom: 3em;
+  text-transform: lowercase;
 }
 footer section {
   flex: 1 0;

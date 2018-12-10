@@ -161,6 +161,7 @@ main header h1 {
   color: #666666;
   font-weight: normal;
   font-size: 1.1em;
+  text-transform: none;
 }
 #top h2::before {
   display: none;

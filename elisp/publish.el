@@ -17,6 +17,7 @@
   (unless (package-installed-p pkg)
     (package-install pkg)))
 
+(require 'cl-lib)
 (require 'org)
 (require 'ox-publish)
 (require 'ox-rss)
@@ -86,20 +87,24 @@ INFO      the export options (plist)."
   "Generate sitemap as a string, having TITLE.
 LIST is an internal representation for the files to include, as
 returned by `org-list-to-lisp'."
-  (concat "#+TITLE: " title "\n"
-          "#+OPTIONS: title:nil\n\n"
-          "#+ATTR_HTML: :class sitemap\n"
-          ; TODO use org-list-to-subtree instead
-          (org-list-to-org list)))
+  (let ((filtered-list (cl-remove-if (lambda (x)
+                                       (null (car x)))
+                                     (cdr list))))
+    (concat "#+TITLE: " title "\n"
+            "#+OPTIONS: title:nil\n\n"
+            "#+ATTR_HTML: :class sitemap\n"
+            ; TODO use org-list-to-subtree instead
+            (org-list-to-org filtered-list))))
 
 (defun rw/org-publish-sitemap-entry (entry style project)
   "Format for sitemap ENTRY, as a string.
 ENTRY is a file name.  STYLE is the style of the sitemap.
 PROJECT is the current project."
-  (format "[[file:%s][%s]] /%s/"
-          entry
-          (org-publish-find-title entry project)
-          (rw/format-date-subtitle entry project)))
+  (unless (equal entry "404.org")
+    (format "[[file:%s][%s]] /%s/"
+            entry
+            (org-publish-find-title entry project)
+            (rw/format-date-subtitle entry project))))
 
 (defun rw/format-rss-feed-entry (entry style project)
   "Format ENTRY for the RSS feed.
@@ -173,7 +178,7 @@ and PUB-DIR the output directory."
              :base-directory "posts"
              :base-extension "org"
              :recursive nil
-             :exclude "rss.org"
+             :exclude (regexp-opt '("rss.org" "index.org"))
              :publishing-function 'rw/org-html-publish-to-html
              :publishing-directory "./public"
              :html-head-include-default-style nil
@@ -196,7 +201,7 @@ and PUB-DIR the output directory."
              :base-directory "posts"
              :base-extension "org"
              :recursive nil
-             :exclude "index.org"
+             :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
              :publishing-function 'rw/org-rss-publish-to-rss
              :publishing-directory "./public"
              :rss-extension "xml"
@@ -227,7 +232,7 @@ and PUB-DIR the output directory."
              :base-directory "posts"
              :base-extension "org"
              :recursive nil
-             :exclude (regexp-opt '("rss.org" "index.org"))
+             :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
              :publishing-function 'rw/publish-redirect
              :publishing-directory "./public"
              :redirect-layout "layouts/redirect.html")

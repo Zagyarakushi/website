@@ -37,7 +37,7 @@ to a function taking the following six arguments:
 By default this property is set to
 =org-html-format-headline-default-function=.
 
-So I attempted to write a function the calls the original function,
+So I attempted to write a function that calls the original function,
 passing =text= as a hyperlink.
 
 This shouldn't be too hard, although there was one problem, where do I
@@ -90,11 +90,11 @@ Properties]].
 
 Interesting...
 
-For my example above, there is a text property =:parent= from
+In the example above, there is a text property =:parent= from
 character =0= with length =12=.
 
 Apparently, this property contains the headline element. And Org mode
-has functions to read properties of that element. All I then needed to
+has functions to read properties of that element. All what remained to
 do was extract the =:CUSTOM_ID:= or =:ID= property and wrap the =text=
 in =<a href...>= & =</a>= tags.
 

@@ -1,52 +1,53 @@
 #+TITLE: Org mode blogging: Clickable headlines
-#+DATE: <2018-12-10 Mon>
+#+DATE: <2018-12-11 Tue>
 
 ** Intro
 
 Recently I've migrated my blog from [[https://jekyllrb.com/][Jekyll]] to [[https://orgmode.org/][Org mode]]. I'm not gonna
-write about how I did that, cause there are plenty of articles about
-that on the [[https://pages.gitlab.io/org-mode/post3.html][internet]] already. Also the sources of this blog can be
-found [[https://gitlab.com/to1ne/blog][online]].
+write down the entire process, cause there are plenty of articles
+about that on the [[https://pages.gitlab.io/org-mode/post3.html][internet]] already. Although if you are interested, the
+sources of this blog can be found [[https://gitlab.com/to1ne/blog][online]].
 
-I gonna write a serie of posts about problems which the internet did
-not solve already.
-
-This first post is about clickable headlines.
+This post is the first in a series of posts about problems I've
+encountered and no one on the internet seemed to have resolved
+already. It's about clickable headlines.
 
 ** Objective
 
 When Org mode publishes files to HTML, it adds the =id= attribute to
-all headlines. But one should have to web-inspect the page to find the
-id, so most blogging engines make the headlines clickable, with a link
-to their own. But Org mode does not do that out of the box.
+all headlines, making them anchors to link to. But when someone wants
+to copy the link to a headline, they'll need to web-inspect the page
+to find the id. So most blogging engines make the headlines clickable,
+with a link to the headline self. Org mode does not do that out of
+the box.
 
 ** Solution
 
 When you define the =org-publish-project-alist=, you can specify the
 =:html-format-headline-function= property. This property should be set
-to a function taking the following arguments:
+to a function taking the following six arguments:
 
-+ =TODO= :: the todo keyword (string or =nil=)
-+ =TODO-TYPE= :: the type of todo (symbol: ='todo=, ='done=, =nil=)
-+ =PRIORITY= :: the priority of the headline (integer or =nil=)
-+ =TEXT= :: the main headline text (string)
-+ =TAGS= :: the tags (string or =nil=)
-+ =INFO= :: the export options (plist)
++ =todo= :: the todo keyword (string or =nil=)
++ =todo-type= :: the type of todo (symbol: ='todo=, ='done=, =nil=)
++ =priority= :: the priority of the headline (integer or =nil=)
++ =text= :: the main headline text (string)
++ =tags= :: the tags (string or =nil=)
++ =info= :: the export options (plist)
 
 By default this property is set to
-=org-html-format-headline-default-function=, but as said, this
-function does not wrap the headline in a hyperlink.
+=org-html-format-headline-default-function=.
 
 So I attempted to write a function the calls the original function,
-but return =text= as a link.
+passing =text= as a hyperlink.
 
-This shouldn't be too hard, but there was one problem, where do I get
-the value of the =ID= from?
+This shouldn't be too hard, although there was one problem, where do I
+get the value of the =ID= from?
 
 ** Propertized strings
 
-It took me a lot of debugging to understand what was going on. For
-example, printing out the value of =text= returned a /weird/ value.
+It took me a lot of debugging to figure this out. I started inspecting
+the values of the six argument, and I noticed something /weird/ was
+going on with the =text= variable.
 
 #+BEGIN_SRC emacs-lisp
   (princ text)
@@ -56,7 +57,7 @@ example, printing out the value of =text= returned a /weird/ value.
 Introduction#("Introduction" 0 12 (:parent (headline (:raw-value "Introduction" :begin 105 :end 507 :pre-blank 0 :contents-begin 121 :contents-end 506 ...) (section ... ...))))
 #+END_EXAMPLE
 
-So the variable contains the text of the headline, but apparently also
+The variable contains the text of the headline, but apparently also
 other things.
 
 I tried to inspect the type of the variable:
@@ -73,14 +74,18 @@ But that didn't help me much...
 
 I could not understand what =#(= meant. So I started searching the web
 and eventually I stumbled on [[https://stackoverflow.com/a/5054150/89376][this StackOverflow answer]]. It turns out,
-and I really didn't know that, strings in Emacs lisp can have [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Props-and-Strings.html#index-g_t_0040samp_007b_0023_0028_007d-read-syntax-105][text
-properties]].
+and I really didn't know that, strings in Emacs lisp can have [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Props-and-Strings.html#index-g_t_0040samp_007b_0023_0028_007d-read-syntax-105][Text
+Properties]].
 
 Interesting...
 
-So my plan seems simple from here, find how to read text properties
-from a string and read the =:ID= property and use it to generate a
-link.
+For my example above, there is a text property =:parent= from
+character =0= with length =12=.
+
+Apparently, this property contains the headline element. And Org mode
+has functions to read properties of that element. All I then needed to
+do was extract the =:CUSTOM_ID:= or =:ID= property and wrap the =text=
+in =<a href...>= & =</a>= tags.
 
 Eventually I ended up with this function:
 
@@ -96,9 +101,5 @@ Eventually I ended up with this function:
                  text)))
     (org-html-format-headline-default-function todo todo-type priority link tags info)))
 #+END_SRC
-
-So it reads =:CUSTOM_ID= or =:ID= and when it is defined, call the
-default function with =text= being wrapped in =<a href...>= & =</a>=
-tags.
 
 You can find the exact function I'm using [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L67-83][here]].

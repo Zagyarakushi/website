@@ -18,8 +18,8 @@ When Org mode publishes files to HTML, it adds the =id= attribute to
 all headlines, making them anchors to link to. But when someone wants
 to copy the link to a headline, they'll need to web-inspect the page
 to find the id. So most blogging engines make the headlines clickable,
-with a link to the headline self. Org mode does not do that out of
-the box.
+with a link to the headline self. Unfortunately, Org mode does not do
+that out of the box.
 
 ** Solution
 
@@ -46,29 +46,40 @@ get the value of the =ID= from?
 ** Propertized strings
 
 It took me a lot of debugging to figure this out. I started inspecting
-the values of the six argument, and I noticed something /weird/ was
+the values of the six arguments, and I noticed something /weird/ was
 going on with the =text= variable.
 
-#+BEGIN_SRC emacs-lisp
-  (princ text)
+#+BEGIN_SRC emacs-lisp :results value code :exports results :eval no
+  text
 #+END_SRC
 
-#+BEGIN_EXAMPLE
-Introduction#("Introduction" 0 12 (:parent (headline (:raw-value "Introduction" :begin 105 :end 507 :pre-blank 0 :contents-begin 121 :contents-end 506 ...) (section ... ...))))
-#+END_EXAMPLE
+#+RESULTS:
+#+BEGIN_SRC emacs-lisp
+  #("Introduction" 0 12
+    (:parent
+     (headline
+      (:raw-value "Introduction"
+       :begin 105
+       :end 507
+       :pre-blank 0
+       :contents-begin 121
+       :contents-end 506
+       ...
+#+END_SRC
 
 The variable contains the text of the headline, but apparently also
-other things.
+some other things.
 
 I tried to inspect the type of the variable:
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :results value code :exports both :eval no
 (type-of text)
 #+END_SRC
 
-#+BEGIN_EXAMPLE
+#+RESULTS:
+#+BEGIN_SRC emacs-lisp
 string
-#+END_EXAMPLE
+#+END_SRC
 
 But that didn't help me much...
 
@@ -103,3 +114,20 @@ Eventually I ended up with this function:
 #+END_SRC
 
 You can find the exact function I'm using [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L67-83][here]].
+
+And then all you need to do is specify this function in your
+=org-publish-project-alist=.
+
+#+BEGIN_SRC emacs-lisp
+(setq org-publish-project-alist
+  (list
+   (list "blog-posts"
+         :base-directory "posts"
+         :base-extension "org"
+         ;; ...
+         :html-format-headline-function 'my-org-html-format-headline-function
+         ;; ...
+         )
+   ;; ...
+))
+#+END_SRC

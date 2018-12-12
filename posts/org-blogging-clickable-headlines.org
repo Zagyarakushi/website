@@ -1,5 +1,5 @@
 #+TITLE: Org mode blogging: Clickable headlines
-#+DATE: <2018-12-11 Tue>
+#+DATE: <2018-12-12 Wed>
 
 ** Intro
 
@@ -9,7 +9,7 @@ about that on the [[https://pages.gitlab.io/org-mode/post3.html][internet]] alre
 sources of this blog can be found [[https://gitlab.com/to1ne/blog][online]].
 
 This post is the first in a series of posts about problems I've
-encountered and no one on the internet seemed to have resolved
+encountered and no one on the internet seemed to have fixed
 already. It's about clickable headlines.
 
 ** Objective
@@ -84,8 +84,8 @@ string
 But that didn't help me much...
 
 I could not understand what =#(= meant. So I started searching the web
-and eventually I stumbled on [[https://stackoverflow.com/a/5054150/89376][this StackOverflow answer]]. It turns out,
-and I really didn't know that, strings in Emacs lisp can have [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Props-and-Strings.html#index-g_t_0040samp_007b_0023_0028_007d-read-syntax-105][Text
+and eventually I stumbled on [[https://stackoverflow.com/a/5054150/89376][a StackOverflow answer]]. It turns out, and
+I really didn't know that, strings in Emacs lisp can have [[https://www.gnu.org/software/emacs/manual/html_node/elisp/Text-Props-and-Strings.html#index-g_t_0040samp_007b_0023_0028_007d-read-syntax-105][Text
 Properties]].
 
 Interesting...
@@ -113,7 +113,7 @@ Eventually I ended up with this function:
     (org-html-format-headline-default-function todo todo-type priority link tags info)))
 #+END_SRC
 
-You can find the exact function I'm using [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L67-83][here]].
+You can find the exact function I'm using [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L68-85][here]].
 
 And then all you need to do is specify this function in your
 =org-publish-project-alist=.

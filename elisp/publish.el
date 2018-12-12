@@ -77,6 +77,7 @@ TAGS      the tags (string or nil).
 INFO      the export options (plist)."
   (let* ((headline (get-text-property 0 :parent text))
          (id (or (org-element-property :CUSTOM_ID headline)
+                 (org-export-get-reference headline info)
                  (org-element-property :ID headline)))
          (link (if id
                    (format "<a href=\"#%s\">%s</a>" id text)

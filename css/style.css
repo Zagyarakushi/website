@@ -61,7 +61,6 @@ a:hover, a:active {
   text-decoration: underline;
 }
 pre, code {
-  font-size: 12px;
   font-family: 'Fira Code', Courier, monospace;
 }
 pre code {
@@ -291,17 +290,15 @@ footer a:hover {
 .org-center { margin-left: auto; margin-right: auto; text-align: center; }
 .underline { text-decoration: underline; }
 p.verse { margin-left: 3%; }
-pre.src {
-  position: relative;
-  overflow: visible;
-  padding: 1.2em;
+pre.src, pre.example {
+  padding: 1.2em 1.2em 0;
 }
 pre.src:before {
   display: none;
   position: absolute;
   background-color: white;
-  top: -10px;
-  right: 10px;
+  top: -1em;
+  right: 1em;
   padding: 3px;
   border: 1px solid black;
 }
@@ -316,9 +313,6 @@ pre.src, pre.example {
   position: static;
   overflow-x: scroll;
   margin: 0;
-}
-pre.src::before {
-  right: 2.2em;
 }
 
 /* Languages per Org manual */

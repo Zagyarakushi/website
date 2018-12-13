@@ -131,3 +131,5 @@ And then all you need to do is specify this function in your
    ;; ...
 ))
 #+END_SRC
+
+Comments are welcome on [[https://www.reddit.com/r/orgmode/comments/a5tucp/making_headlines_clickable_when_published_to_html/][Reddit]].

@@ -1,5 +1,5 @@
 #+TITLE: Org mode blogging: Clickable headlines
-#+DATE: <2018-12-12 Wed>
+#+DATE: <2018-12-13 Thu>
 
 ** Intro
 

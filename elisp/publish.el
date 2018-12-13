@@ -89,8 +89,8 @@ INFO      the export options (plist)."
 LIST is an internal representation for the files to include, as
 returned by `org-list-to-lisp'."
   (let ((filtered-list (cl-remove-if (lambda (x)
-                                       (null (car x)))
-                                     (cdr list))))
+                                       (and (sequencep x) (null (car x))))
+                                     list)))
     (concat "#+TITLE: " title "\n"
             "#+OPTIONS: title:nil\n\n"
             "#+ATTR_HTML: :class sitemap\n"

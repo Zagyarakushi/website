@@ -43,6 +43,9 @@ I already use Org mode to [[https://gitlab.com/to1ne/temacco/][configure my Emac
 configuration is not new and used by many Emacs users. But I haven't
 seen (m)any people use Org mode to assemble their dotfiles.
 
+#+ATTR_HTML: :alt Literate dotfiles logo :style height:120px;width:120px;float:left;shape-outside:circle(50%)
+[[https://to1ne.gitlab.io/literate-dotfiles/img/logo.svg]]
+
 It took me a lot of fiddling, but I ended up with [[https://to1ne.gitlab.io/literate-dotfiles/][Literate dotfiles]].
 
 This project employs two features of Org mode:

@@ -1,0 +1,76 @@
+#+TITLE: Literate dotfiles
+#+DATE: <2018-12-17 Mon>
+
+** Dotfiles
+
+Recently I started putting my dotfiles in git. For those who aren't
+familiar with dotfiles, [[https://dotfiles.github.io/][dotfiles]] are basically a collection of small
+configuration files which reside in your =$HOME= directory. These
+files can configure anything that is running on your computer, e.g
+terminal configuration, gdb configuration, etc.
+
+Before I stored them in git, I stored them on my Dropbox and I didn't
+really keep history of those files. I wanted to change that, by
+putting them in git.
+
+** Stow
+
+When my dotfiles were in Dropbox I manually created symbolic links to
+the files in =$HOME/Dropbox/dot/= to the location where the program
+was expecting them. With putting them in git I wanted to automate the
+process of symlinking. I looked at several options, and eventually I
+decided to use GNU Stow.
+
+[[https://www.gnu.org/software/stow/][GNU Stow]] is a pretty simple program. It just creates symlinks, if they
+do not exist already. That's all. And it worked as expected.
+
+To create the symlink, I just needed to run this command:
+
+#+BEGIN_SRC sh
+stow --target=$(HOME) *
+#+END_SRC
+
+** i3wm
+
+But at the time I started my dotfiles, I also started using [[https://i3wm.org/][i3wm]]. This
+is a tiling window manager that is highly configurable. And I wanted
+good documentation to go with that. So I explored one of my favorite
+weapons of choice: Org mode.
+
+** Org mode
+
+I already use Org mode to [[https://gitlab.com/to1ne/temacco/][configure my Emacs]]. Using Org mode for Emacs
+configuration is not new and used by many Emacs users. But I haven't
+seen (m)any people use Org mode to assemble their dotfiles.
+
+It took me a lot of fiddling, but I ended up with [[https://to1ne.gitlab.io/literate-dotfiles/][Literate dotfiles]].
+
+This project employs two features of Org mode:
+
++ Tangling
++ Publishing
+
+*** Tangling
+
+Tangling is used to convert the =.org= files to the configuration
+files as the designated programs expect them.
+
+The exact details how files are tangled can be found in the [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/Makefile#L26-30][Makefile]]
+and in [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/elisp/tangle.el][=elisp/tangle.el=]]. But basically it's some magic around
+=(org-babel-tangle)= to able to run it from the command line.
+
+But when I change the files in Emacs, I just run that command
+directly in Emacs, with the keybinding ~C-c C-v t~.
+
+**** Org mode properties
+
+In the [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/README.org][README]] I've described which /properties/ Org mode reads to
+figure out how and where to tangle the file to. And [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/git.org][git.org]] uses
+several techniques in one file.
+
+*** Publishing
+
+Publishing is the part where the web pages for
+[[https://to1ne.gitlab.io/literate-dotfiles/][to1ne.gitlab.io/literate-dotfiles]] are generated. I kept the
+configuration of the publishing pretty bare, but you can find all the
+details in [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/elisp/publish.el][=elisp/publish.el=]].

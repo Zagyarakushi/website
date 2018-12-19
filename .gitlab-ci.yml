@@ -17,6 +17,9 @@ pages:
   <<: *publish
   only:
   - master
+  environment:
+    name: production
+    url: https://writepermission.com
 
 pages:preview:
   stage: publish

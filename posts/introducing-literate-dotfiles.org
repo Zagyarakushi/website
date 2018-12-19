@@ -64,16 +64,16 @@ Tangling is the Org mode feature that handles the =BEGIN_SRC= and
 code, but you also can write them to other files. This is how the
 actual dotfiles get written to their correct location.
 
-I've created a [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/Makefile#L26-30][Makefile]] and [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/elisp/tangle.el][=elisp/tangle.el=]] which make it possible
+I've created a [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/Makefile#L26-30][=Makefile=]] and [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/elisp/tangle.el][=elisp/tangle.el=]] which make it possible
 to tangle files from the command line. But it's just some magic around
 =(org-babel-tangle)=. So when I'm modifying the file in Emacs, I just
 run that command directly with the keybinding ~C-c C-v t~.
 
 **** Org mode properties
 
-In the [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/README.org][README]] I've described which Org mode /properties/ should be
-used to configure the output file. There are a lot of possibilities,
-and [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/git.org][git.org]] uses several techniques in one file.
+On the project [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/README.org][=README=]] I've described which Org mode /properties/ are
+used to configure the output files. There are a lot of possibilities,
+and [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/git.org][=git.org=]] uses several techniques in one source file.
 
 *** Publishing
 
@@ -82,14 +82,22 @@ Publishing is the part how the web pages for
 configuration and styling of the publishing pretty bare, but you can
 find all the details in [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/elisp/publish.el][=elisp/publish.el=]].
 
+The project webpages are put online using GitLab Pages. The details
+can be found in [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/.gitlab-ci.yml][=.gitlab-ci.yml=]], which are based on [[https://gitlab.com/pages/org-mode][pages/org-mode]].
+
 ** Problems
 
 There are still a few minor /problems/ I might need to resolve one
 day.
 
-Because Org mode tangles to another file on disk, I need to avoid
-manually editing the output file, because it'd be overwritten whenever
-the source Org file is tangled again.
+Because Org mode tangles to another file on disk, I need to make sure
+tangling the source file does not overwrite changes made to the output
+file directly. But as long as I keep a good habit of only editing the
+source file, this is no real issue.
 
-It's no real problem, as long as I never manually edit the output
-file. So it just takes good habits.
+I tried to overcome this problem by writing =.out= files in the
+=.cache= directory. The idea was to compare timestamps. If the output
+file is newer than the =.out= file, the output was modified by hand
+and Org mode tangling should not blindly overwrite the file. But since
+I mostly tangle files directly from Emacs, these =.out= files are
+never written. So the idea isn't fully thought through yet.

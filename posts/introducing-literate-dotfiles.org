@@ -47,7 +47,7 @@ many Emacs users. But I haven't seen (m)any people use Org mode to
 assemble their dotfiles.
 
 #+ATTR_HTML: :alt Literate dotfiles logo :style height:120px;width:120px;float:right;shape-outside:circle(50%)
-[[https://to1ne.gitlab.io/literate-dotfiles/img/logo.svg]]
+[[./content/introducing-literate-dotfiles/logo.svg]]
 
 After a lot of fiddling, but I ended up with the result: [[https://to1ne.gitlab.io/literate-dotfiles/][Literate
 dotfiles]].

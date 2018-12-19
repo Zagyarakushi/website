@@ -23,3 +23,6 @@ pages:preview:
   <<: *publish
   except:
   - master
+  environment:
+    name: preview/$CI_COMMIT_REF_NAME
+    url: https://$CI_PROJECT_NAMESPACE.gitlab.io/-/$CI_PROJECT_NAME/-/jobs/$CI_JOB_ID/artifacts/public/index.html

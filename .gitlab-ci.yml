@@ -18,7 +18,7 @@ pages:
   only:
   - master
   environment:
-    name: production
+    name: writepermission.com
     url: https://writepermission.com
 
 pages:preview:

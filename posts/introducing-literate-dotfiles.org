@@ -10,17 +10,17 @@ files can configure any program you use on your computer, like your
 desktop environment, your favorite editor, command line utils, and
 what not...
 
-Before I stored those files in git, I put them on my Dropbox. This
-worked well, but I wanted to keep history and I also wanted to share
-them publicly. By putting them in a git repo I could resolve that.
+I used to put my dotfiles on my Dropbox. This worked well, but I
+wanted to keep history and I also wanted to share them publicly. By
+putting them in a git repo I would resolve that.
 
 ** Using GNU Stow
 
 When my dotfiles were still in Dropbox I manually created symbolic
 links from =Dropbox/dot/xyz.conf= to the location where the program
 was expecting them. With putting them in git I wanted to automate the
-process of symlinking. I looked at several options, and eventually I
-decided to use GNU Stow.
+process of symlinking. I had a look at several options, and eventually
+I decided to use GNU Stow.
 
 [[https://www.gnu.org/software/stow/][GNU Stow]] is a pretty simple program. It just creates symlinks, if they
 do not exist already. That's it! And it works as expected.
@@ -31,11 +31,14 @@ To create the symlinks, I just needed to run this command:
 stow --target=$(HOME) *
 #+END_SRC
 
+The files in all subdirectories of current working path then get
+symlinked to =$HOME=.
+
 ** Then i3wm came
 
 But around the time I started my dotfiles git repo, I also started
 using [[https://i3wm.org/][i3wm]]. This is a tiling window manager that is highly
-configurable. While I was tuning all the features to my liking, I also
+configurable. While I was tuning all the features to my liking, I
 wanted to keep good documentation to go with that. So I explored one
 of my favorite weapons of choice: Org mode.
 
@@ -52,17 +55,17 @@ assemble their dotfiles.
 After a lot of fiddling, but I ended up with the result: [[https://to1ne.gitlab.io/literate-dotfiles/][Literate
 dotfiles]].
 
-This project actually employs two features of Org mode:
+This project employs two features of Org mode:
 
 + Tangling
 + Publishing
 
 *** Org mode tangling
 
-Tangling is the Org mode feature that handles the =BEGIN_SRC= and
-=END_SRC= blocks in =.org= files. You can execute pieces of source
-code, but you also can write them to other files. This is how the
-actual dotfiles get written to their correct location.
+Tangling is the Org mode feature that handles the blocks between
+=BEGIN_SRC= and =END_SRC=. You can execute those pieces of source
+code, or you can write them to other files. This is how the actual
+dotfiles get written to their correct location.
 
 I've created a [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/Makefile#L26-30][=Makefile=]] and [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/elisp/tangle.el][=elisp/tangle.el=]] which make it possible
 to tangle files from the command line. But it's just some magic around
@@ -75,7 +78,7 @@ On the project [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/README.o
 used to configure the output files. There are a lot of possibilities,
 and [[https://gitlab.com/to1ne/literate-dotfiles/blob/master/git.org][=git.org=]] uses several techniques in one source file.
 
-*** Publishing
+*** Org mode publishing
 
 Publishing is the part how the web pages for
 [[https://to1ne.gitlab.io/literate-dotfiles/][to1ne.gitlab.io/literate-dotfiles]] are generated. I kept the
@@ -95,9 +98,9 @@ tangling the source file does not overwrite changes made to the output
 file directly. But as long as I keep a good habit of only editing the
 source file, this is no real issue.
 
-I tried to overcome this problem by writing =.out= files in the
-=.cache= directory. The idea was to compare timestamps. If the output
-file is newer than the =.out= file, the output was modified by hand
-and Org mode tangling should not blindly overwrite the file. But since
-I mostly tangle files directly from Emacs, these =.out= files are
-never written. So the idea isn't fully thought through yet.
+I tried to overcome this problem by writing =.out= files to a =.cache=
+directory. The idea was to compare timestamps. If the output file is
+newer than the =.out= file, the output was modified by hand and Org
+mode tangling should not blindly overwrite the file. But since I
+mostly tangle files directly from Emacs, these =.out= files are never
+written. So the idea isn't fully thought through yet.

@@ -99,6 +99,10 @@ hr::after,
   font-size: 1.4em;
 }
 
+figure {
+  margin: 0;
+}
+
 img {
   display: block;
   height: auto;

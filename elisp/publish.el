@@ -22,7 +22,7 @@
 (require 'ox-publish)
 (require 'ox-rss)
 
-(defvar rw-url "https://writepermission.com"
+(defvar rw-url "https://writepermission.com/"
   "The URL where this site will be published.")
 
 (defvar rw-title "rw-r--r-- | writepermission.com"
@@ -56,14 +56,72 @@
   "Format the date found in FILE of PROJECT."
   (format-time-string "posted on %Y-%m-%d" (org-publish-find-date file project)))
 
+(defun rw/org-html-close-tag (tag &rest attrs)
+  "Return close-tag for string TAG.
+ATTRS specify additional attributes."
+  (concat "<" tag " "
+          (mapconcat (lambda (attr)
+                       (format "%s=\"%s\"" (car attr) (cadr attr)))
+                     attrs
+                     " ")
+	  ">"))
+
+(defun rw/html-head-extra (file project)
+  "Return <meta> elements for nice unfurling on Twitter and Slack."
+  (let* ((info (cdr project))
+         (org-export-options-alist
+          `((:title "TITLE" nil nil parse)
+            (:date "DATE" nil nil parse)
+            (:author "AUTHOR" nil ,(plist-get info :author) space)
+            (:description "DESCRIPTION" nil nil newline)
+            (:keywords "KEYWORDS" nil nil space)
+            (:meta-image "META_IMAGE" nil ,(plist-get info :meta-image) nil)
+            (:meta-type "META_TYPE" nil ,(plist-get info :meta-type) nil)))
+         (title (org-publish-find-title file project))
+         (date (org-publish-find-date file project))
+         (author (org-publish-find-property file :author project))
+         (description (org-publish-find-property file :description project))
+         (link-home (file-name-as-directory (plist-get info :html-link-home)))
+         (extension (or (plist-get info :html-extension) org-html-extension))
+	 (rel-file (org-publish-file-relative-name file info))
+         (full-url (concat link-home (file-name-sans-extension rel-file) "." extension))
+         (image (concat link-home (org-publish-find-property file :meta-image project)))
+         (favicon (concat link-home "favicon.ico"))
+         (type (org-publish-find-property file :meta-type project)))
+    (mapconcat 'identity
+               `(,(rw/org-html-close-tag "link" '(rel icon) '(type image/x-icon) `(href ,favicon))
+                 ,(rw/org-html-close-tag "meta" '(property og:title) `(content ,title))
+                 ,(rw/org-html-close-tag "meta" '(property og:url) `(content ,full-url))
+                 ,(and description
+                       (rw/org-html-close-tag "meta" '(property og:description) `(content ,description)))
+                 ,(rw/org-html-close-tag "meta" '(property og:image) `(content ,image))
+                 ,(rw/org-html-close-tag "meta" '(property og:type) `(content ,type))
+                 ,(and (equal type "article")
+                       (rw/org-html-close-tag "meta" '(property article:author) `(content ,author)))
+                 ,(and (equal type "article")
+                       (rw/org-html-close-tag "meta" '(property article:published_time) `(content ,(format-time-string "%FT%T%z" date))))
+
+                 ,(rw/org-html-close-tag "meta" '(property twitter:title) `(content ,title))
+                 ,(rw/org-html-close-tag "meta" '(property twitter:url) `(content ,full-url))
+                 ,(rw/org-html-close-tag "meta" '(property twitter:image) `(content ,image))
+                 ,(and description
+                       (rw/org-html-close-tag "meta" '(property twitter:description) `(content ,description)))
+                 ,(and description
+                       (rw/org-html-close-tag "meta" '(property twitter:card) '(content summary)))
+                 )
+               "\n")))
+
 (defun rw/org-html-publish-to-html (plist filename pub-dir)
   "Wrapper function to publish an file to html.
 
 PLIST contains the properties, FILENAME the source file and
   PUB-DIR the output directory."
-  (plist-put plist :subtitle
-             (rw/format-date-subtitle filename (cons 'rw plist)))
-  (org-html-publish-to-html plist filename pub-dir))
+  (let ((project (cons 'rw plist)))
+    (plist-put plist :subtitle
+               (rw/format-date-subtitle filename project))
+    (plist-put plist :html-head-extra
+               (rw/html-head-extra filename project))
+    (org-html-publish-to-html plist filename pub-dir)))
 
 (defun rw/org-html-format-headline-function (todo todo-type priority text tags info)
   "Format a headline with a link to itself.
@@ -92,8 +150,10 @@ returned by `org-list-to-lisp'."
                                        (and (sequencep x) (null (car x))))
                                      list)))
     (concat "#+TITLE: " title "\n"
-            "#+OPTIONS: title:nil\n\n"
-            "#+ATTR_HTML: :class sitemap\n"
+            "#+OPTIONS: title:nil\n"
+            "#+META_TYPE: website\n"
+            "#+DESCRIPTION: Toon Claes' personal blog\n"
+            "\n#+ATTR_HTML: :class sitemap\n"
             ; TODO use org-list-to-subtree instead
             (org-list-to-org filtered-list))))
 
@@ -185,19 +245,22 @@ and PUB-DIR the output directory."
              :html-head-include-default-style nil
              :html-head-include-scripts nil
              :html-htmlized-css-url "css/style.css"
-             :html-head-extra
-             "<link rel=\"icon\" type=\"image/x-icon\" href=\"/favicon.ico\" />"
              :html-preamble-format (rw--pre/postamble-format 'preamble)
              :html-postamble t
              :html-postamble-format (rw--pre/postamble-format 'postamble)
              :html-format-headline-function 'rw/org-html-format-headline-function
+             :html-link-home rw-url
+             :html-home/up-format ""
              :auto-sitemap t
              :sitemap-filename "index.org"
              :sitemap-title rw-title
              :sitemap-style 'list
              :sitemap-sort-files 'anti-chronologically
              :sitemap-function 'rw/org-publish-sitemap
-             :sitemap-format-entry 'rw/org-publish-sitemap-entry)
+             :sitemap-format-entry 'rw/org-publish-sitemap-entry
+             :author "Toon Claes"
+             :meta-image "content/rw-r--r--square.png"
+             :meta-type "article")
        (list "blog-rss"
              :base-directory "posts"
              :base-extension "org"

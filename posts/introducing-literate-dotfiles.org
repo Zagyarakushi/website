@@ -1,5 +1,7 @@
 #+TITLE: Introducing Literate dotfiles
 #+DATE: <2018-12-19 Wed>
+#+DESCRIPTION: How literate programming is used with Org mode to manage and document all the dotfiles.
+#+META_IMAGE: content/introducing-literate-dotfiles/logo.png
 
 ** Dotfiles
 

@@ -1,6 +1,6 @@
 #+TITLE: Searchbar in Firefox
-#+REDIRECT_FROM: /2009/09/searchbox-in-firefox/
 #+DATE: <2009-09-14 Mon>
+#+REDIRECT_FROM: /2009/09/searchbox-in-firefox/
 
 ** Introduction
    :PROPERTIES:

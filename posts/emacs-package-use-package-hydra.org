@@ -106,4 +106,6 @@ I really would like to improve the package, so it's more DRY[fn::Don't
 Repeat Yourself]. Like I want to avoid putting in =hydra-yas= and
 =hydra-yas/body=, and have those auto-defined with the user knowing.
 
+-----
+
 Comments are welcome on [[https://www.reddit.com/r/emacs/comments/aa3t60/announcing_usepackagehydra/][Reddit]].

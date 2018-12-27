@@ -107,4 +107,6 @@ mode tangling should not blindly overwrite the file. But since I
 mostly tangle files directly from Emacs, these =.out= files are never
 written. So the idea isn't fully thought through yet.
 
+-----
+
 Comments are welcome on [[https://www.reddit.com/r/orgmode/comments/a7rgr1/organizing_your_dotfiles_with_org_mode/][Reddit]].

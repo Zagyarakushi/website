@@ -1,0 +1,77 @@
+#+TITLE: Org mode blogging: RSS feed
+#+DATE: <2018-12-29 Sat>
+#+DESCRIPTION: Instructions on how to generate an RSS feed from multiple Org mode files.
+
+After my [[file:org-blogging-clickable-headlines.org][previous]] [[file:org-blogging-unfurling-links.org][two]] posts about Org mode blogging, yet another one.
+
+** RSS feed
+
+I'm not sure how many people still use RSS, but for my blog I still
+wanted to have an RSS feed.
+
+Luckily, Org mode includes the =ox-rss= /contrib/ extension. Such
+extensions are bundled with Org mode, but not required by default. So
+you can use them without additional installation, but you have to
+=(require)= them explicitly.
+
+** ox-rss
+
+This =ox-rss= package is a derived backend from the HTML backend and
+it exports a =.org= file to an RSS XML file.
+
+But I'm not putting all my blog posts in a single =.org= file. Each
+post is a single file.
+
+** (Ab)Using the sitemap functionality
+
+To overcome the issue of a 1-to-1 export for RSS, I decided to abuse
+the sitemap functionality in =org-publish=. This is the block I'm
+using in =org-publish-project-alist=.
+
+#+BEGIN_SRC emacs-lisp
+  (list "blog-rss"
+        :base-directory "posts"
+        :base-extension "org"
+        :recursive nil
+        :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
+        :publishing-function 'rw/org-rss-publish-to-rss
+        :publishing-directory "./public"
+        :rss-extension "xml"
+        :html-link-home rw-url
+        :html-link-use-abs-url t
+        :html-link-org-files-as-html t
+        :auto-sitemap t
+        :sitemap-filename "rss.org"
+        :sitemap-title rw-title
+        :sitemap-style 'list
+        :sitemap-sort-files 'anti-chronologically
+        :sitemap-function 'rw/format-rss-feed
+        :sitemap-format-entry 'rw/format-rss-feed-entry)
+#+END_SRC
+
+The most important properties here are:
+
++ =:base-directory= & =:base-extension= :: These are the same as the
+     HTML export. So I'm handling the same files.
++ =:exclude= :: I'm excluding files like =index.org=.
++ =:publishing-function= :: It's a very simple wrapper around
+     =org-rss-publish-to-rss= and what it does it *only* call that
+     function when the filename equals =rss.org=. So any other file is
+     *not* published to RSS/XML.
++ =:sitemap-function= :: This calls =(org-list-to-subtree)= to convert
+     the list of posts to a Org mode list where the top level
+     headlines are the titles of each post.
++ =:sitemap-format-entry= :: Normally this would only return the title
+     of each post, but in my case I'm setting this to a function that
+     returns the whole body of the post, with some extra options like
+     =PUBDATE= and =RSS_PERMALINK=.
+
+** Conclusion
+
+Looking back on [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L170-234][the code]], the solution seems very simple. But to be
+honest, I took me quite a while to get this working properly. So I
+hope I can help other with what I've built.
+
+-----
+
+Comments are welcome on Reddit.

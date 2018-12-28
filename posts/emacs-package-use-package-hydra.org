@@ -34,8 +34,9 @@ like:
 ** hydra
 
 [[https://github.com/abo-abo/hydra][Hydra]] is a package that got me intrigued. It's a very sophisticated
-package that allows you to configure /key chords/. Let me explain with
-the simplest example from their =README=:
+package that allows you to configure /series of key bindings/. It more
+or less allows you to activate a temporary key map. But let me explain
+with the simplest example from their =README=:
 
 #+BEGIN_SRC emacs-lisp
 (defhydra hydra-zoom (global-map "<f2>")

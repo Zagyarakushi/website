@@ -6,27 +6,34 @@ After my [[file:org-blogging-clickable-headlines.org][previous]] [[file:org-blog
 
 ** RSS feed
 
-I'm not sure how many people still use RSS, but for my blog I still
-wanted to have an RSS feed.
+I'm not sure how many people still care about RSS, but for my blog I
+still wanted to have an RSS feed. (TBH: I don't use RSS
+myself ¯\_(ツ)_/¯)
 
 Luckily, Org mode includes the =ox-rss= /contrib/ extension. Such
-extensions are bundled with Org mode, but not required by default. So
-you can use them without additional installation, but you have to
-=(require)= them explicitly.
+/contrib/ extensions are bundled with Org mode, but not required by
+default. So you can use them without additional installation, but you
+have to =(require)= them explicitly.
 
 ** ox-rss
 
-This =ox-rss= package is a derived backend from the HTML backend and
-it exports a =.org= file to an RSS XML file.
+This =ox-rss= package is a backend derived from the HTML backend and
+it exports =.org= files to a RSS =.xml= files.
 
-But I'm not putting all my blog posts in a single =.org= file. Each
-post is a single file.
+But I'm putting each blog post in a separate file, while the RSS feed
+should be a single file linking to all posts.
 
 ** (Ab)Using the sitemap functionality
 
-To overcome the issue of a 1-to-1 export for RSS, I decided to abuse
-the sitemap functionality in =org-publish=. This is the block I'm
-using in =org-publish-project-alist=.
+I considered writing some code myself to join all posts together, but
+then I realized =org-publish= ---sort of--- has this feature already:
+sitemap. =org-publish= can generate a sitemap, being an index of all
+files. And it has sorting built-in. I'm using it to generate the
+[[file:index.org][landing page]] of this blog.
+
+So to overcome the issue of a 1-to-1 export for RSS, I decided to
+abuse the sitemap functionality in =org-publish=. And this is the
+block I'm using in =org-publish-project-alist=.
 
 #+BEGIN_SRC emacs-lisp
   (list "blog-rss"
@@ -70,7 +77,9 @@ The most important properties here are:
 
 Looking back on [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L170-234][the code]], the solution seems very simple. But to be
 honest, I took me quite a while to get this working properly. So I
-hope I can help other with what I've built.
+hope I can help other out with what I've built. I've noticed not
+everybody formats their RSS the same, but it should be very easy to
+customize this solution to your needs.
 
 -----
 

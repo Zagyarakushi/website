@@ -11,7 +11,7 @@ still wanted to have an RSS feed. (TBH: I don't use RSS
 myself ¯\_(ツ)_/¯)
 
 Luckily, Org mode includes the =ox-rss= /contrib/ extension. Such
-[[https://orgmode.org/worg/org-contrib/index.html][/contrib/ extensions]] are bundled with Org mode, but not required by
+[[https://orgmode.org/worg/org-contrib/index.html][/contrib/ extensions]] are bundled with Org mode, but are not loaded by
 default. So you can use them without additional installation, but you
 have to =(require)= them explicitly.
 
@@ -20,7 +20,7 @@ have to =(require)= them explicitly.
 The =ox-rss= package is a =org-export= backend derived from the HTML
 backend and it exports =.org= files to a RSS =.xml= files.
 
-But I'm putting each blog post in a separate file, while the RSS feed
+But I'm putting each blog post in a separate file, and the RSS feed
 should be a single file containing all posts.
 
 ** (Ab)Using the sitemap functionality

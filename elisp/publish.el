@@ -312,6 +312,7 @@ and PUB-DIR the output directory."
         (org-export-with-section-numbers nil)
         (org-export-with-smart-quotes    t)
         (org-export-with-toc             nil)
+        (org-export-with-sub-superscripts '{})
         (org-html-divs '((preamble  "header" "top")
                          (content   "main"   "content")
                          (postamble "footer" "postamble")))

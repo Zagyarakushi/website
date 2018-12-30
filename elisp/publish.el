@@ -233,15 +233,23 @@ and PUB-DIR the output directory."
           (insert content)
           (write-file other-file))))))
 
+(defvar rw--root
+  (locate-dominating-file (pwd)
+                          (lambda (dir)
+                            (seq-every-p
+                             (lambda (file) (file-exists-p (expand-file-name file dir)))
+                             '(".git" ".well-known" "content" "css" "elisp" "favicon.ico" "layouts" "posts"))))
+  "Root directory of this project.")
+
 (defvar rw--publish-project-alist
       (list
        (list "blog-posts"
-             :base-directory "posts"
+             :base-directory (expand-file-name "posts" rw--root)
              :base-extension "org"
              :recursive nil
              :exclude (regexp-opt '("rss.org" "index.org"))
              :publishing-function 'rw/org-html-publish-to-html
-             :publishing-directory "./public"
+             :publishing-directory (expand-file-name "public" rw--root)
              :html-head-include-default-style nil
              :html-head-include-scripts nil
              :html-htmlized-css-url "css/style.css"
@@ -262,12 +270,12 @@ and PUB-DIR the output directory."
              :meta-image "content/rw-r--r--square.png"
              :meta-type "article")
        (list "blog-rss"
-             :base-directory "posts"
+             :base-directory (expand-file-name "posts" rw--root)
              :base-extension "org"
              :recursive nil
              :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
              :publishing-function 'rw/org-rss-publish-to-rss
-             :publishing-directory "./public"
+             :publishing-directory (expand-file-name "public" rw--root)
              :rss-extension "xml"
              :html-link-home rw-url
              :html-link-use-abs-url t
@@ -280,26 +288,26 @@ and PUB-DIR the output directory."
              :sitemap-function 'rw/format-rss-feed
              :sitemap-format-entry 'rw/format-rss-feed-entry)
        (list "blog-static"
-             :base-directory "."
+             :base-directory rw--root
              :exclude (regexp-opt '("public/" "layouts/"))
              :base-extension rw--site-attachments
-             :publishing-directory "./public"
+             :publishing-directory (expand-file-name "public" rw--root)
              :publishing-function 'org-publish-attachment
              :recursive t)
        (list "blog-acme"
-             :base-directory ".well-known"
+             :base-directory (expand-file-name ".well-known" rw--root)
              :base-extension 'any
-             :publishing-directory "./public/.well-known"
+             :publishing-directory (expand-file-name "public/.well-known" rw--root)
              :publishing-function 'org-publish-attachment
              :recursive t)
        (list "blog-redirects"
-             :base-directory "posts"
+             :base-directory (expand-file-name "posts" rw--root)
              :base-extension "org"
              :recursive nil
              :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
              :publishing-function 'rw/publish-redirect
-             :publishing-directory "./public"
-             :redirect-layout "layouts/redirect.html")
+             :publishing-directory (expand-file-name "public" rw--root)
+             :redirect-layout (expand-file-name "layouts/redirect.html" rw--root))
        (list "site"
              :components '("blog-posts" "blog-rss" "blog-static" "blog-acme" "blog-redirects"))
        ))

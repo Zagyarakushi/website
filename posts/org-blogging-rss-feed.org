@@ -10,14 +10,14 @@ I'm not sure how many people still care about RSS, but for my blog I
 still wanted to have an RSS feed. (TBH: I don't use RSS
 myself ¯\_(ツ)_/¯)
 
-Luckily, Org mode includes the =ox-rss= /contrib/ extension. Such
-[[https://orgmode.org/worg/org-contrib/index.html][/contrib/ extensions]] are bundled with Org mode, but are not loaded by
-default. So you can use them without additional installation, but you
-have to =(require)= them explicitly.
+Luckily, Org mode includes the =ox-rss= [[https://orgmode.org/worg/org-contrib/index.html][/contrib/ extension]]. Such
+extension are bundled with Org mode, but are not loaded by default. So
+you can use them without additional installation, but you have to
+=(require)= them explicitly.
 
 ** ox-rss
 
-The =ox-rss= package is a =org-export= backend derived from the HTML
+The =ox-rss= extension is a =org-export= backend derived from the HTML
 backend and it exports =.org= files to a RSS =.xml= files.
 
 But I'm putting each blog post in a separate file, and the RSS feed
@@ -65,25 +65,69 @@ The most important properties here are:
      =org-rss-publish-to-rss=. But it *only* calls that function when
      the filename equals =rss.org=. So any other file is *not*
      published to RSS/XML.
+
+  #+BEGIN_SRC emacs-lisp :tangle yes
+  (defun rw/org-rss-publish-to-rss (plist filename pub-dir)
+    "Publish RSS with PLIST, only when FILENAME is 'rss.org'.
+  PUB-DIR is when the output will be placed."
+    (if (equal "rss.org" (file-name-nondirectory filename))
+        (org-rss-publish-to-rss plist filename pub-dir)))
+  #+END_SRC
+
 + =:sitemap-function= :: It's a function calling
-     =(org-list-to-subtree)= to convert the list of posts to a Org
-     mode list where the top level headlines are the titles of each
-     post.
+     =(org-list-to-subtree)= to convert the Elisp list of posts to a
+     Org mode list where the top level headlines are the titles of
+     each post.
+
+  #+BEGIN_SRC emacs-lisp
+  (defun rw/format-rss-feed (title list)
+    "Generate RSS feed, as a string.
+  TITLE is the title of the RSS feed.  LIST is an internal
+  representation for the files to include, as returned by
+  `org-list-to-lisp'.  PROJECT is the current project."
+    (concat "#+TITLE: " title "\n\n"
+            (org-list-to-subtree list '(:icount "" :istart ""))))
+  #+END_SRC
+
 + =:sitemap-format-entry= :: Normally this would only return the title
-     of each post, but in my case I'm setting this to a function that
-     returns the whole body of the post, with some extra options like
+     of each post, but in my case I'm using a function that returns
+     the whole body of the post, with some extra properties like
      =PUBDATE= and =RSS_PERMALINK=.
 
-The complete implementation can be found in the [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L170-234][git repo]].
+  #+BEGIN_SRC emacs-lisp
+  (defun rw/format-rss-feed-entry (entry style project)
+    "Format ENTRY for the RSS feed.
+  ENTRY is a file name.  STYLE is either 'list' or 'tree'.
+  PROJECT is the current project."
+    (cond ((not (directory-name-p entry))
+           (let* ((file (org-publish--expand-file-name entry project))
+                  (title (org-publish-find-title entry project))
+                  (date (format-time-string "%Y-%m-%d" (org-publish-find-date entry project)))
+                  (link (concat (file-name-sans-extension entry) ".html")))
+             (with-temp-buffer
+               (insert (format "* [[file:%s][%s]]\n" file title))
+               (org-set-property "RSS_PERMALINK" link)
+               (org-set-property "PUBDATE" date)
+               ;; to avoid second update to rss.org by org-icalendar-create-uid
+               (org-id-get-create)
+               (insert-file-contents file)
+               (buffer-string))))
+          ((eq style 'tree)
+           ;; Return only last subdir.
+           (file-name-nondirectory (directory-file-name entry)))
+          (t entry)))
+  #+END_SRC
+
+The complete implementation also can be found in the [[https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L170-204][git repo]].
 
 ** Conclusion
 
 Looking back on the code, solution seems very simple. But to be
 honest, I took me quite a while to get this working properly. So I
-hope I can help others with what I've built.
+hope I can help others with what I've built here.
 
 I've noticed everybody formats their RSS differently, but it should be
-very easy to customize this solution to your needs.
+easy to customize this solution to anyone's needs.
 
 -----
 

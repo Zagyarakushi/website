@@ -131,4 +131,4 @@ easy to customize this solution to anyone's needs.
 
 -----
 
-Comments are welcome on Reddit.
+Comments are welcome on [[https://www.reddit.com/r/orgmode/comments/aauir9/generate_rss_feed_for_your_blog/][Reddit]].

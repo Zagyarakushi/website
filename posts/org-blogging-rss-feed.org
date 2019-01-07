@@ -132,3 +132,5 @@ easy to customize this solution to anyone's needs.
 -----
 
 Comments are welcome on [[https://www.reddit.com/r/orgmode/comments/aauir9/generate_rss_feed_for_your_blog/][Reddit]].
+
+Also covered at [[https://irreal.org/blog/?p=7738][Irreal]].

@@ -122,7 +122,7 @@ I did like. Some layout changes were really challenging (e.g. like
 moving the ~Return~ key). But I ended up with [[https://keyboard-configurator.massdrop.com/ext/ergodox/?referer=J5QZFC&hash=999ad39701e308b79cf7b9409e618d87][this layout]].
 
 #+CAPTION: [[https://keyboard-configurator.massdrop.com/ext/ergodox/?referer=J5QZFC&hash=999ad39701e308b79cf7b9409e618d87][My preferred layout]]
-[[./content/2016/10/ergodox-layout.png]]
+[[./content/2016/10/ergodox-ez-layout.png]]
 
 What I like most about this layout is the symmetrical placement of the
 modifier keys: ~Ctrl~, ~Shift~, ~Alt~ and ~Cmd~. The placement makes

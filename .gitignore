@@ -12,5 +12,6 @@ public/
 .timestamps/
 
 # Let's Encrypt
+.certbot.lock
 config/
 log/

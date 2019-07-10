@@ -115,6 +115,7 @@ figcaption {
 main, footer, header section {
   max-width: 960px;
   margin: 0 auto;
+  padding: 0 2ch;
 }
 
 h1::before,
@@ -122,19 +123,20 @@ h2::before,
 h3::before,
 h4::before,
 h5::before {
-  content: "------------------------------------------------------------------------------------------------------------------------------------------------------";
-  margin-left: -150ch;
-  width: 150ch;
+  content: "---";
+  margin-left: -3ch;
+  width: 3ch;
   display: inline-block;
   color: #B25756;
   font-weight: normal;
+  font-variant-ligatures: none;
 }
 
 h2:hover::before, h2:target::before,
 h3:hover::before, h3:target::before,
 h4:hover::before, h4:target::before,
 h5:hover::before, h5:target::before {
-  content: "----------------------------------------------------------------------------------------------------------------------------------------------------->";
+  content: "-->";
 }
 
 main header h1 {
@@ -169,12 +171,13 @@ main header h1 {
 #top h2::before {
   display: none;
 }
+#top h1::before,
 #top h1::after {
   content: "------------------------------------------------------------------------------------------------------------------------------------------------------";
-  color: #B25756;
-  font-weight: normal;
-  flex-grow: 1;
-  flex-shrink: 2;
+}
+#top h1::before {
+  margin-left: -150ch;
+  width: 150ch;
 }
 
 /**************************

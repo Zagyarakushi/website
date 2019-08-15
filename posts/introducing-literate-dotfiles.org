@@ -114,3 +114,7 @@ Comments are welcome on [[https://www.reddit.com/r/orgmode/comments/a7rgr1/organ
 *EDIT*
 
 Also announced at [[https://irreal.org/blog/?p=7702][Irreal]].
+
++EDIT+ *EDIT*
+
+[[https://mike.hostetlerhome.com/2019-08-literate-dotfiles.html][Mike Hostetler]] took inspiration to use literate dotfiles.

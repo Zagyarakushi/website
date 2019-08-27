@@ -109,12 +109,15 @@ written. So the idea isn't fully thought through yet.
 
 -----
 
-Comments are welcome on [[https://www.reddit.com/r/orgmode/comments/a7rgr1/organizing_your_dotfiles_with_org_mode/][Reddit]].
+Comments are welcome on [[https://www.reddit.com/r/orgmode/comments/a7rgr1/organizing_your_dotfiles_with_org_mode/][Reddit]] or [[https://lobste.rs/s/na5a46/introducing_literate_dotfiles][Lobsters]].
 
 *EDIT*
 
-Also announced at [[https://irreal.org/blog/?p=7702][Irreal]].
-
-+EDIT+ *EDIT*
+This was also announced by [[https://irreal.org/blog/?p=7702][Irreal]].
 
 [[https://mike.hostetlerhome.com/2019-08-literate-dotfiles.html][Mike Hostetler]] took inspiration to use literate dotfiles.
+
+And other similar projects:
+
+- [[https://github.com/rasendubi/dotfiles][Alexey Shmalko's dotfiles]]
+- [[https://matthewbauer.us/bauer/][Bauer]]

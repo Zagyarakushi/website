@@ -28,15 +28,16 @@
 (defvar rw-title "rw-r--r-- | writepermission.com"
   "The title of this site.")
 
-(defvar rw-root
-  (let ((dir default-directory))
-    (while (not (file-directory-p (expand-file-name ".git" dir)))
-      (setq dir (expand-file-name ".." dir)))
-    dir)
-  "The root directory of this project.")
+(defvar rw--root
+  (locate-dominating-file default-directory
+                          (lambda (dir)
+                            (seq-every-p
+                             (lambda (file) (file-exists-p (expand-file-name file dir)))
+                             '(".git" "content" "css" "elisp" "favicon.ico" "layouts" "posts"))))
+  "Root directory of this project.")
 
 (defvar rw--layouts-directory
-  (expand-file-name "layouts" rw-root)
+  (expand-file-name "layouts" rw--root)
   "Directory where layouts are found.")
 
 (defvar rw--site-attachments
@@ -180,8 +181,6 @@ PROJECT is the current project."
              (insert (format "* [[file:%s][%s]]\n" file title))
              (org-set-property "RSS_PERMALINK" link)
              (org-set-property "PUBDATE" date)
-             ;; to avoid second update to rss.org by org-icalendar-create-uid
-             (org-id-get-create)
              (insert-file-contents file)
              (buffer-string))))
         ((eq style 'tree)
@@ -195,7 +194,7 @@ TITLE is the title of the RSS feed.  LIST is an internal
 representation for the files to include, as returned by
 `org-list-to-lisp'.  PROJECT is the current project."
   (concat "#+TITLE: " title "\n\n"
-          (org-list-to-subtree list '(:icount "" :istart ""))))
+          (org-list-to-subtree list 1 '(:icount "" :istart ""))))
 
 (defun rw/org-rss-publish-to-rss (plist filename pub-dir)
   "Publish RSS with PLIST, only when FILENAME is 'rss.org'.
@@ -233,13 +232,6 @@ and PUB-DIR the output directory."
           (insert content)
           (write-file other-file))))))
 
-(defvar rw--root
-  (locate-dominating-file (pwd)
-                          (lambda (dir)
-                            (seq-every-p
-                             (lambda (file) (file-exists-p (expand-file-name file dir)))
-                             '(".git" ".well-known" "content" "css" "elisp" "favicon.ico" "layouts" "posts"))))
-  "Root directory of this project.")
 
 (defvar rw--publish-project-alist
       (list

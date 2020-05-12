@@ -108,8 +108,6 @@ The most important properties here are:
                (insert (format "* [[file:%s][%s]]\n" file title))
                (org-set-property "RSS_PERMALINK" link)
                (org-set-property "PUBDATE" date)
-               ;; to avoid second update to rss.org by org-icalendar-create-uid
-               (org-id-get-create)
                (insert-file-contents file)
                (buffer-string))))
           ((eq style 'tree)

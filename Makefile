@@ -17,13 +17,9 @@ clean:
 	rm -rf $(publish_dir)
 	rm -rf $(timestamps_dir)
 
-cert:
-	certbot certonly -m toon@iotcl.com \
-          --agree-tos --no-eff-email --manual-public-ip-logging-ok \
-          -d www.writepermission.com -d writepermission.com \
-          --manual --manual-auth-hook=scripts/acme-deploy.sh \
-          --deploy-hook=scripts/cert-install.sh \
-          --config-dir=./config --work-dir=./ --logs-dir=./log
+#####
+# Import from markdown
+#####
 
 mds:=$(wildcard _posts/*.md) $(wildcard _drafts/*.md)
 md_orgs:=$(patsubst %.md,%.org,$(mds))

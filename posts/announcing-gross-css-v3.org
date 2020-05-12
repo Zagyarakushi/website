@@ -1,0 +1,81 @@
+#+TITLE: Announcing gross.css v3.0.0
+#+DATE: <2019-08-07 Wed>
+
+** Gross.css v3.0.0
+
+I'm proud to announce [[http://to1ne.gitlab.io/gross.css][gross.css]] v3.0.0. It's a huge release because it
+is 500% more gross, but more on that later.
+
+To most people the most exciting feature is "dark mode".
+
+** Stacking Cartons
+
+Gross.css v3.0.0 has codename Stacking Cartons, and there is a very
+good reason for this...
+
+When I was implementing dark mode, I didn't want to abandon light
+mode, so I wanted to support both. I could haven chosen to provide two
+css files: one for light and one for dark. But for light mode a lot
+less statements are needed, so it would be fair. So I decided to
+implement the /dark/ part as a separate css file.
+
+But how would users be able to chose between dark mode or light mode?
+
+I came up with the idea of stacking css files. So a css file includes
+another css file one directory level deeper. That file can include yet
+another css file, two levels deep, etc.
+
+So the directory tree will look like this:
+
+#+begin_src sh
+css
+├── carton
+│   ├── carton
+│   │   ├── carton
+│   │   │   └── gross.css
+│   │   └── gross.css
+│   └── gross.css
+└── gross.css
+#+end_src
+
+This means each css file needs to have a ~@import~ statement to
+include the css file in a subdir:
+
+#+begin_src css
+@import 'carton/gross.css';
+#+end_src
+
+There's an analogy with real life egg cartons here. Assume you have a
+bunch of eggs, you can lay a carton on top of it, which again can fit
+a bunch of eggs, and again...
+
+On the [[http://to1ne.gitlab.io/gross.css/demo/index.html][demo page]] I'm illustrating how the cartons stack. I've placed
+the demo page in each carton, and with the two buttons on the top of
+the page you can take one carton less, or more carton more. For the
+first carton it's very clear, the ~dark~ gets dropped first. After
+that the differences are more subtle until eventually all cartons are
+dropped and you'll end up with plain html.
+
+*** More cartons
+
+The technique of stacking cartons allowed me to not only extract dark
+mode into a carton, but I've also extracted table styles in a
+carton. This way I could focus typography in the base
+gross.css and make table styles even better. In the end, these are the
+cartons I'm introducing in this release
+
+- ~dark~ :: Dark mode!!
+- ~forms~ :: Make html forms better looking.
+- ~other~ :: Style html tags like ~<blockquote>~ and ... TODO
+- ~tables~ :: Better looking tables, with horizontal scrollbar if
+              needed.
+- ~version~ :: Defines two classes that will insert the gross.css
+               version and codename.
+
+You could say introducing cartons is cheating the 144 characters rule,
+but I don't agree for two reasons:
+
+- In the 144 characters the ~@import~ statement is included. So I'm
+  losing 27 characters in each css file on that.
+- The base ~gross.css~ file still can be used on its own, without any
+  carton.

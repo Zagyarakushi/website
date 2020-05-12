@@ -11,7 +11,7 @@ really hard to find information about this, for almost any interface.
 
 So I ended up buying myself an Audient EVO 4. It's a fairly new
 interface, but I've watched several reviews, and they were are very
-popular. I bought it [[https://www.thomann.de/be/audient_evo_4.htm][from Thomann]], because they have a 30 day money
+positive. I bought it [[https://www.thomann.de/be/audient_evo_4.htm][from Thomann]], because they have a 30 day money
 back guarantee, so I had some time to figure out if it worked with my
 computer.
 
@@ -41,7 +41,7 @@ also one for loopback audio. But the generic drivers on GNU/Linux only
 create one device: all the inputs combined. And here is where the
 trouble comes in. To explain, let me illustrate my setup.
 
-#+begin_src ditaa :file ./content/evo4-pulseaudio-profile/evo4-connections.png
+#+begin_example
                    +------+
                    |  PC  |
                    +---+--+
@@ -49,11 +49,15 @@ trouble comes in. To explain, let me illustrate my setup.
   +------------+   +---+---+    +-----+
   | headphones +---+ EVO 4 +----+ Mic |
   +------------+   +-------+    +-----+
-#+end_src
+#+end_example
 
-So when I use the EVO 4 during video calls with colleagues my
-microphone audio will get mixed with the audio of all other
-participants, so people will hear them self again.
+I have my microphone (obviously) and my headphones connected to the
+EVO 4, this allows me to mix the audio from the computer with the
+sound of my mic, which is nice when you're recording or
+broadcasting. But sending computer audio to the EVO 4 will cause it to
+loop back into my mic audio. So when I use the EVO 4 during video
+calls with colleagues people will hear an echo of them self or other
+participants.
 
 I contacted support, but no one could help me and they just gave me
 the message: "Linux is not supported".
@@ -67,7 +71,7 @@ For a while I thought my problem was unfixable, because I considered
 the inputs were joined in hardware, and there was nothing I could do
 about.
 
-But [[https://linuxmusicians.com/viewtopic.php?p=117643#p117643][a comment]] from the kind user =puleglot= gave me hope. I did add
+But [[https://linuxmusicians.com/viewtopic.php?p=117643#p117643][a comment]] from the kind user *@puleglot* gave me hope. I did add
 the following line to my ~~/.config/pulse/daemon.conf~:
 
 #+begin_src conf
@@ -81,18 +85,21 @@ only on the right side. So not ideal. But it gave me hope.
 
 ** A lot of tinkering
 
-=puleglot= helped me out and after some back and forth I figured out
+*@puleglot* helped me out and after some back and forth I figured out
 the configuration for the EVO 4, you can read all about it in the
 forum thread I posted earlier.
 
 ** The solution
+   :PROPERTIES:
+   :CUSTOM_ID: solution
+   :END:
 
 Tell ~pulseaudio~ to use a custom profile, so create
 ~/etc/udev/rules.d/91-pulseaudio-custom-profiles.rules~ with the
 following content:
 
 #+begin_src conf
-SUBSYSTEM=="sound",  SUBSYSTEMS=="usb", ACTION=="change", KERNEL=="card*", ENV{ID_VENDOR}=="Audient", ENV{ID_MODEL}=="EVO4", ENV{PULSE_PROFILE_SET}="/etc/pulse/profile-sets/audient-evo4.conf"
+SUBSYSTEM=="sound", SUBSYSTEMS=="usb", ACTION=="change", KERNEL=="card*", ENV{ID_VENDOR}=="Audient", ENV{ID_MODEL}=="EVO4", ENV{PULSE_PROFILE_SET}="/etc/pulse/profile-sets/audient-evo4.conf"
 #+end_src
 
 And place this in the ~/etc/pulse/profile-sets/audient-evo4.conf~
@@ -155,7 +162,7 @@ pulseaudio --kill
 Now if you open up ~pavucontrol~ you'll have different profiles
 available.
 
-#+ATTR_HTML: :alt PulseAudio sound profiles for the EVO 4
+#+ATTR_HTML: :alt PulseAudio sound profiles for the EVO 4 :class boxed
 [[./content/evo4-pulseaudio-profile/evo4-pavucontrol-profiles.png]]
 
 These are pretty self-explanatory. If you only like the microphone
@@ -164,6 +171,9 @@ select "Multichannel Input". So now I can select the profile I want,
 depending on the situation.
 
 ** EVO 4 review
+   :PROPERTIES:
+   :CUSTOM_ID: review
+   :END:
 
 I have this interface for a month now, and it's really great.
 
@@ -186,3 +196,8 @@ nicely on my desk.
 
 I would definitely recommend this to any beginner, it's a great piece
 of hardware.
+
+** Conclusion
+
+I would definitely recommend the Audient EVO 4, even if you're on
+GNU/Linux.

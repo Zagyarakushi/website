@@ -56,7 +56,7 @@ EVO 4, this allows me to mix the audio from the computer with the
 sound of my mic, which is nice when you're recording or
 broadcasting. But sending computer audio to the EVO 4 will cause it to
 loop back into my mic audio. So when I use the EVO 4 during video
-calls with colleagues people will hear an echo of them self or other
+calls with colleagues, they will hear an echo of themselves or other
 participants.
 
 I contacted support, but no one could help me and they just gave me

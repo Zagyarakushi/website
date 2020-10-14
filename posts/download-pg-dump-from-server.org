@@ -12,8 +12,14 @@ purposes.
 ** Breaking out psql
 
 You cannot create a PostgreSQL dump from =psql=, you'll need to use =pg_dump=
-instead. To start a shell prompt, you can type =\!=. This will give you shell,
-as if you've never ended up in =psql= in the first place.
+instead. To start a shell prompt from a =psql= session, type:
+
+#+begin_src sql
+\!
+#+end_src
+
+This will give you shell, as if you've never ended up in =psql= in the first
+place.
 
 ** Creating the dump
 
@@ -25,7 +31,7 @@ pg_dump -Z <dbname> > dump.sql.gz
 #+end_src
 
 (obviously you'll need to replace =<dbname>= with the actual name of the
-database you want a dump of)
+database you want to dump)
 
 ** Open SSH tunnel back to local machine
 
@@ -56,7 +62,9 @@ Now we have the tunnel set up, run the following command again in the same
 prompt:
 
 #+begin_src shell
-scp -P 22042 dump.sql.gz localhost:
+scp -P 22042 dump.sql.gz <user>@localhost:
 #+end_src
 
-Now you'll find the dump in the =$HOME= of you're local machine.
+(with =<user>= your username on the local machine)
+
+And that's it! Now you'll find the dump in the =$HOME= of you're local machine.

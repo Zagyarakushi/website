@@ -1,5 +1,5 @@
 #+TITLE: Announcing gross.css v3.0.0
-#+DATE: <2019-08-07 Wed>
+#+DATE: <2030-12-31 Tue>
 
 ** Gross.css v3.0.0
 

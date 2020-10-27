@@ -23,15 +23,18 @@ place.
 
 ** Creating the dump
 
-I suggest to create a gzipped dump, because it will be faster to download it. To
-create that, run:
+I suggest the following command to create a dump:
 
 #+begin_src shell
-pg_dump -Z <dbname> > dump.sql.gz
+pg_dump --verbose --no-acl --no-owner --format=c <dbname> > db.dump
 #+end_src
 
-(obviously you'll need to replace =<dbname>= with the actual name of the
-database you want to dump)
+Where you replace =<dbname>= with the actual name of the database you want to
+dump.
+
+I'm using =--format=c= here which formats the dump in a format specific for
+=pg_restore=. If you like a plain SQL dump you can drop it, but I suggest to use
+=--compress=9= instead.
 
 ** Open SSH tunnel back to local machine
 
@@ -62,9 +65,17 @@ Now we have the tunnel set up, run the following command again in the same
 prompt:
 
 #+begin_src shell
-scp -P 22042 dump.sql.gz <user>@localhost:
+scp -P 22042 db.dump <user>@localhost:
 #+end_src
 
 (with =<user>= your username on the local machine)
 
 And that's it! Now you'll find the dump in the =$HOME= of you're local machine.
+
+** Loading the dump
+
+Loading with =pg_restore= is simple, just specify the database:
+
+#+begin_src shell
+pg_restore --dbname=<dbname> db.dump
+#+end_src

@@ -1,0 +1,39 @@
+#+TITLE: The Undo Anxiety
+#+DATE: <2020-12-27 Sun>
+#+DESCRIPTION: How working with computers gives me anxiety IRL
+
+In real life I often have a lack of confidence, and I blame computers for that.
+
+During my =$DAYJOB= I spend most of my time working with computers. Computers
+are great (most of the time). One of the best features of computers is the undo
+functionality. On a computer you can basically undo anything you do. To name a
+few: you can undo typing text, undo clipping an image, and even undo deleting a
+file. So when I'm writing code, I can type a possible solution, test it, and if
+it would not work, undo it and try something else. This gives me confidence.
+
+The same applies to video games. When playing a game you usually save and reload
+whenever you want, or when you die, you can just try again. Funny, by
+coincidence [[https://twitter.com/dinoman_j][@dinoman_j]] recently posted a [[https://twitter.com/dinoman_j/status/1337452722325479424][great cartoon]] that also mentions this.
+
+#+ATTR_HTML: :alt Cartoon with two dinos. Dino says: "I wish life was more like a video game." Other dino says: "so you could retry every time you fail?" Dino says: "no so I could enjoy it"
+#+ATTR_HTML: :style max-width:480px
+[[https://pbs.twimg.com/media/Eo-W_isWEAADCWF.jpg]]
+
+But things don't work like that in real life. There usually is no retry.
+Everything you do has a permanent effect. Okay, in most situations you can take
+action to rectify the outcome, but your initial actions will be part of history.
+For example, when you say something that offends someone, you can apologize and
+express your good intentions, but the offended person might remember this for
+quite some time and judge you on that.
+
+Things like this makes me extremely insecure IRL. It will often lead me to
+refrain from taking initiative, because I am afraid to fail. I also do not speak
+up a lot in conversations. Even if I'm pretty sure I'm about my case, other
+people can give me second thoughts because they outclass me in confidence.
+
+I call this phenomena "The Undo Anxiety". There must be a more professionally
+researched term for this, but I could not find it in my 10min of searching the
+web. I'm writing only this, because I was wondering if other people can relate?
+
+Did I choose this profession because it fits my personality, or grew my
+personality to this because of my profession...?

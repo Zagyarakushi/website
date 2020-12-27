@@ -91,6 +91,7 @@ ATTRS specify additional attributes."
          (type (org-publish-find-property file :meta-type project)))
     (mapconcat 'identity
                `(,(rw/org-html-close-tag "link" '(rel icon) '(type image/x-icon) `(href ,favicon))
+                 ,(rw/org-html-close-tag "link" '(rel alternate) '(type application/rss+xml) '(href "rss.xml") '(title "RSS feed"))
                  ,(rw/org-html-close-tag "meta" '(property og:title) `(content ,title))
                  ,(rw/org-html-close-tag "meta" '(property og:url) `(content ,full-url))
                  ,(and description

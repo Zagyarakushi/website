@@ -260,6 +260,7 @@ and PUB-DIR the output directory."
              :sitemap-function 'rw/org-publish-sitemap
              :sitemap-format-entry 'rw/org-publish-sitemap-entry
              :author "Toon Claes"
+             :email ""
              :meta-image "content/rw-r--r--square.png"
              :meta-type "article")
        (list "blog-rss"
@@ -279,7 +280,9 @@ and PUB-DIR the output directory."
              :sitemap-style 'list
              :sitemap-sort-files 'anti-chronologically
              :sitemap-function 'rw/format-rss-feed
-             :sitemap-format-entry 'rw/format-rss-feed-entry)
+             :sitemap-format-entry 'rw/format-rss-feed-entry
+             :author "Toon Claes"
+             :email "")
        (list "blog-static"
              :base-directory rw--root
              :exclude (regexp-opt '("public/" "layouts/"))

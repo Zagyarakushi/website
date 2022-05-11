@@ -17,7 +17,7 @@ coincidence [[https://twitter.com/dinoman_j][@dinoman_j]] recently posted a [[ht
 
 #+ATTR_HTML: :alt Cartoon with two dinos. Dino says: "I wish life was more like a video game." Other dino says: "so you could retry every time you fail?" Dino says: "no so I could enjoy it"
 #+ATTR_HTML: :style max-width:480px
-[[https://pbs.twimg.com/media/Eo-W_isWEAADCWF.jpg]]
+[[./content/the-undo-anxiety/dinoman_j.jpg]]
 
 But things don't work like that in real life. There usually is no retry.
 Everything you do has a permanent effect. Okay, in most situations you can take

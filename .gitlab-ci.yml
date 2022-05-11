@@ -1,6 +1,4 @@
-image: iquiw/alpine-emacs
-before_script:
-  - apk update && apk add make
+image: silex/emacs:master-alpine-ci
 
 stages:
   - publish

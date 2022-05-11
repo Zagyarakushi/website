@@ -10,10 +10,11 @@
 (require 'package)
 (package-initialize)
 (unless package-archive-contents
-  (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
-  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+  (add-to-list 'package-archives '("org"    . "https://orgmode.org/elpa/")       t)
+  (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
+  (add-to-list 'package-archives '("melpa"  . "https://melpa.org/packages/")     t)
   (package-refresh-contents))
-(dolist (pkg '(org-plus-contrib htmlize))
+(dolist (pkg '(org org-contrib htmlize))
   (unless (package-installed-p pkg)
     (package-install pkg)))
 

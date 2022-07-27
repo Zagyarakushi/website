@@ -6,7 +6,7 @@ emacs_pkgs := org
 publish_el := elisp/publish.el
 
 ^el = $(filter %.el,$^)
-EMACS.funcall = emacs --batch --no-init-file $(addprefix --load ,$(^el)) --funcall
+EMACS.funcall = emacs --quick --batch --directory elisp/ $(addprefix --load ,$(^el)) --funcall
 
 all: publish
 

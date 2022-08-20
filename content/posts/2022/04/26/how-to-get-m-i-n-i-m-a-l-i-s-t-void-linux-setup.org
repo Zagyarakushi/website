@@ -1,0 +1,97 @@
+#+TITLE: How to get m i n i m a l i s t Void Linux setup
+#+DATE: <2022-04-26 Tue>
+#+DESCRIPTION: I like minimalism and simplicity. Therefore, I started to use Void Linux. I will show you how to setup Void Linux so that you only have what you need without bloat.
+
+I've always liked and preferred minimalism and simplicity in all areas of life. This also applies to computing. When I started playing around with Linux, I used Ubuntu and Linux Mint to learn the basics. Then I went straight to Arch Linux because of it's customizability and stayed there for few months. However, I wanted something without Systemd and something which was even more customizable than Arch Linux. I found Gentoo and played around for couple of months but the compile time and some difficulty in trying to automate the install using my own script led me to Void Linux.
+
+Void Linux keeps to the KISS philosophy and allows you to customize almost all aspects of the system such as compiling most of the user-space applications from source code and compiling the customized kernel just like Gentoo. This make Void Linux suited for people who want to change the operating system to suit their needs.
+
+This post will tell you what I did in order to get a minimal system so you can adapt to your own situation.
+
+** Step 1: Have a minimal base
+:PROPERTIES:
+:CUSTOM_ID: Have-a-minimal-base
+:END:
+
+Void Linux provides a normal base which might include stuff that you don't need. You can instead use the minimal base which contains only the essential services to get the system running. You might even be able to install individual services and programs to create your own base but I have not personally tried it.
+
+For example, search for base-system and base-minimal on Void Linux website. Now look at the package template.
+
+#+CAPTION: Template for base-system
+[[../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-system.png]]
+
+#+CAPTION: Template for base-minimal
+[[../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-minimal.png]]
+
+Look at "depends" variable. These are all the dependencies that will be installed when you install the package. You can see that ncurses, openssh, void-artwork and others  are not included in base-minimal.
+
+** Step 2: Use minimal versions of application
+:PROPERTIES:
+:CUSTOM_ID: Use-minimal-versions-of-application
+:END:
+
+Void Linux provides minimal version for some software. For example, there is xorg, then there is xorg-minimal. You will need to add some additional software on top of xorg-minimal if you use dwm. And probably most other cases too.
+
+#+CAPTION: Template for xorg
+[[../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-template.png]]
+
+#+CAPTION: Template for xorg-minimal
+[[../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-minimal-template.png]]
+
+Again, you can see that there are less dependencies for minimal version.
+
+** Step 3: Have the least amount of code running to have your functionality
+:PROPERTIES:
+:CUSTOM_ID: Have-the-least-amount-of-code-running-to-have-your-functionality
+:END:
+
+Any code that is running on your computer and you don't need it running is a waste. Disable all services such as extra TTYs and other services that get enabled by default.
+
+#+begin_src sh
+# Remove unnecesarry ttys.
+rm /var/service/agetty-tty6
+rm /var/service/agetty-tty5
+rm /var/service/agetty-tty4
+rm /var/service/agetty-tty3
+
+# Make sure ttys are not started.
+touch /etc/sv/agetty-tty6/down
+touch /etc/sv/agetty-tty5/down
+touch /etc/sv/agetty-tty4/down
+touch /etc/sv/agetty-tty3/down
+#+end_src
+
+** Advanced
+:PROPERTIES:
+:CUSTOM_ID: Advanced
+:END:
+
+*** Kernel
+:PROPERTIES:
+:CUSTOM_ID: Kernel
+:END:
+
+You can compile your own kernel. I've not tried this yet.
+
+*** Compile your software
+:PROPERTIES:
+:CUSTOM_ID: Compile-your-software
+:END:
+
+You can try to compile all software and even have your own patch that removes the functionality that you don't need. Just like Gentoo. I've not tried this either.
+
+** Conclusion
+:PROPERTIES:
+:CUSTOM_ID: Conclusion
+:END:
+
+Now you are able to configure your system from scratch in the most minimal way possible. Going this minimal may take some time to figure out all the packages and get used to but once everything is setup, there is no need to change it again.
+
+Hopefully, you also documentated all the steps and packages required so that you can have identical setup when you reinstall your system.
+
+** Want to help?
+:PROPERTIES:
+:CUSTOM_ID: Want-to-help
+:END:
+
+Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

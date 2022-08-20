@@ -1,0 +1,224 @@
+#+TITLE: Zagyarakushi | zagyarakushi.gitlab.io
+
+* [[file:/home/shroudedsublet/Documents/stuff/Doing/GTD/projects/project-support-material/zagyarakushi.gitlab.io/content/posts/2022/04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.org][How to get m i n i m a l i s t Void Linux setup]]
+:PROPERTIES:
+:RSS_TITLE: How to get m i n i m a l i s t Void Linux setup
+:RSS_PERMALINK: posts/2022/04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.html
+:PUBDATE:  2022-04-26
+:ID:       934652f9-fb3c-4356-9a6b-06b10cb31e25
+:END:
+#+description: I like minimalism and simplicity. Therefore, I started to use Void Linux. I will show you how to setup Void Linux so that you only have what you need without bloat.
+
+I've always liked and preferred minimalism and simplicity in all areas of life. This also applies to computing. When I started playing around with Linux, I used Ubuntu and Linux Mint to learn the basics. Then I went straight to Arch Linux because of it's customizability and stayed there for few months. However, I wanted something without Systemd and something which was even more customizable than Arch Linux. I found Gentoo and played around for couple of months but the compile time and some difficulty in trying to automate the install using my own script led me to Void Linux.
+
+Void Linux keeps to the KISS philosophy and allows you to customize almost all aspects of the system such as compiling most of the user-space applications from source code and compiling the customized kernel just like Gentoo. This make Void Linux suited for people who want to change the operating system to suit their needs.
+
+This post will tell you what I did in order to get a minimal system so you can adapt to your own situation.
+
+** Step 1: Have a minimal base
+:PROPERTIES:
+:CUSTOM_ID: Have-a-minimal-base
+:ID:       f4937d1a-7575-4263-bb62-854249ed385e
+:END:
+
+Void Linux provides a normal base which might include stuff that you don't need. You can instead use the minimal base which contains only the essential services to get the system running. You might even be able to install individual services and programs to create your own base but I have not personally tried it.
+
+For example, search for base-system and base-minimal on Void Linux website. Now look at the package template.
+
+#+caption: Template for base-system
+[[file:../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-system.png]]
+
+#+caption: Template for base-minimal
+[[file:../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-minimal.png]]
+
+Look at "depends" variable. These are all the dependencies that will be installed when you install the package. You can see that ncurses, openssh, void-artwork and others  are not included in base-minimal.
+
+** Step 2: Use minimal versions of application
+:PROPERTIES:
+:CUSTOM_ID: Use-minimal-versions-of-application
+:ID:       3943453d-b921-400f-8fd9-f1a6a8df2f7c
+:END:
+
+Void Linux provides minimal version for some software. For example, there is xorg, then there is xorg-minimal. You will need to add some additional software on top of xorg-minimal if you use dwm. And probably most other cases too.
+
+#+caption: Template for xorg
+[[file:../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-template.png]]
+
+#+caption: Template for xorg-minimal
+[[file:../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-minimal-template.png]]
+
+Again, you can see that there are less dependencies for minimal version.
+
+** Step 3: Have the least amount of code running to have your functionality
+:PROPERTIES:
+:CUSTOM_ID: Have-the-least-amount-of-code-running-to-have-your-functionality
+:ID:       e92e3551-1023-4490-88d1-13b61e43582f
+:END:
+
+Any code that is running on your computer and you don't need it running is a waste. Disable all services such as extra TTYs and other services that get enabled by default.
+
+#+begin_src sh
+  # Remove unnecesarry ttys.
+  rm /var/service/agetty-tty6
+  rm /var/service/agetty-tty5
+  rm /var/service/agetty-tty4
+  rm /var/service/agetty-tty3
+
+  # Make sure ttys are not started.
+  touch /etc/sv/agetty-tty6/down
+  touch /etc/sv/agetty-tty5/down
+  touch /etc/sv/agetty-tty4/down
+  touch /etc/sv/agetty-tty3/down
+#+end_src
+
+** Advanced
+:PROPERTIES:
+:CUSTOM_ID: Advanced
+:ID:       9d374b8e-537f-4a6f-8130-4d5eb0416d07
+:END:
+
+*** Kernel
+:PROPERTIES:
+:CUSTOM_ID: Kernel
+:ID:       81398465-3ac7-473d-98af-b7b6f3b6993d
+:END:
+
+You can compile your own kernel. I've not tried this yet.
+
+*** Compile your software
+:PROPERTIES:
+:CUSTOM_ID: Compile-your-software
+:ID:       fc59df77-5bf0-466d-9935-62d1690376eb
+:END:
+
+You can try to compile all software and even have your own patch that removes the functionality that you don't need. Just like Gentoo. I've not tried this either.
+
+** Conclusion
+:PROPERTIES:
+:CUSTOM_ID: Conclusion
+:ID:       a6cf0f1e-536d-4a59-abf3-c86fd2c03afb
+:END:
+
+Now you are able to configure your system from scratch in the most minimal way possible. Going this minimal may take some time to figure out all the packages and get used to but once everything is setup, there is no need to change it again.
+
+Hopefully, you also documentated all the steps and packages required so that you can have identical setup when you reinstall your system.
+
+** Want to help?
+:PROPERTIES:
+:CUSTOM_ID: Want-to-help
+:ID:       17332e21-668d-406e-aefc-b86b836d9c6f
+:END:
+
+Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+* [[file:/home/shroudedsublet/Documents/stuff/Doing/GTD/projects/project-support-material/zagyarakushi.gitlab.io/content/posts/2022/03/21/chad-becomes-virgin-and-goes-to-the-dark-side.org][Chad becomes Virgin and goes to the dark side]]
+:PROPERTIES:
+:RSS_TITLE: Chad becomes Virgin and goes to the dark side
+:RSS_PERMALINK: posts/2022/03/21/chad-becomes-virgin-and-goes-to-the-dark-side.html
+:PUBDATE:  2022-03-21
+:ID:       c89c7505-07d3-45e7-986a-e41efe30f8a5
+:END:
+#+description: My first post and some updates on what I've been doing, my current setup and more.
+
+This is my first post and an update to those who watch my YouTube channel. This is not the typical post that you will see here. This post contains more of a personal side rather than technical.
+What have I been doing the past year? What is my current setup?
+Read on to find out!
+
+** The last semester
+:PROPERTIES:
+:CUSTOM_ID: The-last-semester
+:ID:       447cc377-438f-426e-a4fc-23fac4b5d521
+:END:
+
+The story starts from the last semester of university. To be exact, it's just before the last semester. This is when students start panicking and stressing about their exams and final project. As an ambitious student with hopes and dreams, I decided to research something that is hard, never done before and have enough quality to be able to publish it.
+
+The topic was about quantum key distribution.  Since, I had a lot of study to do just for final project, I did not have enough time and energy to also produce videos although it's just few minutes long. And it wasn't just the final project but other work and exams and some responsibilities outside of university.
+
+Note that I was still using Void Linux with suckless dwm setup shown on my YouTube channel at this time.
+
+In the end, everything went well and I graduated. Which brings us to the next topic.
+
+** Employment
+:PROPERTIES:
+:CUSTOM_ID: Employment
+:ID:       b93235a0-1055-41eb-9578-6a1beccfabf0
+:END:
+
+Now, there are people who can get a job within reasonable amount of time and those who can't. I think I'm in the latter group. However, someone did eventually accept a random graduate who claims to have broad knowledge even though I was not fit for the position. They were impressed enough and had me work on something else that they were thinking of doing in the future.
+
+This is where things get interesting. My setup had to be changed so that the efficiency in terms of time was the priority. This means that my computer should be setup to get work done. Any time that is spent outside the work is a waste. So, things like installing OS, finding and installing software, availability of software and other things should be done as fast as possible without me having to read manuals and scour across the internet for an answer. I also wanted security such as AppArmor or SELinux and Wayland so that applications don't have access to the entire screen at all times.
+
+Also, camera and microphone HAD to work at all times as this was a remote role.
+
+** The current setup
+:PROPERTIES:
+:CUSTOM_ID: The-current-setup
+:ID:       9bd4e46c-8089-4e58-b7c7-7a19b19eac14
+:END:
+
+OS: Fedora 35
+Desktop: Gnome 41.3
+
+I chose Fedora because they have most of the software that's required (In my case). They are bleeding edge. And they have SELinux. I could've gone for Debian or Ubuntu but Debian is outdated (I know it has testing and unstable branch) and Ubuntu is something I wouldn't want to run on my personal machine considering it's history. Another option was Arch Linux but many of the configurations have to be done manually and manual in computing costs time.
+
+Gnome was the chosen one out of all the window managers and desktop environments. The reason is simplicity. Once it is installed, everything is configured out of the box. And it also uses Wayland. Multi monitor works properly compared to Xorg where I was using some script and the scaling was non existant. But there are some quirks that you need to get used to. Another big requirement was a functional camera and microphone and Gnome handles it perfectly. I remember having some problems with camera and microphone in my previous setup.
+
+You might be thinking that after using customized window manager with light weight programs and "sane" distro, it is next to impossible to get used to the big bloated distro. And you are right! But is it bad enough that I have to run back to my /comfy/ setup as soon as the work is done? No! I will not be going back to my old setup as I am thinking of going to Qubes OS full time and Fedora with Gnome is not painful enough to justify going back. Anyway, the "bloated" stuff is also useful in certain circumstances. They are easier and faster for things that you are not used to, never done before or just need to get done without knowing the internals of how they work.
+
+*** Comparing efficiency
+:PROPERTIES:
+:CUSTOM_ID: Comparing-efficiency
+:ID:       9e5cdb4c-820b-49d5-b6f5-d7539756b982
+:END:
+
+What Chads think: More time spent tinkering with their computer instead of doing actual work = More Chadness
+
+What Virgins think: Less time spent tinkering with their computer and doing actual work = More Chadness
+
+What GigaChads think: Do both.
+
+Ok. Let's expand on the last bit. Dynamic TWM are very efficient at arranging windows in a predefined way. Everything is good when using terminals and lightweight programs but what happens when all you use is an IDE, a terminal and a web browser? Suddenly, all that TWM functionality goes out the window. You might not need to use a predefined layout. You might be mostly working in IDE and web browser where the TWM functionaility doesn't really do much. You might want to change window size depending on what you are doing. What about floating WM? Well, they do previous things perfectly and they can also be configured to have functionality like TWM. To be honest, most TWM have floating functionality as well...
+
+Where am I going with this? I want to show that it's all about priorities and trade offs.
+
+Window Managers
+TWM is good for terminal based workflow.
+Floating WM are good for when you can't fit your workflow into a certain layout.
+Good for low end PC.
+Good for customizability.
+
+Desktop Environments
+Integrated with all the necessary services (Some people call 'em bloat).
+Ease of use.
+Has some TWM-like functionality by default.
+
+Any WM and DE can be customised to have any functionality you want. But how hard are you willing to work? How much time are you willing to use? I solved the problem by using Gnome. You might solve your problem by using TWM or floating WM.
+
+** The art of customizing Unix
+:PROPERTIES:
+:CUSTOM_ID: The-art-of-customizing-unix
+:ID:       47293027-7009-439f-80b7-3a883ca4c988
+:END:
+
+In prevous sections, it was just me ranting about how Gnome isn't that bad for some things. Here, I want to talk about the aesthetics of your setup.
+
+Some people customize for fun. Some customize because they want some functionality. For some? It's just to flex. Whatever your reason is, I want the theming and customization of Unix based systems to be considered an art. It is an interactive art. If you look on r/UnixPorn, there are many posts that have pretty colours, functionality no one thought of before and most posts are unique in some way. You may like one post while dislike another. It is subjective. This is why customization of Unix based systems is an art and not a science.
+
+Many people confuse this art with science. Maximising the time spent working and minimizing the time spent tinkering is science. You can empirically analyse the time spent and compare which system allows you to do more work in less time. But you can't say "I use more time to tinker and less time working but I get more work done in shorter time". Or at least I hope not.
+
+** Conclusion
+:PROPERTIES:
+:CUSTOM_ID: Conclusion
+:ID:       53334c7a-35c1-4fc1-b139-6020c2a60d59
+:END:
+
+The things that are "bloated" aren't so bloated when they start solving problems. And things that are "efficient" may not be the most efficient when you get the priorities wrong.
+
+Hopefully, my writing skills aren't so bad that everyone left after a few sentences. If you are still here, then I thank you! I've also learned that blogging and writing isn't as easy as it seems...
+
+** Want to help?
+:PROPERTIES:
+:CUSTOM_ID: Want-to-help
+:ID:       bab34c8e-12a2-4859-b654-a3c25f3c032c
+:END:
+
+Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

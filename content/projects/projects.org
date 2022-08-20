@@ -1,0 +1,7 @@
+#+TITLE: Zagyarakushi | zagyarakushi.gitlab.io
+#+OPTIONS: title:nil
+#+META_TYPE: website
+#+DESCRIPTION: Zagyarakushi's projects
+
+#+ATTR_HTML: :class sitemap
+- [[file:open-book-publishers-book-metric-widget.org][Book metrics widget]] /Posted on 2022-08-20/

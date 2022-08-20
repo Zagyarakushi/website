@@ -1,0 +1,100 @@
+#+TITLE: Chad becomes Virgin and goes to the dark side
+#+DATE: <2022-03-21 Mon>
+#+DESCRIPTION: My first post and some updates on what I've been doing, my current setup and more.
+
+This is my first post and an update to those who watch my YouTube channel. This is not the typical post that you will see here. This post contains more of a personal side rather than technical.
+What have I been doing the past year? What is my current setup?
+Read on to find out!
+
+** The last semester
+:PROPERTIES:
+:CUSTOM_ID: The-last-semester
+:END:
+
+The story starts from the last semester of university. To be exact, it's just before the last semester. This is when students start panicking and stressing about their exams and final project. As an ambitious student with hopes and dreams, I decided to research something that is hard, never done before and have enough quality to be able to publish it.
+
+The topic was about quantum key distribution.  Since, I had a lot of study to do just for final project, I did not have enough time and energy to also produce videos although it's just few minutes long. And it wasn't just the final project but other work and exams and some responsibilities outside of university.
+
+Note that I was still using Void Linux with suckless dwm setup shown on my YouTube channel at this time.
+
+In the end, everything went well and I graduated. Which brings us to the next topic.
+
+** Employment
+:PROPERTIES:
+:CUSTOM_ID: Employment
+:END:
+
+Now, there are people who can get a job within reasonable amount of time and those who can't. I think I'm in the latter group. However, someone did eventually accept a random graduate who claims to have broad knowledge even though I was not fit for the position. They were impressed enough and had me work on something else that they were thinking of doing in the future.
+
+This is where things get interesting. My setup had to be changed so that the efficiency in terms of time was the priority. This means that my computer should be setup to get work done. Any time that is spent outside the work is a waste. So, things like installing OS, finding and installing software, availability of software and other things should be done as fast as possible without me having to read manuals and scour across the internet for an answer. I also wanted security such as AppArmor or SELinux and Wayland so that applications don't have access to the entire screen at all times.
+
+Also, camera and microphone HAD to work at all times as this was a remote role.
+
+** The current setup
+:PROPERTIES:
+:CUSTOM_ID: The-current-setup
+:END:
+
+- OS: Fedora 35
+- Desktop: Gnome 41.3
+
+I chose Fedora because they have most of the software that's required (In my case). They are bleeding edge. And they have SELinux. I could've gone for Debian or Ubuntu but Debian is outdated (I know it has testing and unstable branch) and Ubuntu is something I wouldn't want to run on my personal machine considering it's history. Another option was Arch Linux but many of the configurations have to be done manually and manual in computing costs time.
+
+Gnome was the chosen one out of all the window managers and desktop environments. The reason is simplicity. Once it is installed, everything is configured out of the box. And it also uses Wayland. Multi monitor works properly compared to Xorg where I was using some script and the scaling was non existant. But there are some quirks that you need to get used to. Another big requirement was a functional camera and microphone and Gnome handles it perfectly. I remember having some problems with camera and microphone in my previous setup.
+
+You might be thinking that after using customized window manager with light weight programs and "sane" distro, it is next to impossible to get used to the big bloated distro. And you are right! But is it bad enough that I have to run back to my /comfy/ setup as soon as the work is done? No! I will not be going back to my old setup as I am thinking of going to Qubes OS full time and Fedora with Gnome is not painful enough to justify going back. Anyway, the "bloated" stuff is also useful in certain circumstances. They are easier and faster for things that you are not used to, never done before or just need to get done without knowing the internals of how they work.
+
+*** Comparing efficiency
+:PROPERTIES:
+:CUSTOM_ID: Comparing-efficiency
+:END:
+
+What Chads think: More time spent tinkering with their computer instead of doing actual work = More Chadness
+
+What Virgins think: Less time spent tinkering with their computer and doing actual work = More Chadness
+
+What GigaChads think: Do both.
+
+Ok. Let's expand on the last bit. Dynamic TWM are very efficient at arranging windows in a predefined way. Everything is good when using terminals and lightweight programs but what happens when all you use is an IDE, a terminal and a web browser? Suddenly, all that TWM functionality goes out the window. You might not need to use a predefined layout. You might be mostly working in IDE and web browser where the TWM functionaility doesn't really do much. You might want to change window size depending on what you are doing. What about floating WM? Well, they do previous things perfectly and they can also be configured to have functionality like TWM. To be honest, most TWM have floating functionality as well...
+
+Where am I going with this? I want to show that it's all about priorities and trade offs.
+
+Window Managers
+- TWM is good for terminal based workflow.
+- Floating WM are good for when you can't fit your workflow into a certain layout.
+- Good for low end PC.
+- Good for customizability.
+
+Desktop Environments
+- Integrated with all the necessary services (Some people call 'em bloat).
+- Ease of use.
+- Has some TWM-like functionality by default.
+
+Any WM and DE can be customised to have any functionality you want. But how hard are you willing to work? How much time are you willing to use? I solved the problem by using Gnome. You might solve your problem by using TWM or floating WM.
+
+** The art of customizing Unix
+:PROPERTIES:
+:CUSTOM_ID: The-art-of-customizing-unix
+:END:
+
+In prevous sections, it was just me ranting about how Gnome isn't that bad for some things. Here, I want to talk about the aesthetics of your setup.
+
+Some people customize for fun. Some customize because they want some functionality. For some? It's just to flex. Whatever your reason is, I want the theming and customization of Unix based systems to be considered an art. It is an interactive art. If you look on r/UnixPorn, there are many posts that have pretty colours, functionality no one thought of before and most posts are unique in some way. You may like one post while dislike another. It is subjective. This is why customization of Unix based systems is an art and not a science.
+
+Many people confuse this art with science. Maximising the time spent working and minimizing the time spent tinkering is science. You can empirically analyse the time spent and compare which system allows you to do more work in less time. But you can't say "I use more time to tinker and less time working but I get more work done in shorter time". Or at least I hope not.
+
+** Conclusion
+:PROPERTIES:
+:CUSTOM_ID: Conclusion
+:END:
+
+The things that are "bloated" aren't so bloated when they start solving problems. And things that are "efficient" may not be the most efficient when you get the priorities wrong.
+
+Hopefully, my writing skills aren't so bad that everyone left after a few sentences. If you are still here, then I thank you! I've also learned that blogging and writing isn't as easy as it seems...
+
+** Want to help?
+:PROPERTIES:
+:CUSTOM_ID: Want-to-help
+:END:
+
+Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

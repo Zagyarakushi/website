@@ -1,0 +1,9 @@
+#+TITLE: Interesting Stuff
+#+OPTIONS: title:nil
+#+META_TYPE: website
+#+DESCRIPTION: Zagyarakushi's website
+
+* Interesting Stuff
+:PROPERTIES:
+:CUSTOM_ID: Interesting-Stuff
+:END:

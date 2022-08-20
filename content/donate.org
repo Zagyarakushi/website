@@ -1,0 +1,22 @@
+#+TITLE:  Donate
+#+OPTIONS: title:nil
+#+META_TYPE: website
+#+DESCRIPTION: Zagyarakushi's website
+
+* Donate
+:PROPERTIES:
+:CUSTOM_ID: Donate
+:END:
+
+I should probably put a donation link on every post and actively encourage people to donate considering the situation (I am a recent grad remember? We all know how that goes...). I should also put as many donation services as possible so that there is less friction for people (Convienience. Speed. Ease. These are what makes most people spend more...).
+
+But I feel like supporting something which can benefit most people including me in the future is more important than trying to fix a situation that is temporary anyway. So, I decided to accept Monero and Monero only. If you haven't guessed by now, it's about financial privacy. It's one of the most important things because your payment history can reveal almost everything about your life including something that you might not realise yourself.
+
+The solution is Monero. Accepting only Monero should encourage people to adopt and use it rather than using something else. The more people use it, the more known it becomes. The more known it becomes, the more people use it.
+
+Just use Monero.
+
+Monero (XMR)
+#+begin_src
+84iB7k7it8tLy3yTzfr6twaDJJfbm9esaYYq5tPwovPHaaE2gUVc13XSo93XVqzciT3pKrLCaGqRzJUW3PfZN8ZJ3NkDgBf
+#+end_src

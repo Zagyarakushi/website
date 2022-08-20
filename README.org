@@ -1,3 +1,5 @@
 * General
 
-This is the source of my personal blog at [[http://writepermission.com][writepermission.com]].
+This is the source of my personal website at [[https://zagyarakushi.gitlab.io][zagyarakushi.gitlab.io]].
+
+Original code and layout was from [[https://gitlab.com/to1ne/blog][to1ne]] which I modified to suit my own needs.

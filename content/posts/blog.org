@@ -1,0 +1,8 @@
+#+TITLE: Zagyarakushi | zagyarakushi.gitlab.io
+#+OPTIONS: title:nil
+#+META_TYPE: website
+#+DESCRIPTION: Zagyarakushi's blog
+
+#+ATTR_HTML: :class sitemap
+- [[file:2022/04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.org][How to get m i n i m a l i s t Void Linux setup]] /Posted on 2022-04-26/
+- [[file:2022/03/21/chad-becomes-virgin-and-goes-to-the-dark-side.org][Chad becomes Virgin and goes to the dark side]] /Posted on 2022-03-21/

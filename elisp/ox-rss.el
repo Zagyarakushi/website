@@ -346,7 +346,7 @@ as a communication channel."
      "\n<title>%s</title>
 <atom:link href=\"%s\" rel=\"self\" type=\"application/rss+xml\" />
 <link>%s</link>
-<description><![CDATA[%s]]></description>
+<description>This blog is dedicated to help people ascend to higher level and become woke. I will cover topics such as Linux, open source, news, opinions, programming, privacy and security. Also don’t forget to be l33t h4x0r, minimalist and A E S T H E T I C A L.</description>
 <language>%s</language>
 <pubDate>%s</pubDate>
 <lastBuildDate>%s</lastBuildDate>
@@ -358,7 +358,7 @@ as a communication channel."
 <link>%s</link>
 </image>
 "
-     title publink blogurl description lang date date
+     title publink blogurl lang date date
      (concat (format "Emacs %d.%d"
 		     emacs-major-version
 		     emacs-minor-version)

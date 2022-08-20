@@ -1,0 +1,21 @@
+#+TITLE: About
+#+OPTIONS: title:nil
+#+META_TYPE: website
+#+DESCRIPTION: Zagyarakushi's website
+
+* About
+:PROPERTIES:
+:CUSTOM_ID: About
+:END:
+
+I am a recent computer science graduate.
+I'm a philomath determined to be a polymath.
+
+The name Zagyarakushi is based on Za Warudo. If you know, you know.
+
+Contact me:
+#+begin_src
+zagyarakushi.zeydc@simplelogin.co
+#+end_src
+
+*A more secure way of communication will be added later.

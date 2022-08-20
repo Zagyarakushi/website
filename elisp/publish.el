@@ -5,6 +5,9 @@
 ;; This file takes care of exporting org files to the public directory.
 ;; Images and such are also exported without any processing.
 
+;; Originally made by Toon Claes from https://writepermission.com/
+;; Then modified by Zagyarakushi from https://zagyarakushi.gitlab.io/
+
 ;;; Code:
 
 (require 'package)
@@ -22,10 +25,10 @@
 (require 'ox-publish)
 (require 'ox-rss)
 
-(defvar rw-url "https://writepermission.com/"
+(defvar rw-url "https://zagyarakushi.gitlab.io/" ;; Changed URL
   "The URL where this site will be published.")
 
-(defvar rw-title "rw-r--r-- | writepermission.com"
+(defvar rw-title "Zagyarakushi | zagyarakushi.gitlab.io" ;; Changed title
   "The title of this site.")
 
 (defvar rw--root
@@ -33,7 +36,7 @@
                           (lambda (dir)
                             (seq-every-p
                              (lambda (file) (file-exists-p (expand-file-name file dir)))
-                             '(".git" "content" "css" "elisp" "favicon.ico" "layouts" "posts"))))
+                             '(".git" "content" "elisp" "layouts")))) ;; Changed the directory structure so this had to be changed.
   "Root directory of this project.")
 
 (defvar rw--layouts-directory
@@ -55,7 +58,7 @@
 
 (defun rw/format-date-subtitle (file project)
   "Format the date found in FILE of PROJECT."
-  (format-time-string "posted on %Y-%m-%d" (org-publish-find-date file project)))
+  (format-time-string "Posted on %Y-%m-%d" (org-publish-find-date file project))) ;; Changed p to capital
 
 (defun rw/org-html-close-tag (tag &rest attrs)
   "Return close-tag for string TAG.
@@ -65,7 +68,7 @@ ATTRS specify additional attributes."
                        (format "%s=\"%s\"" (car attr) (cadr attr)))
                      attrs
                      " ")
-	  ">"))
+	        ">"))
 
 (defun rw/html-head-extra (file project)
   "Return <meta> elements for nice unfurling on Twitter and Slack."
@@ -84,14 +87,34 @@ ATTRS specify additional attributes."
          (description (org-publish-find-property file :description project))
          (link-home (file-name-as-directory (plist-get info :html-link-home)))
          (extension (or (plist-get info :html-extension) org-html-extension))
-	 (rel-file (org-publish-file-relative-name file info))
+	       (rel-file (file-relative-name file (expand-file-name "content" rw--root))) ;; Modified to allow relative name from the project root
          (full-url (concat link-home (file-name-sans-extension rel-file) "." extension))
+         (css-url (concat link-home (file-name-sans-extension (file-relative-name (expand-file-name "content/res/css/custom.css" rw--root) (expand-file-name "content" rw--root))) ".css")) ;; Generate URL to the css file
          (image (concat link-home (org-publish-find-property file :meta-image project)))
-         (favicon (concat link-home "favicon.ico"))
+         (favicon (concat link-home "res/icons/favicon.ico"))
+         (apple-touch-icon (concat link-home "res/icons/apple-touch-icon.png"))
+         (webmanifest (concat link-home "res/icons/site.webmanifest"))
+         (favicon32 (concat link-home "res/icons/favicon-32x32.png"))
+         (favicon16 (concat link-home "res/icons/favicon-16x16.png"))
          (type (org-publish-find-property file :meta-type project)))
     (mapconcat 'identity
-               `(,(rw/org-html-close-tag "link" '(rel icon) '(type image/x-icon) `(href ,favicon))
+               ;; Added metadata to restrict bots
+               `(,(rw/org-html-close-tag "meta" '(name robots) '(content noindex))
+                 ,(rw/org-html-close-tag "meta" '(name robots) '(content nofollow))
+                 ,(rw/org-html-close-tag "meta" '(name robots) '(content noarchive))
+                 ,(rw/org-html-close-tag "meta" '(name robots) '(content nocache))
+                 ,(rw/org-html-close-tag "meta" '(name robots) '(content notranslate))
+                 ,(rw/org-html-close-tag "meta" '(name robots) '(content noimageindex))
+                 ,(rw/org-html-close-tag "meta" '(name robots) '(content nosnippet))
+                 ,(rw/org-html-close-tag "meta" '(name referrer) '(content noreferrer))
+                 ,(rw/org-html-close-tag "link" '(rel stylesheet) '(type text/css) '(href "https://cdn.simplecss.org/simple.min.css")) ;; Added CSS link
+                 ,(rw/org-html-close-tag "link" '(rel stylesheet) '(type text/css) `(href ,css-url)) ;; Customization of the above css file
                  ,(rw/org-html-close-tag "link" '(rel alternate) '(type application/rss+xml) '(href "rss.xml") '(title "RSS feed"))
+                 ,(rw/org-html-close-tag "link" '(rel apple-touch-icon) '(sizes 180x180) `(href ,apple-touch-icon))
+                 ,(rw/org-html-close-tag "link" '(rel manifest) `(href ,webmanifest))
+                 ,(rw/org-html-close-tag "link" '(rel icon) '(type image/png) '(sizes 32x32) `(href ,favicon32))
+                 ,(rw/org-html-close-tag "link" '(rel icon) '(type image/png) '(sizes 16x16) `(href ,favicon16))
+                 ,(rw/org-html-close-tag "link" '(rel icon) '(type image/x-icon) `(href ,favicon))
                  ,(rw/org-html-close-tag "meta" '(property og:title) `(content ,title))
                  ,(rw/org-html-close-tag "meta" '(property og:url) `(content ,full-url))
                  ,(and description
@@ -102,7 +125,6 @@ ATTRS specify additional attributes."
                        (rw/org-html-close-tag "meta" '(property article:author) `(content ,author)))
                  ,(and (equal type "article")
                        (rw/org-html-close-tag "meta" '(property article:published_time) `(content ,(format-time-string "%FT%T%z" date))))
-
                  ,(rw/org-html-close-tag "meta" '(property twitter:title) `(content ,title))
                  ,(rw/org-html-close-tag "meta" '(property twitter:url) `(content ,full-url))
                  ,(rw/org-html-close-tag "meta" '(property twitter:image) `(content ,image))
@@ -144,7 +166,8 @@ INFO      the export options (plist)."
                  text)))
     (org-html-format-headline-default-function todo todo-type priority link tags info)))
 
-(defun rw/org-publish-sitemap (title list)
+;;  Changed function name to add a unique description per sitemap
+(defun rw/org-publish-blog-sitemap (title list)
   "Generate sitemap as a string, having TITLE.
 LIST is an internal representation for the files to include, as
 returned by `org-list-to-lisp'."
@@ -154,9 +177,25 @@ returned by `org-list-to-lisp'."
     (concat "#+TITLE: " title "\n"
             "#+OPTIONS: title:nil\n"
             "#+META_TYPE: website\n"
-            "#+DESCRIPTION: Toon Claes' personal blog\n"
+            "#+DESCRIPTION: Zagyarakushi's blog\n"
             "\n#+ATTR_HTML: :class sitemap\n"
-            ; TODO use org-list-to-subtree instead
+                                        ; TODO use org-list-to-subtree instead
+            (org-list-to-org filtered-list))))
+
+;;  Changed function name to add a unique description per sitemap
+(defun rw/org-publish-project-sitemap (title list)
+  "Generate sitemap as a string, having TITLE.
+LIST is an internal representation for the files to include, as
+returned by `org-list-to-lisp'."
+  (let ((filtered-list (cl-remove-if (lambda (x)
+                                       (and (sequencep x) (null (car x))))
+                                     list)))
+    (concat "#+TITLE: " title "\n"
+            "#+OPTIONS: title:nil\n"
+            "#+META_TYPE: website\n"
+            "#+DESCRIPTION: Zagyarakushi's projects\n"
+            "\n#+ATTR_HTML: :class sitemap\n"
+                                        ; TODO use org-list-to-subtree instead
             (org-list-to-org filtered-list))))
 
 (defun rw/org-publish-sitemap-entry (entry style project)
@@ -177,9 +216,10 @@ PROJECT is the current project."
          (let* ((file (org-publish--expand-file-name entry project))
                 (title (org-publish-find-title entry project))
                 (date (format-time-string "%Y-%m-%d" (org-publish-find-date entry project)))
-                (link (concat (file-name-sans-extension entry) ".html")))
+                (link (concat "posts/" (file-name-sans-extension entry) ".html"))) ;; Changed the path to the posts
            (with-temp-buffer
              (insert (format "* [[file:%s][%s]]\n" file title))
+             (org-set-property "RSS_TITLE" title) ;; Set this property for correct RSS article title
              (org-set-property "RSS_PERMALINK" link)
              (org-set-property "PUBDATE" date)
              (insert-file-contents file)
@@ -233,80 +273,117 @@ and PUB-DIR the output directory."
           (insert content)
           (write-file other-file))))))
 
-
 (defvar rw--publish-project-alist
-      (list
-       (list "blog-posts"
-             :base-directory (expand-file-name "posts" rw--root)
-             :base-extension "org"
-             :recursive nil
-             :exclude (regexp-opt '("rss.org" "index.org"))
-             :publishing-function 'rw/org-html-publish-to-html
-             :publishing-directory (expand-file-name "public" rw--root)
-             :html-head-include-default-style nil
-             :html-head-include-scripts nil
-             :html-htmlized-css-url "css/style.css"
-             :html-preamble-format (rw--pre/postamble-format 'preamble)
-             :html-postamble t
-             :html-postamble-format (rw--pre/postamble-format 'postamble)
-             :html-format-headline-function 'rw/org-html-format-headline-function
-             :html-link-home rw-url
-             :html-home/up-format ""
-             :auto-sitemap t
-             :sitemap-filename "index.org"
-             :sitemap-title rw-title
-             :sitemap-style 'list
-             :sitemap-sort-files 'anti-chronologically
-             :sitemap-function 'rw/org-publish-sitemap
-             :sitemap-format-entry 'rw/org-publish-sitemap-entry
-             :author "Toon Claes"
-             :email ""
-             :meta-image "content/rw-r--r--square.png"
-             :meta-type "article")
-       (list "blog-rss"
-             :base-directory (expand-file-name "posts" rw--root)
-             :base-extension "org"
-             :recursive nil
-             :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
-             :publishing-function 'rw/org-rss-publish-to-rss
-             :publishing-directory (expand-file-name "public" rw--root)
-             :rss-extension "xml"
-             :html-link-home rw-url
-             :html-link-use-abs-url t
-             :html-link-org-files-as-html t
-             :auto-sitemap t
-             :sitemap-filename "rss.org"
-             :sitemap-title rw-title
-             :sitemap-style 'list
-             :sitemap-sort-files 'anti-chronologically
-             :sitemap-function 'rw/format-rss-feed
-             :sitemap-format-entry 'rw/format-rss-feed-entry
-             :author "Toon Claes"
-             :email "")
-       (list "blog-static"
-             :base-directory rw--root
-             :exclude (regexp-opt '("public/" "layouts/"))
-             :base-extension rw--site-attachments
-             :publishing-directory (expand-file-name "public" rw--root)
-             :publishing-function 'org-publish-attachment
-             :recursive t)
-       (list "blog-acme"
-             :base-directory (expand-file-name ".well-known" rw--root)
-             :base-extension 'any
-             :publishing-directory (expand-file-name "public/.well-known" rw--root)
-             :publishing-function 'org-publish-attachment
-             :recursive t)
-       (list "blog-redirects"
-             :base-directory (expand-file-name "posts" rw--root)
-             :base-extension "org"
-             :recursive nil
-             :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
-             :publishing-function 'rw/publish-redirect
-             :publishing-directory (expand-file-name "public" rw--root)
-             :redirect-layout (expand-file-name "layouts/redirect.html" rw--root))
-       (list "site"
-             :components '("blog-posts" "blog-rss" "blog-static" "blog-acme" "blog-redirects"))
-       ))
+  (list
+   (list "main"
+         :base-directory (expand-file-name "content" rw--root)
+         :base-extension "org"
+         :recursive nil
+         :publishing-function 'rw/org-html-publish-to-html
+         :publishing-directory (expand-file-name "public" rw--root)
+         :html-head-include-default-style nil
+         :html-head-include-scripts nil
+         :html-preamble-format (rw--pre/postamble-format 'preamble)
+         :html-postamble t
+         :html-postamble-format (rw--pre/postamble-format 'postamble)
+         :html-format-headline-function 'rw/org-html-format-headline-function
+         :html-link-home rw-url
+         :html-home/up-format ""
+         :author "Zagyarakushi"
+         :email ""
+         :meta-image "res/icons/ogimage.png"
+         :meta-type "website")
+   (list "blog-posts"
+         :base-directory (expand-file-name "content/posts" rw--root)
+         :base-extension "org"
+         :recursive t
+         :exclude (regexp-opt '("rss.org" "blog.org"))
+         :publishing-function 'rw/org-html-publish-to-html
+         :publishing-directory (expand-file-name "public/posts" rw--root)
+         :html-head-include-default-style nil
+         :html-head-include-scripts nil
+         :html-preamble-format (rw--pre/postamble-format 'preamble)
+         :html-postamble t
+         :html-postamble-format (rw--pre/postamble-format 'postamble)
+         :html-format-headline-function 'rw/org-html-format-headline-function
+         :html-link-home rw-url
+         :html-home/up-format ""
+         :auto-sitemap t
+         :sitemap-filename "blog.org"
+         :sitemap-title rw-title
+         :sitemap-style 'list
+         :sitemap-sort-files 'anti-chronologically
+         :sitemap-function 'rw/org-publish-blog-sitemap
+         :sitemap-format-entry 'rw/org-publish-sitemap-entry
+         :author "Zagyarakushi"
+         :email ""
+         :meta-image "res/icons/ogimage.png"
+         :meta-type "article")
+   (list "blog-rss"
+         :base-directory (expand-file-name "content/posts" rw--root)
+         :base-extension "org"
+         :recursive t
+         :exclude (regexp-opt '("rss.org" "blog.org" "404.org"))
+         :publishing-function 'rw/org-rss-publish-to-rss
+         :publishing-directory (expand-file-name "public" rw--root)
+         :rss-extension "xml"
+         :html-link-home rw-url
+         :html-link-use-abs-url t
+         :html-link-org-files-as-html t
+         :auto-sitemap t
+         :sitemap-filename "rss.org"
+         :sitemap-title rw-title
+         :sitemap-style 'list
+         :sitemap-sort-files 'anti-chronologically
+         :sitemap-function 'rw/format-rss-feed
+         :sitemap-format-entry 'rw/format-rss-feed-entry
+         :rss-image-url "https://zagyarakushi.gitlab.io/res/icons/android-chrome-192x192.png"
+         :author "Zagyarakushi"
+         :email "")
+   (list "blog-static"
+         :base-directory (expand-file-name "content" rw--root)
+         :exclude (regexp-opt '("public/" "layouts/"))
+         :base-extension rw--site-attachments
+         :publishing-directory (expand-file-name "public" rw--root)
+         :publishing-function 'org-publish-attachment
+         :recursive t)
+   (list "projects"
+         :base-directory (expand-file-name "content/projects" rw--root)
+         :base-extension "org"
+         :recursive nil
+         :exclude (regexp-opt '("rss.org" "projects.org"))
+         :publishing-function 'rw/org-html-publish-to-html
+         :publishing-directory (expand-file-name "public/projects" rw--root)
+         :html-head-include-default-style nil
+         :html-head-include-scripts nil
+         :html-preamble-format (rw--pre/postamble-format 'preamble)
+         :html-postamble t
+         :html-postamble-format (rw--pre/postamble-format 'postamble)
+         :html-format-headline-function 'rw/org-html-format-headline-function
+         :html-link-home rw-url
+         :html-home/up-format ""
+         :auto-sitemap t
+         :sitemap-filename "projects.org"
+         :sitemap-title rw-title
+         :sitemap-style 'list
+         :sitemap-sort-files 'anti-chronologically
+         :sitemap-function 'rw/org-publish-project-sitemap
+         :sitemap-format-entry 'rw/org-publish-sitemap-entry
+         :author "Zagyarakushi"
+         :email ""
+         :meta-image "res/icons/ogimage.png"
+         :meta-type "article")
+   (list "blog-redirects"
+         :base-directory (expand-file-name "content" rw--root)
+         :base-extension "org"
+         :recursive nil
+         :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
+         :publishing-function 'rw/publish-redirect
+         :publishing-directory (expand-file-name "public" rw--root)
+         :redirect-layout (expand-file-name "layouts/redirect.html" rw--root))
+   (list "site"
+         :components '("blog-posts" "blog-rss" "blog-static" "projects" "main" "blog-redirects"))
+   ))
 
 (defun rw-publish-all ()
   "Publish the blog to HTML."

@@ -180,6 +180,7 @@ PROJECT is the current project."
                 (link (concat (file-name-sans-extension entry) ".html")))
            (with-temp-buffer
              (insert (format "* [[file:%s][%s]]\n" file title))
+             (org-set-property "RSS_TITLE" title)
              (org-set-property "RSS_PERMALINK" link)
              (org-set-property "PUBDATE" date)
              (insert-file-contents file)

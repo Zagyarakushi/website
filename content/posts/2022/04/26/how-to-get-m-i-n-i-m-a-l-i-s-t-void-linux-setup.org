@@ -66,6 +66,31 @@ touch /etc/sv/agetty-tty3/down
 :CUSTOM_ID: Advanced
 :END:
 
+*** Use musl instead of glibc
+:PROPERTIES:
+:CUSTOM_ID: Use-musl-instead-of-glib
+:END:
+
+musl is an implementation of a C library that is lightweight, fast, simple, free, and strives to be correct in the sense of standards-conformance and safety.
+
+Void Linux provides musl images for amd64 and arm architectures (no x86 support yet). musl version of Void Linux has all the packages compiled using musl which should produce simpler code compared to glibc. However, since glibc is what most people have been using, some software may not compile or work properly. This can be solved by using flatpak or chroot. See [[https://docs.voidlinux.org/installation/musl.html][this]] page for more information.
+
+So far I have not experienced any problems except the intial hurdle of finding out which software works and doesn't. nss-mdns does not work so you may need something like nsss or mDNSResponder. Tor browser also do not work so I use flatpak to run it. 32bit stuff does not work so things like wine is not supported. You can still use flatpak or chroot to solve these though.
+
+*** Use sbase, ubase and sinit
+:PROPERTIES:
+:CUSTOM_ID: use-sbase-ubase-and-sinit
+:END:
+
+Recently, I tried to replace gnu coreutils with sbase, util-linux with ubase and runit with sinit. I did manage to use sbase and ubase but Void Linux still relies heavily on gnu coreutils and many packages depend on it. I did not manage to replace runit with sinit. I am back to gnu coreutils for now.
+
+*** Use tcc the tiny c compiler
+:PROPERTIES:
+:CUSTOM_ID: use-tcc-the-tiny-c-compiler
+:END:
+
+tcc is faster and more lightweight compared to gcc. I have recently started using tcc to compile suckless stuff like dwm, st, dmenu etc. I have not compared the size or speed of the compiled binaries but I know that gcc is big. Very big. I have briefly played around with Kiss Linux and building gcc took long. I did not time how long it took but maybe around 3 to 4 hours
+
 *** Kernel
 :PROPERTIES:
 :CUSTOM_ID: Kernel
@@ -79,7 +104,6 @@ You can compile your own kernel. I've not tried this yet.
 :END:
 
 You can try to compile all software and even have your own patch that removes the functionality that you don't need. Just like Gentoo. I've not tried this either.
-
 ** Conclusion
 :PROPERTIES:
 :CUSTOM_ID: Conclusion
@@ -88,6 +112,8 @@ You can try to compile all software and even have your own patch that removes th
 Now you are able to configure your system from scratch in the most minimal way possible. Going this minimal may take some time to figure out all the packages and get used to but once everything is setup, there is no need to change it again.
 
 Hopefully, you also documentated all the steps and packages required so that you can have identical setup when you reinstall your system.
+
+Also see [[http://harmful.cat-v.org/software/][hamful stuff]] on cat-v and suckless's [[https://suckless.org/rocks/][rocks]] and [[https://suckless.org/sucks/][sucks]].
 
 ** Want to help?
 :PROPERTIES:

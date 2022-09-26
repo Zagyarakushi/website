@@ -1,0 +1,1020 @@
+#+title: How to install Void Linux the minimalist way
+#+DATE: <2022-09-26 Mon>
+#+DESCRIPTION: This post shows you how to install Void Linux the way you want it to be.
+
+This is only one of many ways to install Void Linux. A (very) primitive install script is also available to speed up the process. Please also read the Void Linux documentation and Arch Linux wiki which contains pretty much everything you need to know.
+
+* Part 0: The preparation
+:PROPERTIES:
+:CUSTOM_ID: preparation
+:END:
+
+** Intro to partitioning
+:PROPERTIES:
+:CUSTOM_ID: partitioning
+:END:
+
+The absolute minimum you need is a boot partition and root partition (for UEFI/GPT). You can further customize to have /home or /usr as seperate partition or even a seperate drive. For example, boot and root on SSD and home on HDD.
+
+*** Some examples for UEFI/GPT:
+:PROPERTIES:
+:CUSTOM_ID: example-partitioning-uefi
+:END:
+**** The HDD for /home example
+:PROPERTIES:
+:CUSTOM_ID: two-drives
+:END:
+
+SSD = /dev/sda
+HDD = /dev/sdb
+/dev/sda1 formatted as F32 and mounted on /boot
+/dev/sda2 formatted as EXT4 and mounted on /
+/dev/sdb1 formatted as EXT4 and mounted on /home
+
+**** The single drive for everything example
+:PROPERTIES:
+:CUSTOM_ID: single-drive
+:END:
+
+HDD = /dev/sda
+/dev/sda1 formatted as F32 and mounted on /boot
+/dev/sda2 formatted as EXT4 and mounted on /
+
+**** The single drive for everything but with swap example
+:PROPERTIES:
+:CUSTOM_ID: single-drive-with-swap
+:END:
+
+HDD = /dev/sda
+/dev/sda1 formatted as F32 and mounted on /boot
+/dev/sda2 formatted as swap and mounted as swap
+/dev/sda3 formatted as EXT4 and mounted on /
+
+*** Some examples for BIOS/MBR:
+:PROPERTIES:
+:CUSTOM_ID: example-partitioning-bios
+:END:
+**** The single drive for everything (literally) example
+:PROPERTIES:
+:CUSTOM_ID: single-drive-bios
+:END:
+
+HDD = /dev/sda
+/dev/sda1 formatted as EXT4 and mounted on /
+
+You can also do something similar to UEFI partitioning.
+
+*** Disk encryption and LVM
+:PROPERTIES:
+:CUSTOM_ID: disk-encryption
+:END:
+
+You should really encrypt anything that may contain sensitive information. We have the basic partitioning but we don't have encryption. Encryption is easy on Linux but there are some rules to follow. Rule 1: Don't encrypt the boot partition. Okay, you CAN encrypt it and some people seem to have managed to do but I have never got it to work. Rule 2: If you don't want to type like 3 or 4 passwords on boot then create keyfiles to auto decrypt all the other partitions or use LVM.
+
+There are also additional security stuff you can do such as secure boot with your own signing key, AEM (anti evil maid), GRUB passwords, boot partition on removable drive, TPM and more. See [[https://wiki.archlinux.org/title/security][this]] for more.
+
+**** The HDD for /home example
+:PROPERTIES:
+:CUSTOM_ID: two-drives-with-encryption
+:END:
+
+This doesn't use LVM.
+
+SSD = /dev/sda
+HDD = /dev/sdb
+/dev/sda1 formatted as F32 and  mounted on /boot
+/dev/sda2 encrypted using cryptsetup
+/dev/mapper/root formatted as EXT4 and mounted on /
+/dev/sdb1 encrypted using cryptsetup but with keyfiles
+/dev/mapper/home formatted as EXT4 and mounted on /home
+
+**** The single drive for everything example
+:PROPERTIES:
+:CUSTOM_ID: single-drive-encryption
+:END:
+
+HDD = /dev/sda
+/dev/sda1 formatted as F32 and mounted on /boot
+/dev/sda2 encrypted using cryptsetup
+/dev/mapper/root formatted as EXT4 and mounted on /
+
+**** The single drive for everything but with swap example
+:PROPERTIES:
+:CUSTOM_ID: single-drive-with-swap-encryption
+:END:
+
+HDD = /dev/sda
+/dev/sda1 formatted as F32 and mounted on /boot
+/dev/sda2 encrypted using cryptsetup
+/dev/mapper/root format as lvm device and create pool
+/dev/mapper/pool-root formatted as EXT4 and mounted on /
+/dev/mapper/pool-swap formatted as swap and mounted as swap
+**** The single drive for everything (literally) example
+:PROPERTIES:
+:CUSTOM_ID: single-drive-bios-encryption
+:END:
+
+This is for BIOS/MBR.
+
+HDD = /dev/sda
+/dev/sda1 encrypted using cryptsetup (--luks1)
+/dev/mapper/root formatted as EXT4 and mounted on /
+
+You can also do something similar to UEFI partitioning.
+
+** Real world example
+:PROPERTIES:
+:CUSTOM_ID: partitioning-real-world-example
+:END:
+
+First set your keymap so that you type the correct password when encrypting your partition.
+
+#+begin_src sh
+  loadkeys $KEYMAP
+#+end_src
+
+Wipe filesystem of your drive.
+
+#+begin_src sh
+  wipefs --all /dev/$YOURDRIVE
+#+end_src
+
+Use cfdisk to create new partitions.
+
+#+begin_src sh
+  cfdisk /dev/$YOURDRIVE
+#+end_src
+
+Select GPT and create partitions for boot and root. Don't forget to change the partition type of boot to EFI System. Now you should have the single drive for everything layout.
+
+Now, encrypt your root.
+
+#+begin_src sh
+  cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random luksFormat $ROOTPARTITION
+#+end_src
+
+Decrypt your root partition.
+
+#+begin_src sh
+  cryptsetup luksOpen $ROOTPARTITION root
+#+end_src
+
+Create physical volume and volume group
+
+#+begin_src sh
+  pvcreate /dev/mapper/root
+  vgcreate pool /dev/mapper/root
+#+end_src
+
+Create 16G swap partition.
+
+#+begin_src sh
+  lvcreate -L 16G -n swap pool
+#+end_src
+
+Create root partition.
+
+#+begin_src sh
+  lvcreate -l 100%FREE -n root pool
+#+end_src
+
+Make filesystem.
+
+#+begin_src sh
+  mkfs.fat -F32 $BOOTPARTITION
+  mkswap /dev/mapper/pool-swap
+  mkfs.ext4 /dev/mapper/pool-root
+#+end_src
+
+Mount the root partition first.
+
+#+begin_src sh
+  mount /dev/mapper/pool-root /mnt
+#+end_src
+
+Create required directories.
+
+#+begin_src sh
+  mkdir /mnt/boot
+  mkdir /mnt/home
+#+end_src
+
+Mount boot.
+
+#+begin_src sh
+  mount $BOOTPARTITION /mnt/boot
+#+end_src
+
+Mount swap.
+
+#+begin_src sh
+  swapon /dev/mapper/pool-swap
+#+end_src
+
+** Useful commands
+:PROPERTIES:
+:ID: partitioning-useful
+:END:
+
+*** wipefs
+:PROPERTIES:
+:ID: wipefs
+:END:
+
+Use wipefs to wipe filesystem to change from GPT to MBR or vice versa.
+
+#+begin_src sh
+  wipefs --all  /dev/YOURDRIVE
+#+end_src
+
+WARNING! THIS WILL WIPE ALL DATA!
+
+*** cfdisk
+:PROPERTIES:
+:ID: cfdisk
+:END:
+
+cfdisk allows you to partition very easily. Just type
+
+#+begin_src sh
+  cfdisk /dev/YOURDRIVE
+#+end_src
+
+Choose GPT or MBR then start create partitions. Make sure to change type of partition to EFI for boot partition if on UEFI. Also change type to swap if creating swap partition.
+
+This command can also be used to format USB and SD cards. Very useful.
+
+*** mkfs
+:PROPERTIES:
+:ID: mkfs
+:END:
+
+mkfs allows you to actually format the parition to filesystem that you want.
+
+For EXT4
+
+#+begin_src sh
+  mkfs.ext4 /dev/YOURPARTITION
+#+end_src
+
+For FAT32
+
+#+begin_src sh
+  mkfs.vfat -F32  /dev/YOURPARTITION
+#+end_src
+
+*** cryptsetup
+:PROPERTIES:
+:ID: cryptsetup
+:END:
+
+To encrypt
+
+#+begin_src sh
+  cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random luksFormat /dev/YOURPARTITION
+#+end_src
+
+Or the simpler version
+
+#+begin_src sh
+  cryptsetup luksFormat /dev/YOURPARTITION
+#+end_src
+
+Keyfile encryption example
+
+#+begin_src sh
+  cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random --key-file key luksFormat $ROOTPARTITION
+#+end_src
+
+To decrypt
+
+#+begin_src sh
+  cryptsetup luksOpen /dev/YOURPARTITION YOURMAPPEDNAME
+#+end_src
+
+Keyfile decryption
+#+begin_src sh
+  cryptsetup --key-file key luksOpen $ROOTPARTITION root
+#+end_src
+
+Create keyfile using dd command.
+
+*** dd
+:PROPERTIES:
+:ID: dd
+:END:
+
+Use dd to create keyfile, create bootable USB and many others.
+
+Use this to create keyfile
+
+#+begin_src sh
+  dd if=/dev/urandom of=key bs=1024 count=20
+#+end_src
+
+*** LVM stuff
+:PROPERTIES:
+:ID: lvm-stuff
+:END:
+
+To create physical volume
+
+#+begin_src sh
+  pvcreate /dev/mapper/YOURMAPPEDNAME
+#+end_src
+
+Create volume group
+
+#+begin_src sh
+  vgcreate pool /dev/mapper/YOURMAPPEDNAME
+#+end_src
+
+Create logical volume
+
+#+begin_src sh
+  lvcreate -l 50G -n root pool
+#+end_src
+
+Create logical volume with all remaining space
+
+#+begin_src sh
+  lvcreate -L 100%FREE -n root pool
+#+end_src
+
+Use something like home or root or pool for NAME
+
+* Part 1: Base system installation
+:PROPERTIES:
+:CUSTOM_ID: base-system-installation
+:END:
+
+** Install base system
+:PROPERTIES:
+:CUSTOM_ID: install-base-system
+:END:
+
+This will install all the required files and packages to mnt. You can change the repository URL and probably should change some packages. Also add /musl to end of URL for musl version (https://alpha.de.repo.voidlinux.org/current/musl).
+
+See [[../../04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.org][this]] to decide which packages to install.
+
+#+begin_src sh
+  xbps-install -S -y --repository=https://alpha.de.repo.voidlinux.org/current -r /mnt base-minimal lvm2 cryptsetup grub-x86_64-efi neovim NetworkManager elogind eudev e2fsprogs usbutils pciutils mdocml linux kbd iputils iproute2 ncurses bash oksh dbus-elogind dbus-elogind-libs dbus-elogind-x11 polkit git opendoas
+#+end_src
+
+** Miscellaneous things to do
+:PROPERTIES:
+:CUSTOM_ID: misc-stuff
+:END:
+
+Change umask for better security (From Arch Linux wiki).
+
+#+begin_src sh
+  sed -i 's/022/077/g' /mnt/etc/profile
+#+end_src
+
+If you are using keyfiles then copy the keyfile to somewhre in /mnt.
+
+#+begin_src sh
+  mkdir /mnt/var/local
+  cp key /mnt/var/local/
+#+end_src
+
+If you are using keyfiles then also add an entry to crypttab to auto decrypt your partition using keyfile. home is name of the partition, the part after UUID= is a function to get UUID of the partition and the last part is the path to keyfile.
+
+#+begin_src sh
+  echo "home UUID=$(blkid -s UUID -o value $HOMEPARTITION) /var/local/key" > /mnt/etc/crypttab
+#+end_src
+
+** Mount the additional stuff
+:PROPERTIES:
+:CUSTOM_ID: mount-additional
+:END:
+
+Mount some devices and stuff thats required.
+
+#+begin_src sh
+  for dir in dev proc sys run; do mkdir -p /mnt/$dir ; mount --rbind /$dir /mnt/$dir ; mount --make-rslave /mnt/$dir ; done
+#+end_src
+
+** Chroot
+:PROPERTIES:
+:CUSTOM_ID: chroot
+:END:
+
+#+begin_src sh
+  chroot /mnt /bin/bash
+#+end_src
+
+* Part 2: Basic system setup
+:PROPERTIES:
+:CUSTOM_ID: basic-system-setup
+:END:
+
+In this section, we will setup the system and make it bootable.
+
+** Change root password and set permissions
+:PROPERTIES:
+:CUSTOM_ID: change-root-password-and-set-permissions
+:END:
+
+Change root password.
+
+#+begin_src sh
+  passwd root
+#+end_src
+
+Set ownership of /. The first root is the user root and second root is the group root.
+
+#+begin_src sh
+  chown root:root /
+#+end_src
+
+Set permission.
+
+#+begin_src sh
+  chmod 755 /
+#+end_src
+
+** Create user
+:PROPERTIES:
+:CUSTOM_ID: create-user
+:END:
+
+Add a new user.
+
+#+begin_src sh
+  useradd -m -s /bin/oksh -U -G wheel,users,audio,video,input $USERNAME
+#+end_src
+
+Set password for new user.
+
+#+begin_src sh
+  passwd $USERNAME
+#+end_src
+
+** Setup locale, timezone, network services etc
+:PROPERTIES:
+:CUSTOM_ID: setup-locale-timezone-network
+:END:
+
+Set locale. Make sure to change if different.
+
+#+begin_src sh
+  en_US.UTF-8 UTF-8" >> /etc/default/libc-locales
+#+end_src
+
+If using glibc instead of musl then set glibc-locales as well.
+
+#+begin_src sh
+  xbps-reconfigure -f glibc-locales
+#+end_src
+
+Set timezone.
+
+#+begin_src sh
+  ln -s /usr/share/zoneinfo/$TIMEZONE > /etc/localtime
+#+end_src
+
+Sync the hardware/bios clock.
+
+#+begin_src sh
+  hwclock --systohc --utc
+#+end_src
+
+Set hostname.
+
+#+begin_src sh
+  echo $HOSTNAME > /etc/hostname
+#+end_src
+
+If you want to auto decrypt on boot then add an entry in dracut.
+
+#+begin_src sh
+  echo 'install_items+=" /var/local/key /etc/crypttab "' > /etc/dracut.conf.d/10-crypt.conf
+#+end_src
+
+Make sure to use this to enable only the features needed for your PC.
+
+#+begin_src sh
+  echo 'hostonly=yes' > /etc/dracut.conf.d/hostonly.conf
+#+end_src
+
+Add some services that you want like NetworkManager.
+
+#+begin_src sh
+  ln -s /etc/sv/NetworkManager /var/service/
+  ln -s /etc/sv/dbus /var/service/
+  ln -s /etc/sv/polkitd /var/service/
+  ln -s /etc/sv/elogind /var/service/
+#+end_src
+
+Add the user to network so that user can use nmtui without root permission.
+
+#+begin_src sh
+  gpasswd -a "$USERNAME" network
+#+end_src
+
+I also setup doas so that when I boot into the system, I can use doas.
+
+#+begin_src sh
+  echo "permit persist keepenv :wheel" > /etc/doas.conf
+  echo "permit nopass keepenv root" >> /etc/doas.conf
+  echo "permit nopass keepenv :wheel cmd reboot" >> /etc/doas.conf
+  echo "permit nopass keepenv :wheel cmd poweroff" >> /etc/doas.conf
+  echo "permit nopass keepenv :wheel cmd zzz" >> /etc/doas.conf
+  echo "permit nopass keepenv :wheel cmd ZZZ" >> /etc/doas.conf
+#+end_src
+
+** Setup fstab
+:PROPERTIES:
+:CUSTOM_ID: setup-fstab
+:END:
+
+Note: fstab is pronounced fs tab (for filesystem table). Not f stab :).
+
+Here just change the variable to the partition that will be mounted on startup.
+
+#+begin_src sh
+  echo "UUID=$(blkid -s UUID -o value $HOMEPARTITION) /home   ext4    defaults                0       0" > /etc/fstab
+  echo "UUID=$(blkid -s UUID -o value $ROOTPARTITION) /   ext4    defaults                    0       0" >> /etc/fstab
+  echo "UUID=$(blkid -s UUID -o value $SWAPPARTITION) none   swap    defaults                    0       0" >> /etc/fstab
+  echo "UUID=$(blkid -s UUID -o value $BOOTPARTITION) /boot   vfat    defaults                    0       0" >> /etc/fstab
+#+end_src
+
+For example, in this case, $BOOTPARTITION should be something like /dev/sda1, $ROOTPARTITION is /dev/mapper/pool-root, $SWAPARTITION is /dev/mapper/pool-swap.
+
+If using keyfile for home or other partition then make sure to use the one that is going to be mounted. For example, /dev/mapper/home if not using LVM and /dev/mapper/pool-home if using LVM.
+
+** Setup bootloader
+:PROPERTIES:
+:CUSTOM_ID: setup-bootloader
+:END:
+
+Note: This section can be improved so that it is easier.
+
+Add this to allow decryption of encrypted partition.
+
+#+begin_src sh
+  echo "GRUB_ENABLE_CRYPTODISK=y" >> /etc/default/grub
+#+end_src
+
+Add this to specify the encrypted partition.
+
+#+begin_src sh
+  echo "rd.auto=1 cryptdevice=UUID= quiet" >> /etc/default/grub
+#+end_src
+
+Now, copy the UUID of the encrypted partition. In this case it is /dev/sda2.
+
+#+begin_src sh
+  echo "UUID=$(blkid -s UUID -o value $ROOTPARTITIONORG)" >> /etc/default/grub
+#+end_src
+
+Edit the grub config.
+
+#+begin_src sh
+  vim /etc/default/grub
+#+end_src
+
+Make sure to combine them so that it is like this.
+
+#+begin_src sh
+  GRUB_CMDLINE_LINUX_DEFAULT="loglevel=4 rd.auto=1 cryptdevice=UUID=$YOURUUID:lvm quiet"
+#+end_src
+
+The :lvm is needed if you are using LVM. If not then you can omit this part.
+
+Now, install and configure bootloader.
+
+#+begin_src sh
+  grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id="Void Linux" --recheck
+  grub-mkconfig -o /boot/grub/grub.cfg
+#+end_src
+
+Most bios are buggy and they assume the directory and filenames to boot from. To solve this, copy the necessary stuff to the directory that windows use. And rename them to the one that windows use.
+
+#+begin_src sh
+  mkdir /boot/EFI/BOOT
+  cp "/boot/EFI/Void Linux/grubx64.efi" /boot/EFI/BOOT/bootx64.efi
+  rm -rf "/boot/EFI/Void Linux"
+#+end_src
+
+** Reconfigure kernel
+:PROPERTIES:
+:CUSTOM_ID: reconfigure-kernel
+:END:
+
+Reconfigure kernel to build all the modules, firmwares and set dracut etc.
+
+#+begin_src sh
+  xbps-reconfigure -fa
+#+end_src
+
+** Reboot
+:PROPERTIES:
+:CUSTOM_ID: reboot
+:END:
+
+Just do
+
+#+begin_src sh
+  reboot
+#+end_src
+
+to reboot into your new system.
+
+* Part 3: Ricing
+:PROPERTIES:
+:CUSTOM_ID: ricing
+:END:
+
+In this section, we will install some additional software, remove unnecessary services and setup more services and dotfiles.
+
+** Install software
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software
+:END:
+
+This section lists some packages that I use. Some of the packages are there just so people can choose it as an option.
+
+**** Install additional repo
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-repo
+:END:
+
+#+begin_src sh
+  xbps-install -S -y void-repo-nonfree
+#+end_src
+
+**** Media packages
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-media
+:END:
+
+Leave out bluetooth if you don't use them. Install stuff for alsa and jack if you use them.
+
+#+begin_src sh
+  xbps-install -S -y pipewire libspa-bluetooth mpv yt-dlp ffmpeg pipe-viewer pulsemixer ncmpcpp mpd cmus mpc newsboat sxiv
+#+end_src
+
+**** Graphics drivers
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-graphics-drivers
+:END:
+
+Includes intel and amd. You should only need one of them.
+
+#+begin_src sh
+  xbps-install -S -y mesa mesa-dri vulkan-loader mesa-vaapi mesa-vdpa vdpauinfo libva-utils libva-vdpau-driver xf86-video-amdgpu mesa-vulkan-radeon intel-video-accel mesa-vulkan-intel xf86-video-intel
+#+end_src
+
+**** Browsers
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-browsers
+:END:
+
+Dont install tor browser if on musl. Use flatpak instead.
+
+#+begin_src sh
+  xbps-install -S -y firefox chromium netsurf w3m lynx torbrowser-launcher
+#+end_src
+
+**** Android
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-android
+:END:
+
+#+begin_src sh
+  xbps-install -S -y android-tools simple-mtpfs android-udev-rules
+#+end_src
+
+**** Printer
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-printer
+:END:
+
+#+begin_src sh
+  xbps-install -S -y cups cups-filters sane gutenprint
+#+end_src
+
+**** Japanese/Chinese/Korean input method.
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-input-method
+:END:
+
+#+begin_src sh
+  xbps-install -S -y fcitx fcitx-mozc fcitx-configtool libfcitx-gtk3 libfcitx-gtk libfcitx
+#+end_src
+
+**** Hostname resolution
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-hostname-resolution
+:END:
+
+Don't install nss-mdns if on musl. (To be updated)
+
+#+begin_src sh
+  xbps-install -S -y avahi avahi-utils nss-mdns nsss mDNSResponder
+#+end_src
+
+**** Bluetooth
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-bluetooth
+:END:
+
+#+begin_src sh
+  xbps-install -S -y bluez
+#+end_src
+
+**** Things needed to compile suckless tools.
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-compile
+:END:
+
+#+begin_src sh
+ xbps-install -S -y  pkg-config libX11-devel libXft-devel libXinerama-devel libXrandr-devel make tcc gcc libgcc-devel musl musl-devel glib glib-devel
+#+end_src
+
+**** Fonts
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-fonts
+:END:
+
+#+begin_src sh
+    xbps-install -S -y noto-fonts-cjk noto-fonts-emoji noto-fonts-ttf noto-fonts-ttf-extra font-awesome
+#+end_src
+
+**** Office
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-office
+:END:
+
+#+begin_src sh
+  xbps-install -S -y libreoffice texlive-bin
+#+end_src
+
+**** Image editors
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-image-editors
+:END:
+
+#+begin_src sh
+  xbps-install -S -y gimp inkskape krita
+#+end_src
+
+**** Virtual Machine
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-virtual-machine
+:END:
+
+#+begin_src sh
+  xbps-install -S -y virt-manager virt-manager-tools libvirt qemu
+#+end_src
+
+**** xorg
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-xorg
+:END:
+
+#+begin_src sh
+  xbps-install -S -y xorg-minimal
+#+end_src
+
+**** Text editors
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-text-editors
+:END:
+
+#+begin_src sh
+  xbps-install -S -y emacs-gtk3 neovim sam
+#+end_src
+
+**** Password managers
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-password-managers
+:END:
+
+#+begin_src sh
+  xbps-install -S -y keepassxc pass
+#+end_src
+
+**** Misc
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-misc
+:END:
+
+#+begin_src sh
+  xbps-install -S -y htop calcurse wget curl cmatrix neofetch dunst dosfstools libnotify exfat-utils ntfs-3g maim xclip socklog-void ntp  snooze xset xsetroot man-db setxkbmap xdg-user-dirs xrandr xss-lock unzip unrar intel-ucode ufw arandr xdpyinfo redshift man-pages man-pages-posix xdotool xrdb tmux xwallpaper unclutter-xfixes atool picom aria2 python3-pip libinput less openssh flatpak xdg-user-dirs-gtk xdg-desktop-portal xdg-desktop-portal-gtk python3-distro python3-magic libcaca python3-dbus libinput-gestures tlp-rdw smartmontools acpilight
+#+end_src
+
+**** Flatpak
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-flatpak
+:END:
+
+#+begin_src sh
+  flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+#+end_src
+
+**** Flatpak apps
+:PROPERTIES:
+:CUSTOM_ID: ricing-install-software-flatpak-apps
+:END:
+
+#+begin_src sh
+  flatpak --user install flathub com.microsoft.Teams
+  flatpak --user install flathub org.kde.kdenlive
+  flatpak --user install flathub com.valvesoftware.Steam
+  flatpak --user install flathub com.bitwarden.desktop
+  flatpak --user install flathub com.github.micahflee.torbrowser-launcher
+#+end_src
+
+** Remove unnecessary services
+:PROPERTIES:
+:CUSTOM_ID: remove-unnecessary-services
+:END:
+
+Remove unless you need them.
+
+#+begin_src sh
+rm /var/service/agetty-tty6
+rm /var/service/agetty-tty5
+rm /var/service/agetty-tty4
+rm /var/service/agetty-tty3
+
+touch /etc/sv/agetty-tty6/down
+touch /etc/sv/agetty-tty5/down
+touch /etc/sv/agetty-tty4/down
+touch /etc/sv/agetty-tty3/down
+#+end_src
+
+** Setup services, dotfiles etc
+:PROPERTIES:
+:CUSTOM_ID: setup-services-dotfiles-etc
+:END:
+
+Enable firewall
+
+#+begin_src sh
+  xbps-reconfigure ufw
+  ufw enable
+#+end_src
+
+Enable some services on startup.
+
+#+begin_src sh
+  ln -s /etc/sv/ufw /var/service/
+  ln -s /etc/sv/socklog-unix /var/service/
+  ln -s /etc/sv/nanoklogd /var/service/
+  ln -s /etc/sv/avahi-daemon /var/service/
+  ln -s /etc/sv/cupsd /var/service/
+  ln -s /etc/sv/isc-ntpd /var/service/
+  ln -s /etc/sv/libvirtd /var/service/
+  ln -s /etc/sv/virtlockd /var/service/
+  ln -s /etc/sv/virtlogd /var/service/
+  ln -s /etc/sv/bluetoothd /var/service/
+  ln -s /etc/sv/tlp /var/service/
+#+end_src
+
+Add user to group so you can use virtual machines and bluetooth.
+
+#+begin_src sh
+  gpasswd -a "$USER" libvirt
+  gpasswd -a "$USER" bluetooth
+  gpasswd -a "$USER" kvm
+#+end_src
+
+Enable hostname resolution in avahi.
+
+#+begin_src sh
+  echo "passwd:         files" > /etc/nsswitch.conf
+  echo "group:          files" >> /etc/nsswitch.conf
+  echo "shadow:         files" >> /etc/nsswitch.conf
+  echo "hosts:          files mdns mdns4_minimal mdns4 myhostname mdns_minimal [NOTFOUND=return] dns" >> /etc/nsswitch.conf
+  echo "networks:       files" >> /etc/nsswitch.conf
+  echo "protocols:      files" >> /etc/nsswitch.conf
+  echo "services:       files" >> /etc/nsswitch.conf
+  echo "ethers:         files" >> /etc/nsswitch.conf
+  echo "rpc:            files" >> /etc/nsswitch.conf
+#+end_src
+
+Lock before suspend
+
+#+begin_src sh
+  echo "#!/bin/sh" > /etc/zzz.d/suspend/lockbefore
+  echo "xset s activate" >> /etc/zzz.d/suspend/lockbefore
+  echo "sleep 1" >> /etc/zzz.d/suspend/lockbefore
+  chmod +x /etc/zzz.d/suspend/lockbefore
+#+end_src
+
+Rootless xorg for security.
+
+#+begin_src sh
+  sed -i 's/yes/no/g' /etc/X11/Xwrapper.config
+#+end_src
+
+Lock down boot for security.
+
+#+begin_src sh
+  chmod 700 /boot
+#+end_src
+
+Lock down root account.
+
+#+begin_src sh
+  doas passwd --lock root
+#+end_src
+
+Create directories and files so that they do not get created in $HOME
+
+#+begin_src sh
+  mkdir -p .config/mpd/playlists .local/bin .local/share/bash .local/share/calcurse/notes .local/share/gnupg .local/share/newsboat .local/share/pass .local/share/python .config/git .local/share/games
+
+  touch .local/share/python/python_history
+  touch .config/git/config
+  touch .config/git/credentials
+#+end_src
+
+Install dwm, st dmenu, dwmblocks, slock and copy dotfiles to the appropriate directories.
+
+#+begin_src sh
+  # Create directory for all these stuffs.
+  mkdir -p /home/$USER/.local/share/gitstuff
+  cd /home/$USER/.local/share/gitstuff # Change directory to new directory.
+
+  # Clone and install my dwm configuration.
+  git clone https://gitlab.com/zagyarakushi/mydwm
+  cd mydwm
+  make
+  doas make install
+  cd /home/$USER/.local/share/gitstuff
+
+  # Clone and install my st configuration.
+  git clone https://gitlab.com/zagyarakushi/myst
+  cd myst
+  make
+  doas make install
+  cd /home/$USER/.local/share/gitstuff
+
+  # Clone and install my dmenu configuraiton.
+  git clone https://gitlab.com/zagyarakushi/mydmenu
+  cd mydmenu
+  make
+  doas make install
+  cd /home/$USER/.local/share/gitstuff
+
+  # Clone and install my dwmblocks configuration.
+  git clone https://gitlab.com/zagyarakushi/mydwmblocks
+  cd mydwmblocks
+  make
+  doas make install
+  cd /home/$USER/.local/share/gitstuff
+
+  # Clone and install my slock configuration.
+  git clone https://gitlab.com/zagyarakushi/myslock
+  cd myslock
+  make
+  doas make install
+  cd /home/$USER/.local/share/gitstuff
+
+  # Clone and setup my dotfiles.
+  git clone https://gitlab.com/zagyarakushi/myrice
+  cd myrice
+  #cp -r .bashrc .profile .config .local .themes .icons /home/$USER/
+
+  ln -sv .bashrc ~/.bashrc
+  ln -sv .profile ~/.profile
+  ln -sv .config ~/.config
+  ln -sv .local ~/.local
+  ln -sv .themes ~/.themes
+  ln -sv .icons ~/.icons
+#+end_src
+
+* Part 4: The scripts
+:PROPERTIES:
+:CUSTOM_ID: the-scripts
+:END:
+
+You can automate the installation, setup and ricing by using scripts.
+
+See [[https://gitlab.com/zagyarakushi/zarbs][this repo]] for more information 
+
+* Conclusion
+:PROPERTIES:
+:CUSTOM_ID: conclusion
+:END:
+
+This is just how I install Void Linux. The installation method is very similar for other distribution such as Arch Linux, Gentoo and others. Some differences are in packages names, different services and configuration files.
+
+You should be able to install any linux distribution (and maybe even BSDs!) now.
+You also should be able to setup anything that a person could expect from Ubuntu or Windows to work out of the box.
+
+If you have created your own script then next time you setup your machine, all you have to do is input passwords, do tiny amount of manual configuration and it will be setup just the way you want it.
+
+* Want to help?
+:PROPERTIES:
+:ID:       95113f7a-531f-4049-b8db-1949fa830698
+:PUBDATE:  <2022-08-09 Tue 18:33>
+:END:
+
+Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

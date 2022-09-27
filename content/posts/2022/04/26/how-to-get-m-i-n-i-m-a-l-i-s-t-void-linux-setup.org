@@ -48,7 +48,7 @@ Again, you can see that there are less dependencies for minimal version.
 Any code that is running on your computer and you don't need it running is a waste. Disable all services such as extra TTYs and other services that get enabled by default.
 
 #+begin_src sh
-# Remove unnecesarry ttys.
+# Remove unnecessary ttys.
 rm /var/service/agetty-tty6
 rm /var/service/agetty-tty5
 rm /var/service/agetty-tty4
@@ -75,7 +75,7 @@ musl is an implementation of a C library that is lightweight, fast, simple, free
 
 Void Linux provides musl images for amd64 and arm architectures (no x86 support yet). musl version of Void Linux has all the packages compiled using musl which should produce simpler code compared to glibc. However, since glibc is what most people have been using, some software may not compile or work properly. This can be solved by using flatpak or chroot. See [[https://docs.voidlinux.org/installation/musl.html][this]] page for more information.
 
-So far I have not experienced any problems except the intial hurdle of finding out which software works and doesn't. nss-mdns does not work so you may need something like nsss or mDNSResponder. Tor browser also do not work so I use flatpak to run it. 32bit stuff does not work so things like wine is not supported. You can still use flatpak or chroot to solve these though.
+So far I have not experienced any problems except the initial hurdle of finding out which software works and doesn't. nss-mdns does not work so you may need something like nsss or mDNSResponder. Tor browser also do not work so I use flatpak to run it. 32bit stuff does not work so things like wine is not supported. You can still use flatpak or chroot to solve these though.
 
 *** Use sbase, ubase and sinit
 :PROPERTIES:
@@ -104,6 +104,7 @@ You can compile your own kernel. I've not tried this yet.
 :END:
 
 You can try to compile all software and even have your own patch that removes the functionality that you don't need. Just like Gentoo. I've not tried this either.
+
 ** Conclusion
 :PROPERTIES:
 :CUSTOM_ID: Conclusion
@@ -111,9 +112,9 @@ You can try to compile all software and even have your own patch that removes th
 
 Now you are able to configure your system from scratch in the most minimal way possible. Going this minimal may take some time to figure out all the packages and get used to but once everything is setup, there is no need to change it again.
 
-Hopefully, you also documentated all the steps and packages required so that you can have identical setup when you reinstall your system.
+Hopefully, you also documented all the steps and packages required so that you can have identical setup when you reinstall your system.
 
-Also see [[http://harmful.cat-v.org/software/][hamful stuff]] on cat-v and suckless's [[https://suckless.org/rocks/][rocks]] and [[https://suckless.org/sucks/][sucks]].
+Also see [[http://harmful.cat-v.org/software/][harmful stuff]] on cat-v and suckless's [[https://suckless.org/rocks/][rocks]] and [[https://suckless.org/sucks/][sucks]].
 
 ** Want to help?
 :PROPERTIES:

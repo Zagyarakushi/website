@@ -3,6 +3,7 @@
 # Output
 public/
 .timestamps/
+.packages/
 
 drafts/
 blog.org

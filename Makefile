@@ -1,5 +1,6 @@
 publish_dir := public
 timestamps_dir := .timestamps
+packages_dir := .packages
 orgs := $(wildcard *.org)
 emacs_pkgs := org
 
@@ -16,6 +17,7 @@ publish: $(publish_el) $(orgs)
 clean:
 	rm -rf $(publish_dir)
 	rm -rf $(timestamps_dir)
+	rm -rf $(packages_dir)
 
 #####
 # Import from markdown

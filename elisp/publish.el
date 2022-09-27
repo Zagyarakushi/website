@@ -11,6 +11,7 @@
 ;;; Code:
 
 (require 'package)
+(setq package-user-dir (expand-file-name "./.packages"))
 (package-initialize)
 (unless package-archive-contents
   (add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)

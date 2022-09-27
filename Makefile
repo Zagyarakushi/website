@@ -6,12 +6,15 @@ emacs_pkgs := org
 
 publish_el := scripts/publish.el
 
+restore_mtime = python3 scripts/git-restore-mtime.py
+
 ^el = $(filter %.el,$^)
 EMACS.funcall = emacs --quick --batch --directory scripts/ $(addprefix --load ,$(^el)) --funcall
 
 all: publish
 
 publish: $(publish_el) $(orgs)
+	$(restore_mtime)
 	$(EMACS.funcall) rw-publish-all
 
 clean:

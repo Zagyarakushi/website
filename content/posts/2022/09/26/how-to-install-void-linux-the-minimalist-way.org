@@ -25,30 +25,39 @@ The absolute minimum you need is a boot partition and root partition (for UEFI/G
 :CUSTOM_ID: two-drives
 :END:
 
+#+begin_src
 SSD = /dev/sda
 HDD = /dev/sdb
 /dev/sda1 formatted as F32 and mounted on /boot
 /dev/sda2 formatted as EXT4 and mounted on /
 /dev/sdb1 formatted as EXT4 and mounted on /home
+#+end_src
+
 
 **** The single drive for everything example
 :PROPERTIES:
 :CUSTOM_ID: single-drive
 :END:
 
+#+begin_src
 HDD = /dev/sda
 /dev/sda1 formatted as F32 and mounted on /boot
 /dev/sda2 formatted as EXT4 and mounted on /
+#+end_src
+
 
 **** The single drive for everything but with swap example
 :PROPERTIES:
 :CUSTOM_ID: single-drive-with-swap
 :END:
 
+#+begin_src
 HDD = /dev/sda
 /dev/sda1 formatted as F32 and mounted on /boot
 /dev/sda2 formatted as swap and mounted as swap
 /dev/sda3 formatted as EXT4 and mounted on /
+#+end_src
+
 
 *** Some examples for BIOS/MBR:
 :PROPERTIES:
@@ -59,8 +68,10 @@ HDD = /dev/sda
 :CUSTOM_ID: single-drive-bios
 :END:
 
-HDD = /dev/sda
+#+begin_src
+HDD = /dev/sd
 /dev/sda1 formatted as EXT4 and mounted on /
+#+end_src
 
 You can also do something similar to UEFI partitioning.
 
@@ -80,6 +91,7 @@ There are also additional security stuff you can do such as secure boot with you
 
 This doesn't use LVM.
 
+#+begin_src
 SSD = /dev/sda
 HDD = /dev/sdb
 /dev/sda1 formatted as F32 and  mounted on /boot
@@ -87,28 +99,37 @@ HDD = /dev/sdb
 /dev/mapper/root formatted as EXT4 and mounted on /
 /dev/sdb1 encrypted using cryptsetup but with key files
 /dev/mapper/home formatted as EXT4 and mounted on /home
+#+end_src
+
 
 **** The single drive for everything example
 :PROPERTIES:
 :CUSTOM_ID: single-drive-encryption
 :END:
 
+#+begin_src
 HDD = /dev/sda
 /dev/sda1 formatted as F32 and mounted on /boot
 /dev/sda2 encrypted using cryptsetup
 /dev/mapper/root formatted as EXT4 and mounted on /
+#+end_src
+
 
 **** The single drive for everything but with swap example
 :PROPERTIES:
 :CUSTOM_ID: single-drive-with-swap-encryption
 :END:
 
+#+begin_src
 HDD = /dev/sda
 /dev/sda1 formatted as F32 and mounted on /boot
 /dev/sda2 encrypted using cryptsetup
 /dev/mapper/root format as lvm device and create pool
 /dev/mapper/pool-root formatted as EXT4 and mounted on /
 /dev/mapper/pool-swap formatted as swap and mounted as swap
+#+end_src
+
+
 **** The single drive for everything (literally) example
 :PROPERTIES:
 :CUSTOM_ID: single-drive-bios-encryption
@@ -116,9 +137,11 @@ HDD = /dev/sda
 
 This is for BIOS/MBR.
 
+#+begin_src
 HDD = /dev/sda
 /dev/sda1 encrypted using cryptsetup (--luks1)
 /dev/mapper/root formatted as EXT4 and mounted on /
+#+end_src
 
 You can also do something similar to UEFI partitioning.
 

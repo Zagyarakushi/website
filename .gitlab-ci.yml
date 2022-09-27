@@ -12,6 +12,7 @@ stages:
       - /usr/bin/python3
 
 .publish: &publish
+  stage: setup
   <<: *setup
   script:
   - make publish

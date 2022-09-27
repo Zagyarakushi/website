@@ -4,10 +4,10 @@ packages_dir := .packages
 orgs := $(wildcard *.org)
 emacs_pkgs := org
 
-publish_el := elisp/publish.el
+publish_el := scripts/publish.el
 
 ^el = $(filter %.el,$^)
-EMACS.funcall = emacs --quick --batch --directory elisp/ $(addprefix --load ,$(^el)) --funcall
+EMACS.funcall = emacs --quick --batch --directory scripts/ $(addprefix --load ,$(^el)) --funcall
 
 all: publish
 

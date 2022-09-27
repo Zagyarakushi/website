@@ -40,7 +40,7 @@ Also, camera and microphone HAD to work at all times as this was a remote role.
 
 I chose Fedora because they have most of the software that's required (In my case). They are bleeding edge. And they have SELinux. I could've gone for Debian or Ubuntu but Debian is outdated (I know it has testing and unstable branch) and Ubuntu is something I wouldn't want to run on my personal machine considering it's history. Another option was Arch Linux but many of the configurations have to be done manually and manual in computing costs time.
 
-Gnome was the chosen one out of all the window managers and desktop environments. The reason is simplicity. Once it is installed, everything is configured out of the box. And it also uses Wayland. Multi monitor works properly compared to Xorg where I was using some script and the scaling was non existant. But there are some quirks that you need to get used to. Another big requirement was a functional camera and microphone and Gnome handles it perfectly. I remember having some problems with camera and microphone in my previous setup.
+Gnome was the chosen one out of all the window managers and desktop environments. The reason is simplicity. Once it is installed, everything is configured out of the box. And it also uses Wayland. Multi monitor works properly compared to Xorg where I was using some script and the scaling was non existent. But there are some quirks that you need to get used to. Another big requirement was a functional camera and microphone and Gnome handles it perfectly. I remember having some problems with camera and microphone in my previous setup.
 
 You might be thinking that after using customized window manager with light weight programs and "sane" distro, it is next to impossible to get used to the big bloated distro. And you are right! But is it bad enough that I have to run back to my /comfy/ setup as soon as the work is done? No! I will not be going back to my old setup as I am thinking of going to Qubes OS full time and Fedora with Gnome is not painful enough to justify going back. Anyway, the "bloated" stuff is also useful in certain circumstances. They are easier and faster for things that you are not used to, never done before or just need to get done without knowing the internals of how they work.
 
@@ -55,7 +55,7 @@ What Virgins think: Less time spent tinkering with their computer and doing actu
 
 What GigaChads think: Do both.
 
-Ok. Let's expand on the last bit. Dynamic TWM are very efficient at arranging windows in a predefined way. Everything is good when using terminals and lightweight programs but what happens when all you use is an IDE, a terminal and a web browser? Suddenly, all that TWM functionality goes out the window. You might not need to use a predefined layout. You might be mostly working in IDE and web browser where the TWM functionaility doesn't really do much. You might want to change window size depending on what you are doing. What about floating WM? Well, they do previous things perfectly and they can also be configured to have functionality like TWM. To be honest, most TWM have floating functionality as well...
+Ok. Let's expand on the last bit. Dynamic TWM are very efficient at arranging windows in a predefined way. Everything is good when using terminals and lightweight programs but what happens when all you use is an IDE, a terminal and a web browser? Suddenly, all that TWM functionality goes out the window. You might not need to use a predefined layout. You might be mostly working in IDE and web browser where the TWM functionality doesn't really do much. You might want to change window size depending on what you are doing. What about floating WM? Well, they do previous things perfectly and they can also be configured to have functionality like TWM. To be honest, most TWM have floating functionality as well...
 
 Where am I going with this? I want to show that it's all about priorities and trade offs.
 
@@ -66,7 +66,7 @@ Window Managers
 - Good for customizability.
 
 Desktop Environments
-- Integrated with all the necessary services (Some people call 'em bloat).
+- Integrated with all the necessary services (Some people call em bloat).
 - Ease of use.
 - Has some TWM-like functionality by default.
 
@@ -77,7 +77,7 @@ Any WM and DE can be customised to have any functionality you want. But how hard
 :CUSTOM_ID: The-art-of-customizing-unix
 :END:
 
-In prevous sections, it was just me ranting about how Gnome isn't that bad for some things. Here, I want to talk about the aesthetics of your setup.
+In previous sections, it was just me ranting about how Gnome isn't that bad for some things. Here, I want to talk about the aesthetics of your setup.
 
 Some people customize for fun. Some customize because they want some functionality. For some? It's just to flex. Whatever your reason is, I want the theming and customization of Unix based systems to be considered an art. It is an interactive art. If you look on r/UnixPorn, there are many posts that have pretty colours, functionality no one thought of before and most posts are unique in some way. You may like one post while dislike another. It is subjective. This is why customization of Unix based systems is an art and not a science.
 

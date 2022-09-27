@@ -14,7 +14,7 @@ This is only one of many ways to install Void Linux. A (very) primitive install 
 :CUSTOM_ID: partitioning
 :END:
 
-The absolute minimum you need is a boot partition and root partition (for UEFI/GPT). You can further customize to have /home or /usr as seperate partition or even a seperate drive. For example, boot and root on SSD and home on HDD.
+The absolute minimum you need is a boot partition and root partition (for UEFI/GPT). You can further customize to have /home or /usr as separate partition or even a separate drive. For example, boot and root on SSD and home on HDD.
 
 *** Some examples for UEFI/GPT:
 :PROPERTIES:
@@ -69,7 +69,7 @@ You can also do something similar to UEFI partitioning.
 :CUSTOM_ID: disk-encryption
 :END:
 
-You should really encrypt anything that may contain sensitive information. We have the basic partitioning but we don't have encryption. Encryption is easy on Linux but there are some rules to follow. Rule 1: Don't encrypt the boot partition. Okay, you CAN encrypt it and some people seem to have managed to do but I have never got it to work. Rule 2: If you don't want to type like 3 or 4 passwords on boot then create keyfiles to auto decrypt all the other partitions or use LVM.
+You should really encrypt anything that may contain sensitive information. We have the basic partitioning but we don't have encryption. Encryption is easy on Linux but there are some rules to follow. Rule 1: Don't encrypt the boot partition. Okay, you CAN encrypt it and some people seem to have managed to do but I have never got it to work. Rule 2: If you don't want to type like 3 or 4 passwords on boot then create key files to auto decrypt all the other partitions or use LVM.
 
 There are also additional security stuff you can do such as secure boot with your own signing key, AEM (anti evil maid), GRUB passwords, boot partition on removable drive, TPM and more. See [[https://wiki.archlinux.org/title/security][this]] for more.
 
@@ -85,7 +85,7 @@ HDD = /dev/sdb
 /dev/sda1 formatted as F32 and  mounted on /boot
 /dev/sda2 encrypted using cryptsetup
 /dev/mapper/root formatted as EXT4 and mounted on /
-/dev/sdb1 encrypted using cryptsetup but with keyfiles
+/dev/sdb1 encrypted using cryptsetup but with key files
 /dev/mapper/home formatted as EXT4 and mounted on /home
 
 **** The single drive for everything example
@@ -133,7 +133,7 @@ First set your keymap so that you type the correct password when encrypting your
   loadkeys $KEYMAP
 #+end_src
 
-Wipe filesystem of your drive.
+Wipe file system of your drive.
 
 #+begin_src sh
   wipefs --all /dev/$YOURDRIVE
@@ -178,7 +178,7 @@ Create root partition.
   lvcreate -l 100%FREE -n root pool
 #+end_src
 
-Make filesystem.
+Make file system.
 
 #+begin_src sh
   mkfs.fat -F32 $BOOTPARTITION
@@ -221,7 +221,7 @@ Mount swap.
 :ID: wipefs
 :END:
 
-Use wipefs to wipe filesystem to change from GPT to MBR or vice versa.
+Use wipefs to wipe file system to change from GPT to MBR or vice versa.
 
 #+begin_src sh
   wipefs --all  /dev/YOURDRIVE
@@ -249,7 +249,7 @@ This command can also be used to format USB and SD cards. Very useful.
 :ID: mkfs
 :END:
 
-mkfs allows you to actually format the parition to filesystem that you want.
+mkfs allows you to actually format the partition to file system that you want.
 
 For EXT4
 
@@ -280,7 +280,7 @@ Or the simpler version
   cryptsetup luksFormat /dev/YOURPARTITION
 #+end_src
 
-Keyfile encryption example
+Key file encryption example
 
 #+begin_src sh
   cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random --key-file key luksFormat $ROOTPARTITION
@@ -292,21 +292,21 @@ To decrypt
   cryptsetup luksOpen /dev/YOURPARTITION YOURMAPPEDNAME
 #+end_src
 
-Keyfile decryption
+Key file decryption
 #+begin_src sh
   cryptsetup --key-file key luksOpen $ROOTPARTITION root
 #+end_src
 
-Create keyfile using dd command.
+Create key file using dd command.
 
 *** dd
 :PROPERTIES:
 :ID: dd
 :END:
 
-Use dd to create keyfile, create bootable USB and many others.
+Use dd to create key file, create bootable USB and many others.
 
-Use this to create keyfile
+Use this to create key file
 
 #+begin_src sh
   dd if=/dev/urandom of=key bs=1024 count=20
@@ -372,14 +372,14 @@ Change umask for better security (From Arch Linux wiki).
   sed -i 's/022/077/g' /mnt/etc/profile
 #+end_src
 
-If you are using keyfiles then copy the keyfile to somewhre in /mnt.
+If you are using keyfiles then copy the key file to somewhere in /mnt.
 
 #+begin_src sh
   mkdir /mnt/var/local
   cp key /mnt/var/local/
 #+end_src
 
-If you are using keyfiles then also add an entry to crypttab to auto decrypt your partition using keyfile. home is name of the partition, the part after UUID= is a function to get UUID of the partition and the last part is the path to keyfile.
+If you are using keyfiles then also add an entry to crypttab to auto decrypt your partition using key file. home is name of the partition, the part after UUID= is a function to get UUID of the partition and the last part is the path to key file.
 
 #+begin_src sh
   echo "home UUID=$(blkid -s UUID -o value $HOMEPARTITION) /var/local/key" > /mnt/etc/crypttab
@@ -390,7 +390,7 @@ If you are using keyfiles then also add an entry to crypttab to auto decrypt you
 :CUSTOM_ID: mount-additional
 :END:
 
-Mount some devices and stuff thats required.
+Mount some devices and stuff that's required.
 
 #+begin_src sh
   for dir in dev proc sys run; do mkdir -p /mnt/$dir ; mount --rbind /$dir /mnt/$dir ; mount --make-rslave /mnt/$dir ; done
@@ -452,7 +452,7 @@ Set password for new user.
   passwd $USERNAME
 #+end_src
 
-** Setup locale, timezone, network services etc
+** Setup locale, time zone, network services etc
 :PROPERTIES:
 :CUSTOM_ID: setup-locale-timezone-network
 :END:
@@ -481,7 +481,7 @@ Sync the hardware/bios clock.
   hwclock --systohc --utc
 #+end_src
 
-Set hostname.
+Set host name.
 
 #+begin_src sh
   echo $HOSTNAME > /etc/hostname
@@ -530,7 +530,7 @@ I also setup doas so that when I boot into the system, I can use doas.
 :CUSTOM_ID: setup-fstab
 :END:
 
-Note: fstab is pronounced fs tab (for filesystem table). Not f stab :).
+Note: fstab is pronounced fs tab (for file system table). Not f stab :).
 
 Here just change the variable to the partition that will be mounted on startup.
 
@@ -543,9 +543,9 @@ Here just change the variable to the partition that will be mounted on startup.
 
 For example, in this case, $BOOTPARTITION should be something like /dev/sda1, $ROOTPARTITION is /dev/mapper/pool-root, $SWAPARTITION is /dev/mapper/pool-swap.
 
-If using keyfile for home or other partition then make sure to use the one that is going to be mounted. For example, /dev/mapper/home if not using LVM and /dev/mapper/pool-home if using LVM.
+If using key file for home or other partition then make sure to use the one that is going to be mounted. For example, /dev/mapper/home if not using LVM and /dev/mapper/pool-home if using LVM.
 
-** Setup bootloader
+** Setup boot loader
 :PROPERTIES:
 :CUSTOM_ID: setup-bootloader
 :END:
@@ -591,7 +591,7 @@ Now, install and configure bootloader.
   grub-mkconfig -o /boot/grub/grub.cfg
 #+end_src
 
-Most bios are buggy and they assume the directory and filenames to boot from. To solve this, copy the necessary stuff to the directory that windows use. And rename them to the one that windows use.
+Most bios are buggy and they assume the directory and file names to boot from. To solve this, copy the necessary stuff to the directory that windows use. And rename them to the one that windows use.
 
 #+begin_src sh
   mkdir /boot/EFI/BOOT
@@ -662,7 +662,7 @@ Leave out bluetooth if you don't use them. Install stuff for alsa and jack if yo
 :CUSTOM_ID: ricing-install-software-graphics-drivers
 :END:
 
-Includes intel and amd. You should only need one of them.
+Includes Intel and amd. You should only need one of them.
 
 #+begin_src sh
   xbps-install -S -y mesa mesa-dri vulkan-loader mesa-vaapi mesa-vdpa vdpauinfo libva-utils libva-vdpau-driver xf86-video-amdgpu mesa-vulkan-radeon intel-video-accel mesa-vulkan-intel xf86-video-intel
@@ -673,7 +673,7 @@ Includes intel and amd. You should only need one of them.
 :CUSTOM_ID: ricing-install-software-browsers
 :END:
 
-Dont install tor browser if on musl. Use flatpak instead.
+Don't install tor browser if on musl. Use flatpak instead.
 
 #+begin_src sh
   xbps-install -S -y firefox chromium netsurf w3m lynx torbrowser-launcher
@@ -935,7 +935,7 @@ Create directories and files so that they do not get created in $HOME
   touch .config/git/credentials
 #+end_src
 
-Install dwm, st dmenu, dwmblocks, slock and copy dotfiles to the appropriate directories.
+Install dwm, st, dmenu, dwmblocks, slock and copy dotfiles to the appropriate directories.
 
 #+begin_src sh
   # Create directory for all these stuffs.
@@ -1013,8 +1013,7 @@ If you have created your own script then next time you setup your machine, all y
 
 * Want to help?
 :PROPERTIES:
-:ID:       95113f7a-531f-4049-b8db-1949fa830698
-:PUBDATE:  <2022-08-09 Tue 18:33>
+:CUSTOM_ID: want-to-help
 :END:
 
 Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

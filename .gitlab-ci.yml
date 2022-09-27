@@ -1,10 +1,10 @@
 image: silex/emacs:master-alpine-ci
 
-stages:
+stages: 
   - setup
   - publish
 
-.setup:
+.setup: &setup
   script:
     - apk add --update --no-cache python3
   cache:
@@ -12,6 +12,7 @@ stages:
       - /usr/bin/python3
 
 .publish: &publish
+  <<: *setup
   script:
   - make publish
   cache:

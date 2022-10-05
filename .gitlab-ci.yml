@@ -11,10 +11,11 @@ stages:
     paths:
       - .packages/
       - .timestamps/
+      - public/
     policy: pull-push
   artifacts:
     paths:
-    - public
+    - public/
 
 pages:
   stage: publish

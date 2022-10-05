@@ -2,7 +2,7 @@
 #+DATE: <2022-04-26 Tue>
 #+DESCRIPTION: I like minimalism and simplicity. Therefore, I started to use Void Linux. I will show you how to setup Void Linux so that you only have what you need without bloat.
 
-aI've always liked and preferred minimalism and simplicity in all areas of life. This also applies to computing. When I started playing around with Linux, I used Ubuntu and Linux Mint to learn the basics. Then I went straight to Arch Linux because of it's customizability and stayed there for few months. However, I wanted something without Systemd and something which was even more customizable than Arch Linux. I found Gentoo and played around for couple of months but the compile time and some difficulty in trying to automate the install using my own script led me to Void Linux.
+I've always liked and preferred minimalism and simplicity in all areas of life. This also applies to computing. When I started playing around with Linux, I used Ubuntu and Linux Mint to learn the basics. Then I went straight to Arch Linux because of it's customizability and stayed there for few months. However, I wanted something without Systemd and something which was even more customizable than Arch Linux. I found Gentoo and played around for couple of months but the compile time and some difficulty in trying to automate the install using my own script led me to Void Linux.
 
 Void Linux keeps to the KISS philosophy and allows you to customize almost all aspects of the system such as compiling most of the user-space applications from source code and compiling the customized kernel just like Gentoo. This make Void Linux suited for people who want to change the operating system to suit their needs.
 

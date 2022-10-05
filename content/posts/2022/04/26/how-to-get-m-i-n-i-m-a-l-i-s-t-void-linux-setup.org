@@ -75,7 +75,9 @@ musl is an implementation of a C library that is lightweight, fast, simple, free
 
 Void Linux provides musl images for amd64 and arm architectures (no x86 support yet). musl version of Void Linux has all the packages compiled using musl which should produce simpler code compared to glibc. However, since glibc is what most people have been using, some software may not compile or work properly. This can be solved by using flatpak or chroot. See [[https://docs.voidlinux.org/installation/musl.html][this]] page for more information.
 
-So far I have not experienced any problems except the initial hurdle of finding out which software works and doesn't. nss-mdns does not work so you may need something like nsss or mDNSResponder. Tor browser also do not work so I use flatpak to run it. 32bit stuff does not work so things like wine is not supported. You can still use flatpak or chroot to solve these though.
+So far I have not experienced any problems except the initial hurdle of finding out which software works and doesn't. nss-mdns does not work so you may need something like nsss or mDNSResponder. Tor browser also do not work so I use flatpak to run it. 32bit stuff does not work so things like wine is not supported. Appimages currently do not work. However, there are on-going effort to produce statically linked binaries using musl.
+
+You can still use flatpak or chroot to solve these though.
 
 *** Use sbase, ubase and sinit
 :PROPERTIES:

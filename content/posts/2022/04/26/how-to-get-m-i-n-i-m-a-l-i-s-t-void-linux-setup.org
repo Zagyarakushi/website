@@ -105,7 +105,7 @@ You can compile your own kernel. I've not tried this yet.
 :CUSTOM_ID: Compile-your-software
 :END:
 
-You can try to compile all software and even have your own patch that removes the functionality that you don't need. Just like Gentoo. I've not tried this either. [[https://github.com/the-maldridge/xbps-mini-builder][This]] tool could automate the building and updating of compiled packages for your system.
+You can try to compile all software and even have your own patch that removes the functionality that you don't need. Just like Gentoo. I've not tried this either. [[https://github.com/the-maldridge/xbps-mini-builder][This]] tool could automate the building and updating of compiled packages for your system. You just have to supply package list and xbps-src.conf file in the same directory.
 
 ** Conclusion
 :PROPERTIES:

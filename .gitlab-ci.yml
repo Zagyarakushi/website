@@ -10,7 +10,6 @@ stages:
   cache:
     paths:
       - .packages/
-      - .timestamps/
     policy: pull-push
   artifacts:
     paths:

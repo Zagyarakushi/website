@@ -8,6 +8,8 @@
 :CUSTOM_ID: Donate
 :END:
 
+DO NOT DONATE! Unless I have provided enough value to you consistently and you feel that information you got from me or time you spent being entertained by me is worth the amount you are considering to donate. There are other ways to help. If you still want to donate, read on.
+
 I should probably put a donation link on every post and actively encourage people to donate considering the situation (I am a recent grad remember? We all know how that goes...). I should also put as many donation services as possible so that there is less friction for people (Convienience. Speed. Ease. These are what makes most people spend more...).
 
 But I feel like supporting something which can benefit most people including me in the future is more important than trying to fix a situation that is temporary anyway. So, I decided to accept Monero and Monero only. If you haven't guessed by now, it's about financial privacy. It's one of the most important things because your payment history can reveal almost everything about your life including something that you might not realise yourself.

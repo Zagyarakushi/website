@@ -15,7 +15,6 @@ The name Zagyarakushi is based on Za Warudo. If you know, you know.
 
 Contact me:
 #+begin_src
-zagyarakushi.zeydc@simplelogin.co
 #+end_src
 
 *A more secure way of communication will be added later.

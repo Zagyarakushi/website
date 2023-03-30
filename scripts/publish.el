@@ -90,7 +90,8 @@ ATTRS specify additional attributes."
          (extension (or (plist-get info :html-extension) org-html-extension))
 	       (rel-file (file-relative-name file (expand-file-name "content" rw--root))) ;; Modified to allow relative name from the project root
          (full-url (concat link-home (file-name-sans-extension rel-file) "." extension))
-         (css-url (concat link-home (file-name-sans-extension (file-relative-name (expand-file-name "content/res/css/custom.css" rw--root) (expand-file-name "content" rw--root))) ".css")) ;; Generate URL to the css file
+         (simple-css-url (concat "/" (file-name-sans-extension (file-relative-name (expand-file-name "content/res/css/simple.css" rw--root) (expand-file-name "content" rw--root))) ".css")) ;; Generate URL to the css file
+         (css-url (concat "/" (file-name-sans-extension (file-relative-name (expand-file-name "content/res/css/custom.css" rw--root) (expand-file-name "content" rw--root))) ".css")) ;; Generate URL to the css file
          (image (concat link-home (org-publish-find-property file :meta-image project)))
          (favicon (concat link-home "res/icons/favicon.ico"))
          (apple-touch-icon (concat link-home "res/icons/apple-touch-icon.png"))
@@ -108,9 +109,9 @@ ATTRS specify additional attributes."
                  ,(rw/org-html-close-tag "meta" '(name robots) '(content noimageindex))
                  ,(rw/org-html-close-tag "meta" '(name robots) '(content nosnippet))
                  ,(rw/org-html-close-tag "meta" '(name referrer) '(content noreferrer))
-                 ,(rw/org-html-close-tag "link" '(rel stylesheet) '(type text/css) '(href "https://cdn.simplecss.org/simple.min.css")) ;; Added CSS link
+                 ,(rw/org-html-close-tag "link" '(rel stylesheet) '(type text/css) `(href ,simple-css-url)) ;; Added CSS link
                  ,(rw/org-html-close-tag "link" '(rel stylesheet) '(type text/css) `(href ,css-url)) ;; Customization of the above css file
-                 ,(rw/org-html-close-tag "link" '(rel alternate) '(type application/rss+xml) '(href "rss.xml") '(title "RSS feed"))
+                 ,(rw/org-html-close-tag "link" '(rel alternate) '(type application/rss+xml) '(href "/rss.xml") '(title "RSS feed"))
                  ,(rw/org-html-close-tag "link" '(rel apple-touch-icon) '(sizes 180x180) `(href ,apple-touch-icon))
                  ,(rw/org-html-close-tag "link" '(rel manifest) `(href ,webmanifest))
                  ,(rw/org-html-close-tag "link" '(rel icon) '(type image/png) '(sizes 32x32) `(href ,favicon32))

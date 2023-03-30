@@ -33,7 +33,6 @@ HDD = /dev/sdb
 /dev/sdb1 formatted as EXT4 and mounted on /home
 #+end_src
 
-
 **** The single drive for everything example
 :PROPERTIES:
 :CUSTOM_ID: single-drive
@@ -44,7 +43,6 @@ HDD = /dev/sda
 /dev/sda1 formatted as F32 and mounted on /boot
 /dev/sda2 formatted as EXT4 and mounted on /
 #+end_src
-
 
 **** The single drive for everything but with swap example
 :PROPERTIES:
@@ -57,7 +55,6 @@ HDD = /dev/sda
 /dev/sda2 formatted as swap and mounted as swap
 /dev/sda3 formatted as EXT4 and mounted on /
 #+end_src
-
 
 *** Some examples for BIOS/MBR:
 :PROPERTIES:
@@ -101,7 +98,6 @@ HDD = /dev/sdb
 /dev/mapper/home formatted as EXT4 and mounted on /home
 #+end_src
 
-
 **** The single drive for everything example
 :PROPERTIES:
 :CUSTOM_ID: single-drive-encryption
@@ -113,7 +109,6 @@ HDD = /dev/sda
 /dev/sda2 encrypted using cryptsetup
 /dev/mapper/root formatted as EXT4 and mounted on /
 #+end_src
-
 
 **** The single drive for everything but with swap example
 :PROPERTIES:
@@ -128,7 +123,6 @@ HDD = /dev/sda
 /dev/mapper/pool-root formatted as EXT4 and mounted on /
 /dev/mapper/pool-swap formatted as swap and mounted as swap
 #+end_src
-
 
 **** The single drive for everything (literally) example
 :PROPERTIES:
@@ -1039,4 +1033,4 @@ If you have created your own script then next time you setup your machine, all y
 :CUSTOM_ID: want-to-help
 :END:
 
-Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

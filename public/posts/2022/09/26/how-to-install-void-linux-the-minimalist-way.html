@@ -49,7 +49,7 @@
   <a href="/about.html">About</a>
   <a href="/donate.html">Donate</a>
 </nav>
-<div id="last-updated">Last Updated: 2022-09-27</div>
+<div id="last-updated">Last Updated: 2023-03-30</div>
 </header>
 <main id="content" class="content">
 <header>
@@ -89,7 +89,6 @@ HDD = /dev/sdb
 </div>
 </li>
 
-
 <li><a id="single-drive"></a><a href="#single-drive">The single drive for everything example</a><br>
 <div class="outline-text-5" id="text-single-drive">
 <pre class="example">
@@ -99,7 +98,6 @@ HDD = /dev/sda
 </pre>
 </div>
 </li>
-
 
 <li><a id="single-drive-with-swap"></a><a href="#single-drive-with-swap">The single drive for everything but with swap example</a><br>
 <div class="outline-text-5" id="text-single-drive-with-swap">
@@ -113,7 +111,6 @@ HDD = /dev/sda
 </li>
 </ul>
 </div>
-
 
 <div id="outline-container-example-partitioning-bios" class="outline-4">
 <h4 id="example-partitioning-bios"><a href="#example-partitioning-bios">Some examples for BIOS/MBR:</a></h4>
@@ -166,7 +163,6 @@ HDD = /dev/sdb
 </div>
 </li>
 
-
 <li><a id="single-drive-encryption"></a><a href="#single-drive-encryption">The single drive for everything example</a><br>
 <div class="outline-text-5" id="text-single-drive-encryption">
 <pre class="example">
@@ -177,7 +173,6 @@ HDD = /dev/sda
 </pre>
 </div>
 </li>
-
 
 <li><a id="single-drive-with-swap-encryption"></a><a href="#single-drive-with-swap-encryption">The single drive for everything but with swap example</a><br>
 <div class="outline-text-5" id="text-single-drive-with-swap-encryption">
@@ -191,7 +186,6 @@ HDD = /dev/sda
 </pre>
 </div>
 </li>
-
 
 <li><a id="single-drive-bios-encryption"></a><a href="#single-drive-bios-encryption">The single drive for everything (literally) example</a><br>
 <div class="outline-text-5" id="text-single-drive-bios-encryption">
@@ -344,14 +338,14 @@ Mount swap.
 </div>
 </div>
 
-<div id="outline-container-org7a16524" class="outline-3">
-<h3 id="org7a16524"><a href="#org7a16524">Useful commands</a></h3>
-<div class="outline-text-3" id="text-org7a16524">
+<div id="outline-container-orge3d1c1a" class="outline-3">
+<h3 id="orge3d1c1a"><a href="#orge3d1c1a">Useful commands</a></h3>
+<div class="outline-text-3" id="text-orge3d1c1a">
 </div>
 
-<div id="outline-container-org6c7c1ec" class="outline-4">
-<h4 id="org6c7c1ec"><a href="#org6c7c1ec">wipefs</a></h4>
-<div class="outline-text-4" id="text-org6c7c1ec">
+<div id="outline-container-orge1b0e2e" class="outline-4">
+<h4 id="orge1b0e2e"><a href="#orge1b0e2e">wipefs</a></h4>
+<div class="outline-text-4" id="text-orge1b0e2e">
 <p>
 Use wipefs to wipe file system to change from GPT to MBR or vice versa.
 </p>
@@ -367,9 +361,9 @@ WARNING! THIS WILL WIPE ALL DATA!
 </div>
 </div>
 
-<div id="outline-container-org60a4021" class="outline-4">
-<h4 id="org60a4021"><a href="#org60a4021">cfdisk</a></h4>
-<div class="outline-text-4" id="text-org60a4021">
+<div id="outline-container-orgf2226be" class="outline-4">
+<h4 id="orgf2226be"><a href="#orgf2226be">cfdisk</a></h4>
+<div class="outline-text-4" id="text-orgf2226be">
 <p>
 cfdisk allows you to partition very easily. Just type
 </p>
@@ -389,9 +383,9 @@ This command can also be used to format USB and SD cards. Very useful.
 </div>
 </div>
 
-<div id="outline-container-orgadd4030" class="outline-4">
-<h4 id="orgadd4030"><a href="#orgadd4030">mkfs</a></h4>
-<div class="outline-text-4" id="text-orgadd4030">
+<div id="outline-container-orgb3e4e00" class="outline-4">
+<h4 id="orgb3e4e00"><a href="#orgb3e4e00">mkfs</a></h4>
+<div class="outline-text-4" id="text-orgb3e4e00">
 <p>
 mkfs allows you to actually format the partition to file system that you want.
 </p>
@@ -416,9 +410,9 @@ For FAT32
 </div>
 </div>
 
-<div id="outline-container-org3027e87" class="outline-4">
-<h4 id="org3027e87"><a href="#org3027e87">cryptsetup</a></h4>
-<div class="outline-text-4" id="text-org3027e87">
+<div id="outline-container-orgd3ad2f2" class="outline-4">
+<h4 id="orgd3ad2f2"><a href="#orgd3ad2f2">cryptsetup</a></h4>
+<div class="outline-text-4" id="text-orgd3ad2f2">
 <p>
 To encrypt
 </p>
@@ -469,9 +463,9 @@ Create key file using dd command.
 </div>
 </div>
 
-<div id="outline-container-org879d515" class="outline-4">
-<h4 id="org879d515"><a href="#org879d515">dd</a></h4>
-<div class="outline-text-4" id="text-org879d515">
+<div id="outline-container-org20cbca1" class="outline-4">
+<h4 id="org20cbca1"><a href="#org20cbca1">dd</a></h4>
+<div class="outline-text-4" id="text-org20cbca1">
 <p>
 Use dd to create key file, create bootable USB and many others.
 </p>
@@ -487,9 +481,9 @@ Use this to create key file
 </div>
 </div>
 
-<div id="outline-container-org56eecf5" class="outline-4">
-<h4 id="org56eecf5"><a href="#org56eecf5">LVM stuff</a></h4>
-<div class="outline-text-4" id="text-org56eecf5">
+<div id="outline-container-org8509d31" class="outline-4">
+<h4 id="org8509d31"><a href="#org8509d31">LVM stuff</a></h4>
+<div class="outline-text-4" id="text-org8509d31">
 <p>
 To create physical volume
 </p>
@@ -1371,7 +1365,7 @@ If you have created your own script then next time you setup your machine, all y
 <h2 id="want-to-help"><a href="#want-to-help">Want to help?</a></h2>
 <div class="outline-text-2" id="text-want-to-help">
 <p>
-Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
 </p>
 </div>
 </section>

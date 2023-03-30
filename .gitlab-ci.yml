@@ -7,12 +7,12 @@ stages:
   script:
     - apk add --update --no-cache python3
     - make publish
- # cache:
-  #  paths:
-   #   - .packages/
-   #   - .timestamps/
-   #   - public/
-   # policy: pull-push
+  cache:
+    paths:
+      - .packages/
+      - .timestamps/
+      - public/
+    policy: pull-push
   artifacts:
     paths:
     - public/

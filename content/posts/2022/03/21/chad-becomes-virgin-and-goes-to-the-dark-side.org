@@ -97,4 +97,4 @@ Hopefully, my writing skills aren't so bad that everyone left after a few senten
 :CUSTOM_ID: Want-to-help
 :END:
 
-Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

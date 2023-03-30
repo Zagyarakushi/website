@@ -123,4 +123,4 @@ Also see [[http://harmful.cat-v.org/software/][harmful stuff]] on cat-v and suck
 :CUSTOM_ID: Want-to-help
 :END:
 
-Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

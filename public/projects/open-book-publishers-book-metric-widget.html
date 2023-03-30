@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2023-03-30 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book metrics widget</title>
+<meta name="author" content="Zagyarakushi" />
+<meta name="description" content="I wrote a node package that is used to display book usage statistics using React." />
+<meta name="generator" content="Org Mode" />
+<meta name="robots" content="noindex">
+<meta name="robots" content="nofollow">
+<meta name="robots" content="noarchive">
+<meta name="robots" content="nocache">
+<meta name="robots" content="notranslate">
+<meta name="robots" content="noimageindex">
+<meta name="robots" content="nosnippet">
+<meta name="referrer" content="noreferrer">
+<link rel="stylesheet" type="text/css" href="/res/css/simple.css">
+<link rel="stylesheet" type="text/css" href="/res/css/custom.css">
+<link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
+<link rel="apple-touch-icon" sizes="180x180" href="https://zagyarakushi.gitlab.io/res/icons/apple-touch-icon.png">
+<link rel="manifest" href="https://zagyarakushi.gitlab.io/res/icons/site.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zagyarakushi.gitlab.io/res/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://zagyarakushi.gitlab.io/res/icons/favicon-16x16.png">
+<link rel="icon" type="image/x-icon" href="https://zagyarakushi.gitlab.io/res/icons/favicon.ico">
+<meta property="og:title" content="Book metrics widget">
+<meta property="og:url" content="https://zagyarakushi.gitlab.io/projects/open-book-publishers-book-metric-widget.html">
+<meta property="og:description" content="I wrote a node package that is used to display book usage statistics using React.">
+<meta property="og:image" content="https://zagyarakushi.gitlab.io/res/icons/ogimage.png">
+<meta property="og:type" content="website">
+
+
+<meta property="twitter:title" content="Book metrics widget">
+<meta property="twitter:url" content="https://zagyarakushi.gitlab.io/projects/open-book-publishers-book-metric-widget.html">
+<meta property="twitter:image" content="https://zagyarakushi.gitlab.io/res/icons/ogimage.png">
+<meta property="twitter:description" content="I wrote a node package that is used to display book usage statistics using React.">
+<meta property="twitter:card" content="summary">
+</head>
+<body>
+<header id="top" class="status">
+<h1><a href="/" title="Zagyarakushi">Zagyarakushi</a></h1>
+<nav>
+  <a href="/">Home</a>
+  <a href="/posts/blog.html">Blog</a>
+  <a href="/projects/projects.html">Projects</a>
+  <a href="/interesting.html">Interesting Stuff</a>
+  <a href="/services.html">Services</a>
+  <a href="/about.html">About</a>
+  <a href="/donate.html">Donate</a>
+</nav>
+<div id="last-updated">Last Updated: 2022-09-21</div>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Book metrics widget</h1>
+<p class="subtitle" role="doc-subtitle">Posted on 2022-04-28</p>
+</header><p>
+This <a href="https://github.com/OpenBookPublishers/metrics-widget">Node package</a> is used to display book usage statistics on <a href="https://www.openbookpublishers.com/">Open Book Publishers</a>&rsquo;s new website, consuming a <a href="https://github.com/hirmeos/metrics-api">HIRMEOS Metrics API</a>. Their new website is made using NextJS and this package uses React, Tailwind CSS and few libraries based on them. It uses REST API to query the DOI of the book on each book pages to get the data. Then the data is parsed and JavaScript object is created based on the data. This object is then passed on to functions that display the data as a graph, timeline and geochart. There is also another object created using the same data to download as a CSV file. The generated graph, timeline and geochart can be downloaded as an image.
+</p>
+
+
+<figure id="orgc9410c0">
+<img src="../res/img/projects/obp-metrics-widget.png" alt="obp-metrics-widget.png">
+
+</figure>
+
+<p>
+This took about 15 weekdays and 2 weekends so about 17 days total. Including setting up the PC and learning web development from scratch (I&rsquo;ve never done web development before except very basic HTML, CSS and JavaScript).
+</p>
+
+<p>
+The things that I learned are HTML, CSS, JavaScript, React, Tailwind CSS, GitFlow branching model, NextJS, Node packaging, GitHub workflow, little bit of webpack, little bit of postcss and little bit of babel.
+</p>
+
+<p>
+All I can say is that I learned a ton. I would say it is about the same as two years of university study.
+</p>
+</main>
+<footer id="postamble" class="status">
+<a href="/rss.xml">RSS feed</a><br />
+<a href="https://gitlab.com/zagyarakushi/zagyarakushi.gitlab.io/-/archive/master/zagyarakushi.gitlab.io-master.zip">Download entire website</a><br />
+<a href="https://gitlab.com/zagyarakushi/zagyarakushi.gitlab.io">View source code</a>
+
+<!-- This code is based on footnote from Thomas Ingram's site https://taingram.org/ with some minor modifications -->
+<div class="copyright">
+  Copyright &copy; 2022-2023 Zagyarakushi some rights reserved<br />
+  Content is available under
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    CC-BY-SA 4.0
+  </a> unless otherwise noted
+</div>
+<div class="cc-badge">
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+  </a>
+</div>
+</div>
+<div class="generated">
+  Created with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.1 (<a href="https://orgmode.org">Org</a> mode
+  9.5.2) on <a href="https://www.gnu.org">GNU</a>/<a href="https://www.kernel.org/">Linux</a>
+</div>
+</footer>
+</body>
+</html>

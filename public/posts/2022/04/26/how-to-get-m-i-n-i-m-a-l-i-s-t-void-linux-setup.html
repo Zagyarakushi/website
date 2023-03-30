@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2023-03-30 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>How to get m i n i m a l i s t Void Linux setup</title>
+<meta name="author" content="Zagyarakushi" />
+<meta name="description" content="I like minimalism and simplicity. Therefore, I started to use Void Linux. I will show you how to setup Void Linux so that you only have what you need without bloat." />
+<meta name="generator" content="Org Mode" />
+<meta name="robots" content="noindex">
+<meta name="robots" content="nofollow">
+<meta name="robots" content="noarchive">
+<meta name="robots" content="nocache">
+<meta name="robots" content="notranslate">
+<meta name="robots" content="noimageindex">
+<meta name="robots" content="nosnippet">
+<meta name="referrer" content="noreferrer">
+<link rel="stylesheet" type="text/css" href="/res/css/simple.css">
+<link rel="stylesheet" type="text/css" href="/res/css/custom.css">
+<link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
+<link rel="apple-touch-icon" sizes="180x180" href="https://zagyarakushi.gitlab.io/res/icons/apple-touch-icon.png">
+<link rel="manifest" href="https://zagyarakushi.gitlab.io/res/icons/site.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zagyarakushi.gitlab.io/res/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://zagyarakushi.gitlab.io/res/icons/favicon-16x16.png">
+<link rel="icon" type="image/x-icon" href="https://zagyarakushi.gitlab.io/res/icons/favicon.ico">
+<meta property="og:title" content="How to get m i n i m a l i s t Void Linux setup">
+<meta property="og:url" content="https://zagyarakushi.gitlab.io/posts/2022/04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.html">
+<meta property="og:description" content="I like minimalism and simplicity. Therefore, I started to use Void Linux. I will show you how to setup Void Linux so that you only have what you need without bloat.">
+<meta property="og:image" content="https://zagyarakushi.gitlab.io/res/icons/ogimage.png">
+<meta property="og:type" content="article">
+<meta property="article:author" content="Zagyarakushi">
+<meta property="article:published_time" content="2022-04-26T00:00:00+0100">
+<meta property="twitter:title" content="How to get m i n i m a l i s t Void Linux setup">
+<meta property="twitter:url" content="https://zagyarakushi.gitlab.io/posts/2022/04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.html">
+<meta property="twitter:image" content="https://zagyarakushi.gitlab.io/res/icons/ogimage.png">
+<meta property="twitter:description" content="I like minimalism and simplicity. Therefore, I started to use Void Linux. I will show you how to setup Void Linux so that you only have what you need without bloat.">
+<meta property="twitter:card" content="summary">
+</head>
+<body>
+<header id="top" class="status">
+<h1><a href="/" title="Zagyarakushi">Zagyarakushi</a></h1>
+<nav>
+  <a href="/">Home</a>
+  <a href="/posts/blog.html">Blog</a>
+  <a href="/projects/projects.html">Projects</a>
+  <a href="/interesting.html">Interesting Stuff</a>
+  <a href="/services.html">Services</a>
+  <a href="/about.html">About</a>
+  <a href="/donate.html">Donate</a>
+</nav>
+<div id="last-updated">Last Updated: 2022-10-05</div>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">How to get m i n i m a l i s t Void Linux setup</h1>
+<p class="subtitle" role="doc-subtitle">Posted on 2022-04-26</p>
+</header><p>
+I&rsquo;ve always liked and preferred minimalism and simplicity in all areas of life. This also applies to computing. When I started playing around with Linux, I used Ubuntu and Linux Mint to learn the basics. Then I went straight to Arch Linux because of it&rsquo;s customizability and stayed there for few months. However, I wanted something without Systemd and something which was even more customizable than Arch Linux. I found Gentoo and played around for couple of months but the compile time and some difficulty in trying to automate the install using my own script led me to Void Linux.
+</p>
+
+<p>
+Void Linux keeps to the KISS philosophy and allows you to customize almost all aspects of the system such as compiling most of the user-space applications from source code and compiling the customized kernel just like Gentoo. This make Void Linux suited for people who want to change the operating system to suit their needs.
+</p>
+
+<p>
+This post will tell you what I did in order to get a minimal system so you can adapt to your own situation.
+</p>
+
+<section id="outline-container-Have-a-minimal-base" class="outline-2">
+<h2 id="Have-a-minimal-base"><a href="#Have-a-minimal-base">Step 1: Have a minimal base</a></h2>
+<div class="outline-text-2" id="text-Have-a-minimal-base">
+<p>
+Void Linux provides a normal base which might include stuff that you don&rsquo;t need. You can instead use the minimal base which contains only the essential services to get the system running. You might even be able to install individual services and programs to create your own base but I have not personally tried it.
+</p>
+
+<p>
+For example, search for base-system and base-minimal on Void Linux website. Now look at the package template.
+</p>
+
+
+<figure id="org79f0384">
+<img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-system.png" alt="void-linux-base-system.png">
+
+<figcaption><span class="figure-number">Figure 1: </span>Template for base-system</figcaption>
+</figure>
+
+
+<figure id="org53db8c5">
+<img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-minimal.png" alt="void-linux-base-minimal.png">
+
+<figcaption><span class="figure-number">Figure 2: </span>Template for base-minimal</figcaption>
+</figure>
+
+<p>
+Look at &ldquo;depends&rdquo; variable. These are all the dependencies that will be installed when you install the package. You can see that ncurses, openssh, void-artwork and others  are not included in base-minimal.
+</p>
+</div>
+</section>
+
+<section id="outline-container-Use-minimal-versions-of-application" class="outline-2">
+<h2 id="Use-minimal-versions-of-application"><a href="#Use-minimal-versions-of-application">Step 2: Use minimal versions of application</a></h2>
+<div class="outline-text-2" id="text-Use-minimal-versions-of-application">
+<p>
+Void Linux provides minimal version for some software. For example, there is xorg, then there is xorg-minimal. You will need to add some additional software on top of xorg-minimal if you use dwm. And probably most other cases too.
+</p>
+
+
+<figure id="orgf65e327">
+<img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-template.png" alt="void-linux-xorg-template.png">
+
+<figcaption><span class="figure-number">Figure 3: </span>Template for xorg</figcaption>
+</figure>
+
+
+<figure id="org9b540b8">
+<img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-minimal-template.png" alt="void-linux-xorg-minimal-template.png">
+
+<figcaption><span class="figure-number">Figure 4: </span>Template for xorg-minimal</figcaption>
+</figure>
+
+<p>
+Again, you can see that there are less dependencies for minimal version.
+</p>
+</div>
+</section>
+
+<section id="outline-container-Have-the-least-amount-of-code-running-to-have-your-functionality" class="outline-2">
+<h2 id="Have-the-least-amount-of-code-running-to-have-your-functionality"><a href="#Have-the-least-amount-of-code-running-to-have-your-functionality">Step 3: Have the least amount of code running to have your functionality</a></h2>
+<div class="outline-text-2" id="text-Have-the-least-amount-of-code-running-to-have-your-functionality">
+<p>
+Any code that is running on your computer and you don&rsquo;t need it running is a waste. Disable all services such as extra TTYs and other services that get enabled by default.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">Remove unnecessary ttys.</span>
+rm /var/service/agetty-tty6
+rm /var/service/agetty-tty5
+rm /var/service/agetty-tty4
+rm /var/service/agetty-tty3
+
+<span class="org-comment-delimiter"># </span><span class="org-comment">Make sure ttys are not started.</span>
+touch /etc/sv/agetty-tty6/down
+touch /etc/sv/agetty-tty5/down
+touch /etc/sv/agetty-tty4/down
+touch /etc/sv/agetty-tty3/down
+</pre>
+</div>
+</div>
+</section>
+
+<section id="outline-container-Advanced" class="outline-2">
+<h2 id="Advanced"><a href="#Advanced">Advanced</a></h2>
+<div class="outline-text-2" id="text-Advanced">
+</div>
+
+<div id="outline-container-Use-musl-instead-of-glib" class="outline-3">
+<h3 id="Use-musl-instead-of-glib"><a href="#Use-musl-instead-of-glib">Use musl instead of glibc</a></h3>
+<div class="outline-text-3" id="text-Use-musl-instead-of-glib">
+<p>
+musl is an implementation of a C library that is lightweight, fast, simple, free, and strives to be correct in the sense of standards-conformance and safety.
+</p>
+
+<p>
+Void Linux provides musl images for amd64 and arm architectures (no x86 support yet). musl version of Void Linux has all the packages compiled using musl which should produce simpler code compared to glibc. However, since glibc is what most people have been using, some software may not compile or work properly. This can be solved by using flatpak or chroot. See <a href="https://docs.voidlinux.org/installation/musl.html">this</a> page for more information.
+</p>
+
+<p>
+So far I have not experienced any problems except the initial hurdle of finding out which software works and doesn&rsquo;t. nss-mdns does not work so you may need something like nsss or mDNSResponder. Tor browser also do not work so I use flatpak to run it. 32bit stuff does not work so things like wine is not supported. Appimages currently do not work. However, there are on-going effort to produce statically linked binaries using musl.
+</p>
+
+<p>
+You can still use flatpak or chroot to solve these though.
+</p>
+</div>
+</div>
+
+<div id="outline-container-use-sbase-ubase-and-sinit" class="outline-3">
+<h3 id="use-sbase-ubase-and-sinit"><a href="#use-sbase-ubase-and-sinit">Use sbase, ubase and sinit</a></h3>
+<div class="outline-text-3" id="text-use-sbase-ubase-and-sinit">
+<p>
+Recently, I tried to replace gnu coreutils with sbase, util-linux with ubase and runit with sinit. I did manage to use sbase and ubase but Void Linux still relies heavily on gnu coreutils and many packages depend on it. I did not manage to replace runit with sinit. I am back to gnu coreutils for now.
+</p>
+</div>
+</div>
+
+<div id="outline-container-use-tcc-the-tiny-c-compiler" class="outline-3">
+<h3 id="use-tcc-the-tiny-c-compiler"><a href="#use-tcc-the-tiny-c-compiler">Use tcc the tiny c compiler</a></h3>
+<div class="outline-text-3" id="text-use-tcc-the-tiny-c-compiler">
+<p>
+tcc is faster and more lightweight compared to gcc. I have recently started using tcc to compile suckless stuff like dwm, st, dmenu etc. I have not compared the size or speed of the compiled binaries but I know that gcc is big. Very big. I have briefly played around with Kiss Linux and building gcc took long. I did not time how long it took but maybe around 3 to 4 hours
+</p>
+</div>
+</div>
+
+<div id="outline-container-Kernel" class="outline-3">
+<h3 id="Kernel"><a href="#Kernel">Kernel</a></h3>
+<div class="outline-text-3" id="text-Kernel">
+<p>
+You can compile your own kernel. I&rsquo;ve not tried this yet.
+</p>
+</div>
+</div>
+
+<div id="outline-container-Compile-your-software" class="outline-3">
+<h3 id="Compile-your-software"><a href="#Compile-your-software">Compile your software</a></h3>
+<div class="outline-text-3" id="text-Compile-your-software">
+<p>
+You can try to compile all software and even have your own patch that removes the functionality that you don&rsquo;t need. Just like Gentoo. I&rsquo;ve not tried this either. <a href="https://github.com/the-maldridge/xbps-mini-builder">This</a> tool could automate the building and updating of compiled packages for your system. You just have to supply package list and xbps-src.conf file in the same directory.
+</p>
+</div>
+</div>
+</section>
+
+<section id="outline-container-Conclusion" class="outline-2">
+<h2 id="Conclusion"><a href="#Conclusion">Conclusion</a></h2>
+<div class="outline-text-2" id="text-Conclusion">
+<p>
+Now you are able to configure your system from scratch in the most minimal way possible. Going this minimal may take some time to figure out all the packages and get used to but once everything is setup, there is no need to change it again.
+</p>
+
+<p>
+Hopefully, you also documented all the steps and packages required so that you can have identical setup when you reinstall your system.
+</p>
+
+<p>
+Also see <a href="http://harmful.cat-v.org/software/">harmful stuff</a> on cat-v and suckless&rsquo;s <a href="https://suckless.org/rocks/">rocks</a> and <a href="https://suckless.org/sucks/">sucks</a>.
+</p>
+</div>
+</section>
+
+<section id="outline-container-Want-to-help" class="outline-2">
+<h2 id="Want-to-help"><a href="#Want-to-help">Want to help?</a></h2>
+<div class="outline-text-2" id="text-Want-to-help">
+<p>
+Other than donating, you can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+</p>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<a href="/rss.xml">RSS feed</a><br />
+<a href="https://gitlab.com/zagyarakushi/zagyarakushi.gitlab.io/-/archive/master/zagyarakushi.gitlab.io-master.zip">Download entire website</a><br />
+<a href="https://gitlab.com/zagyarakushi/zagyarakushi.gitlab.io">View source code</a>
+
+<!-- This code is based on footnote from Thomas Ingram's site https://taingram.org/ with some minor modifications -->
+<div class="copyright">
+  Copyright &copy; 2022-2023 Zagyarakushi some rights reserved<br />
+  Content is available under
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    CC-BY-SA 4.0
+  </a> unless otherwise noted
+</div>
+<div class="cc-badge">
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+  </a>
+</div>
+</div>
+<div class="generated">
+  Created with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.1 (<a href="https://orgmode.org">Org</a> mode
+  9.5.2) on <a href="https://www.gnu.org">GNU</a>/<a href="https://www.kernel.org/">Linux</a>
+</div>
+</footer>
+</body>
+</html>

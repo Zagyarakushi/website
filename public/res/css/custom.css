@@ -1,0 +1,116 @@
+/* Global variables. */
+:root {
+    /* Set sans-serif & mono fonts */
+    --sans-font: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+    --mono-font: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
+
+    /* Default (light) theme */
+    --bg: #fbf1c7;
+    /* bg */
+    --accent-bg: #ebdbb2;
+    /* bg1 */
+    --text: #3c3836;
+    /* fg1 */
+    --text-light: #504945;
+    /* fg2 */
+    --border: #b57614;
+    /* yellow dark*/
+    --accent: #427b58;
+    /* aqua dark*/
+    --code: #9d0006;
+    /* red dark*/
+    --preformatted: #444;
+    --marked: #ffdd33;
+    --disabled: #efefef;
+}
+
+/* Dark theme */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #282828;
+        /* bg */
+        --accent-bg: #3c3836;
+        /* bg1 */
+        --text: #ebdbb2;
+        /* fg1 */
+        --text-light: #d5c4a1;
+        /* fg2 */
+        --border: #d79921;
+        /* yellow dark*/
+        --accent: #8ec07c;
+        /* aqua light*/
+        --code: #cc241d;
+        /* red dark*/
+        --preformatted: #ccc;
+        --marked: #ffdd33;
+        --disabled: #111;
+    }
+
+    /* Add a bit of transparancy so light media isn't so glaring in dark mode */
+    img,
+    video {
+        opacity: 0.8;
+    }
+}
+
+/* Sitemap styles from https://writepermission.com/ */
+ul.sitemap {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.sitemap i,
+header .subtitle {
+    color: #666666;
+    clear: left;
+    font-style: normal;
+    font-size: 1rem;
+    margin: 0;
+}
+
+/* Make the header bg full width, but the content inline with body */
+body>#top {
+    background: var(--accent-bg);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    padding: 0 0.5rem 2rem 0.5rem;
+    grid-column: 1 / -1;
+    box-sizing: border-box;
+}
+
+body>#top h1 {
+    max-width: 1200px;
+    margin: 1rem auto;
+}
+
+body>#top p {
+    max-width: 40rem;
+    margin: 1rem auto;
+}
+
+#postamble {
+    font-size: 80%;
+}
+
+.generated {
+    font-family: var(--mono-font);
+    text-align: center;
+}
+
+.copyright-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title {
+    text-align: center;
+}
+
+#last-updated {
+    color: #666666;
+    clear: left;
+    font-style: normal;
+    font-size: 1rem;
+    margin: 0;
+}

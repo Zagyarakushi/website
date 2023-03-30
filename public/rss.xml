@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+     xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+     xmlns:georss="http://www.georss.org/georss"
+     xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+     xmlns:media="http://search.yahoo.com/mrss/"><channel>
+  <title>Zagyarakushi | zagyarakushi.gitlab.io</title>
+  <atom:link href="https://zagyarakushi.gitlab.io/rss.xml" rel="self" type="application/rss+xml" />
+  <link>https://zagyarakushi.gitlab.io/</link>
+  <description>This blog is dedicated to help people ascend to higher level and become woke. I will cover topics such as Linux, open source, news, opinions, programming, privacy and security. Also don’t forget to be l33t h4x0r, minimalist and A E S T H E T I C A L.</description>
+  <language>en</language>
+  <pubDate>30 Mar 2023</pubDate>
+  <lastBuildDate>30 Mar 2023</lastBuildDate>
+  <generator>Emacs 28.1 Org-mode 9.5.2</generator>
+  <webMaster>(Zagyarakushi)</webMaster>
+  <image>
+    <url>https://zagyarakushi.gitlab.io/res/icons/android-chrome-192x192.png</url>
+    <title>Zagyarakushi | zagyarakushi.gitlab.io</title>
+    <link>https://zagyarakushi.gitlab.io/</link>
+  </image>
+
+
+  <item>
+    <title>How to install Void Linux the minimalist way</title>
+    <link>https://zagyarakushi.gitlab.io/posts/2022/09/26/how-to-install-void-linux-the-minimalist-way.html</link>
+    <author> (Zagyarakushi)</author>
+    <guid isPermaLink="false">https://zagyarakushi.gitlab.io/posts/2022/09/26/how-to-install-void-linux-the-minimalist-way.html</guid>
+    <pubDate>26 Sep 2022</pubDate>
+
+    <description><![CDATA[<p>
+    This is only one of many ways to install Void Linux. A (very) primitive install script is also available to speed up the process. Please also read the Void Linux documentation and Arch Linux wiki which contains pretty much everything you need to know.
+    </p>
+
+    <p>
+    Part 0: The preparation
+    </p>
+    <p>
+    :CUSTOM_ID: preparation
+    </p>
+
+    <div id="outline-container-partitioning" class="outline-3">
+    <h3 id="partitioning">Intro to partitioning</h3>
+    <div class="outline-text-3" id="text-partitioning">
+    <p>
+    The absolute minimum you need is a boot partition and root partition (for UEFI/GPT). You can further customize to have /home or /usr as separate partition or even a separate drive. For example, boot and root on SSD and home on HDD.
+    </p>
+    </div>
+
+    <div id="outline-container-example-partitioning-uefi" class="outline-4">
+    <h4 id="example-partitioning-uefi">Some examples for UEFI/GPT:</h4>
+    <div class="outline-text-4" id="text-example-partitioning-uefi">
+    </div>
+    <ul class="org-ul">
+    <li><a id="two-drives"></a>The HDD for /home example<br>
+    <div class="outline-text-5" id="text-two-drives">
+    <pre class="example">
+    SSD = /dev/sda
+    HDD = /dev/sdb
+    /dev/sda1 formatted as F32 and mounted on /boot
+    /dev/sda2 formatted as EXT4 and mounted on /
+    /dev/sdb1 formatted as EXT4 and mounted on /home
+    </pre>
+    </div>
+    </li>
+    </ul>
+    </div>
+    </div>
+    ]]></description>
+  </item>
+</channel>
+</rss>

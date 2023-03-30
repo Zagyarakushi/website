@@ -1,24 +1,14 @@
-image: silex/emacs:master-alpine-ci
+# This file is a template, and might need editing before it works on your project.
+# Full project: https://gitlab.com/pages/plain-html
 
-stages: 
-  - publish
-
-.publish: &publish
-#  script:
-#    - apk add --update --no-cache python3
-#    - make publish
-#  cache:
-#    paths:
-#      - .packages/
-#      - .timestamps/
-#      - public/
-#    policy: pull-push
-  artifacts:
-    paths:
-    - public/
+image: busybox
 
 pages:
-  stage: publish
-  <<: *publish
-  only:
-  - master
+  stage: deploy
+  script:
+    - echo "The site will be deployed to $CI_PAGES_URL"
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

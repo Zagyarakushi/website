@@ -249,7 +249,7 @@ communication channel."
 	     (pubdate (let ((system-time-locale "C"))
 			(if (and pubdate0 (not (string-empty-p pubdate0)))
 			    (format-time-string
-			     "%a, %d %b %Y %H:%M:%S %z"
+			     "%d %b %Y"
 			     (org-time-string-to-time pubdate0)))))
 	     (title (org-rss-plain-text
 		     (or (org-element-property :RSS_TITLE headline)
@@ -280,7 +280,7 @@ communication channel."
 	    "<link>%s</link>\n"
 	    "<author>%s (%s)</author>\n"
 	    "<guid isPermaLink=\"false\">%s</guid>\n"
-	    "<pubDate>%s</pubDate>\n"
+            "<pubDate>%s</pubDate>\n"
 	    (org-rss-build-categories headline info) "\n"
 	    "<description><![CDATA[%s]]></description>\n"
 	    "</item>\n")
@@ -327,7 +327,7 @@ as a communication channel."
 	 (author (and (plist-get info :with-author)
 		      (let ((auth (plist-get info :author)))
 			(and auth (org-export-data auth info)))))
-	 (date (format-time-string "%a, %d %b %Y %H:%M:%S %z")) ;; RFC 882
+	 (date (format-time-string "%d %b %Y")) ;; RFC 882
 	 (description (org-export-data (plist-get info :description) info))
 	 (lang (plist-get info :language))
 	 (keywords (plist-get info :keywords))
@@ -351,7 +351,7 @@ as a communication channel."
 <pubDate>%s</pubDate>
 <lastBuildDate>%s</lastBuildDate>
 <generator>%s</generator>
-<webMaster>%s (%s)</webMaster>
+<webMaster>%s(%s)</webMaster>
 <image>
 <url>%s</url>
 <title>%s</title>

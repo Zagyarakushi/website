@@ -1,0 +1,87 @@
+#+title: Leaving the Clear Web for I2P
+#+DATE: <2023-04-10 Mon>
+#+DESCRIPTION: This post shows you why and how to leave the clear web
+
+My I2P website is now live at: http://362vxf2h4i7ci4vkos727uu4gsngopt4mmttrafrirqiff64ehsa.b32.i2p/
+
+Obviously, not to be taken literally as you won't be able to access necessary stuff if you completely cut off clear web.
+
+* The why
+:PROPERTIES:
+:CUSTOM_ID: the-why
+:END:
+
+** 1. Privacy and Security
+:PROPERTIES:
+:CUSTOM_ID: privacy-and-security
+:END:
+
+I2P is designed to be secure and private by design. It is not possible to know the IP address of both client or server and communication is encrypted. So, you can finally torrent privately without VPN!  Websites don't need to enable https or other stuff on top of http which makes life much easier just like back in the old days.
+
+** 2. Actually being able to own your server and domain
+:PROPERTIES:
+:CUSTOM_ID: actually-being-able-to-own-your-server-and-domain
+:END:
+
+I2P uses public and private key for communication which means that your server address will be the public key. So instead of having to buy domain names from shady companies and having to pay for it the rest of your life (using not so private payment method), you can just own your address. By the way, you can backup the keys if required. This means that you can have your server at your home as your ip address won't be tied to the domain.
+
+** 3. AI genrated content
+:PROPERTIES:
+:CUSTOM_ID: ai-generated-content
+:END:
+
+The clear web has been for a while now, ran by AI. This has accelarated and become worse due to recent advance in AI. I am not against AI but the way they are used. Auto generated contents are everywhere. Are they useful? Sometimes they might be. But most are shallow content with high quality SEO optimisation which puts the lesser known high quality website into rank $5.78*10^9=b$ . Most websites also contain only the same information found elsewhere. There are no new or unique ideas because AI do not have them (yet). This will keep getting worse as everything will be auto generated in the future. Images, Videos, Sounds, Text and maybe even some programming so that all you need is to tell AI what kind of website you want and it will create and keep it running for you.
+
+** 4. Convienience
+:PROPERTIES:
+:CUSTOM_ID: convienience
+:END:
+
+It is just genuinely easier to browse website, download torrents, serve websites, chat, and do everything else that can be done on clear web but in a way that is private and secure. You can host your website from home and own your domain. I think it is even possible to host your own email server on I2P. Or you can use the many available p2p apps so that you get the benefit of p2p without the problem of revealing your ip address. It's harder to doxx and ddos your entire home network.
+
+* The How
+:PROPERTIES:
+:CUSTOM_ID: the-how
+:END:
+
+This one is easy. Just install I2P and start using it. If you are hosting a website on clear web then you can host a website for I2P. You can mirror the website, switch entirely to I2P or just post new stuff on I2P while keeping the old website running on clear web. If you are torrenting then you can use I2P (Some stuff may not be available or exclusively available). If you post videos then you can post it on I2P through your website or you can even torrent it. You can stream audio. You can probably live stream video. There are already some game servers as well (Not sure of latency and stuff though). For communication, you can use IRC, XMPP, I2P-Bote, Email, Tox, Retroshare, Jami, probably Matrix and many more that are missing. The point is that you can pretty much do everything you need to just within I2P.
+
+* Some Downsides
+:PROPERTIES:
+:CUSTOM_ID: some-downsides
+:END:
+
+** Bloat
+:PROPERTIES:
+:CUSTOM_ID: bloat
+:END:
+
+I2P Java requires you to load all the Java stuff and has many apps bundled such as torrent client, web server and email client. The protocol iteself has some overhead (compared to clear web) due to the way things are done but that is to be expected. i2pd is the C++ implemenation of I2P protocol is more efficienct and without all the bundled apps. However, I2P Java is certainly useful for those who seek ease of use or want to use it on another OS such as NetBSD (Or I2P bote).
+
+** Slow
+:PROPERTIES:
+:CUSTOM_ID: slow
+:END:
+
+I2P is slow. There is no denying that. But most of it is due to not having enough participants. More people joining I2P will make the network more robust and faster. But it would still be slower than clear web.
+
+** Latency
+:PROPERTIES:
+:CUSTOM_ID: latency
+:END:
+
+You will probably have high latency. So anything that's realtime may not be so suitable for now.
+
+* Conclusion
+:PROPERTIES:
+:CUSTOM_ID: conclusion
+:END:
+
+I will be moving to I2P and this will probably be the last post on clear web. The reasons are because I can own my domain without registration and host the website from home.
+
+* Want to help?
+:PROPERTIES:
+:CUSTOM_ID: want-to-help
+:END:
+
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

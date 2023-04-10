@@ -14,8 +14,8 @@
   <link>https://zagyarakushi.gitlab.io/</link>
   <description>This blog is dedicated to help people ascend to higher level and become woke. I will cover topics such as Linux, open source, news, opinions, programming, privacy and security. Also don’t forget to be l33t h4x0r, minimalist and A E S T H E T I C A L.</description>
   <language>en</language>
-  <pubDate>30 Mar 2023</pubDate>
-  <lastBuildDate>30 Mar 2023</lastBuildDate>
+  <pubDate>10 Apr 2023</pubDate>
+  <lastBuildDate>10 Apr 2023</lastBuildDate>
   <generator>Emacs 28.1 Org-mode 9.5.2</generator>
   <webMaster>(Zagyarakushi)</webMaster>
   <image>
@@ -26,1304 +26,104 @@
 
 
   <item>
-    <title>How to install Void Linux the minimalist way</title>
-    <link>https://zagyarakushi.gitlab.io/posts/2022/09/26/how-to-install-void-linux-the-minimalist-way.html</link>
+    <title>Leaving the Clear Web for I2P</title>
+    <link>https://zagyarakushi.gitlab.io/posts/2023/03/31/leaving-the-clear-web.html</link>
     <author> (Zagyarakushi)</author>
-    <guid isPermaLink="false">https://zagyarakushi.gitlab.io/posts/2022/09/26/how-to-install-void-linux-the-minimalist-way.html</guid>
-    <pubDate>26 Sep 2022</pubDate>
+    <guid isPermaLink="false">https://zagyarakushi.gitlab.io/posts/2023/03/31/leaving-the-clear-web.html</guid>
+    <pubDate>10 Apr 2023</pubDate>
 
     <description><![CDATA[<p>
-    This is only one of many ways to install Void Linux. A (very) primitive install script is also available to speed up the process. Please also read the Void Linux documentation and Arch Linux wiki which contains pretty much everything you need to know.
+    My I2P website is now live at: <a href="http://362vxf2h4i7ci4vkos727uu4gsngopt4mmttrafrirqiff64ehsa.b32.i2p/">http://362vxf2h4i7ci4vkos727uu4gsngopt4mmttrafrirqiff64ehsa.b32.i2p/</a>
     </p>
 
     <p>
-    Part 0: The preparation
+    Obviously, not to be taken literally as you won't be able to access necessary stuff if you completely cut off clear web.
     </p>
-    <p>
-    :CUSTOM_ID: preparation
-    </p>
-
-    <div id="outline-container-partitioning" class="outline-3">
-    <h3 id="partitioning">Intro to partitioning</h3>
-    <div class="outline-text-3" id="text-partitioning">
-    <p>
-    The absolute minimum you need is a boot partition and root partition (for UEFI/GPT). You can further customize to have /home or /usr as separate partition or even a separate drive. For example, boot and root on SSD and home on HDD.
-    </p>
-    </div>
-
-    <div id="outline-container-example-partitioning-uefi" class="outline-4">
-    <h4 id="example-partitioning-uefi">Some examples for UEFI/GPT:</h4>
-    <div class="outline-text-4" id="text-example-partitioning-uefi">
-    </div>
-    <ul class="org-ul">
-    <li><a id="two-drives"></a>The HDD for /home example<br>
-    <div class="outline-text-5" id="text-two-drives">
-    <pre class="example">
-    SSD = /dev/sda
-    HDD = /dev/sdb
-    /dev/sda1 formatted as F32 and mounted on /boot
-    /dev/sda2 formatted as EXT4 and mounted on /
-    /dev/sdb1 formatted as EXT4 and mounted on /home
-    </pre>
-    </div>
-    </li>
-
-    <li><a id="single-drive"></a>The single drive for everything example<br>
-    <div class="outline-text-5" id="text-single-drive">
-    <pre class="example">
-    HDD = /dev/sda
-    /dev/sda1 formatted as F32 and mounted on /boot
-    /dev/sda2 formatted as EXT4 and mounted on /
-    </pre>
-    </div>
-    </li>
-
-    <li><a id="single-drive-with-swap"></a>The single drive for everything but with swap example<br>
-    <div class="outline-text-5" id="text-single-drive-with-swap">
-    <pre class="example">
-    HDD = /dev/sda
-    /dev/sda1 formatted as F32 and mounted on /boot
-    /dev/sda2 formatted as swap and mounted as swap
-    /dev/sda3 formatted as EXT4 and mounted on /
-    </pre>
-    </div>
-    </li>
-    </ul>
-    </div>
-
-    <div id="outline-container-example-partitioning-bios" class="outline-4">
-    <h4 id="example-partitioning-bios">Some examples for BIOS/MBR:</h4>
-    <div class="outline-text-4" id="text-example-partitioning-bios">
-    </div>
-    <ul class="org-ul">
-    <li><a id="single-drive-bios"></a>The single drive for everything (literally) example<br>
-    <div class="outline-text-5" id="text-single-drive-bios">
-    <pre class="example">
-    HDD = /dev/sd
-    /dev/sda1 formatted as EXT4 and mounted on /
-    </pre>
-
-    <p>
-    You can also do something similar to UEFI partitioning.
-    </p>
-    </div>
-    </li>
-    </ul>
-    </div>
-
-    <div id="outline-container-disk-encryption" class="outline-4">
-    <h4 id="disk-encryption">Disk encryption and LVM</h4>
-    <div class="outline-text-4" id="text-disk-encryption">
-    <p>
-    You should really encrypt anything that may contain sensitive information. We have the basic partitioning but we don&rsquo;t have encryption. Encryption is easy on Linux but there are some rules to follow. Rule 1: Don&rsquo;t encrypt the boot partition. Okay, you CAN encrypt it and some people seem to have managed to do but I have never got it to work. Rule 2: If you don&rsquo;t want to type like 3 or 4 passwords on boot then create key files to auto decrypt all the other partitions or use LVM.
-    </p>
-
-    <p>
-    There are also additional security stuff you can do such as secure boot with your own signing key, AEM (anti evil maid), GRUB passwords, boot partition on removable drive, TPM and more. See <a href="https://wiki.archlinux.org/title/security">this</a> for more.
-    </p>
-    </div>
-
-    <ul class="org-ul">
-    <li><a id="two-drives-with-encryption"></a>The HDD for /home example<br>
-    <div class="outline-text-5" id="text-two-drives-with-encryption">
-    <p>
-    This doesn&rsquo;t use LVM.
-    </p>
-
-    <pre class="example">
-    SSD = /dev/sda
-    HDD = /dev/sdb
-    /dev/sda1 formatted as F32 and  mounted on /boot
-    /dev/sda2 encrypted using cryptsetup
-    /dev/mapper/root formatted as EXT4 and mounted on /
-    /dev/sdb1 encrypted using cryptsetup but with key files
-    /dev/mapper/home formatted as EXT4 and mounted on /home
-    </pre>
-    </div>
-    </li>
-
-    <li><a id="single-drive-encryption"></a>The single drive for everything example<br>
-    <div class="outline-text-5" id="text-single-drive-encryption">
-    <pre class="example">
-    HDD = /dev/sda
-    /dev/sda1 formatted as F32 and mounted on /boot
-    /dev/sda2 encrypted using cryptsetup
-    /dev/mapper/root formatted as EXT4 and mounted on /
-    </pre>
-    </div>
-    </li>
-
-    <li><a id="single-drive-with-swap-encryption"></a>The single drive for everything but with swap example<br>
-    <div class="outline-text-5" id="text-single-drive-with-swap-encryption">
-    <pre class="example">
-    HDD = /dev/sda
-    /dev/sda1 formatted as F32 and mounted on /boot
-    /dev/sda2 encrypted using cryptsetup
-    /dev/mapper/root format as lvm device and create pool
-    /dev/mapper/pool-root formatted as EXT4 and mounted on /
-    /dev/mapper/pool-swap formatted as swap and mounted as swap
-    </pre>
-    </div>
-    </li>
-
-    <li><a id="single-drive-bios-encryption"></a>The single drive for everything (literally) example<br>
-    <div class="outline-text-5" id="text-single-drive-bios-encryption">
-    <p>
-    This is for BIOS/MBR.
-    </p>
-
-    <pre class="example">
-    HDD = /dev/sda
-    /dev/sda1 encrypted using cryptsetup (--luks1)
-    /dev/mapper/root formatted as EXT4 and mounted on /
-    </pre>
-
-    <p>
-    You can also do something similar to UEFI partitioning.
-    </p>
-    </div>
-    </li>
-    </ul>
-    </div>
-    </div>
-
-    <div id="outline-container-partitioning-real-world-example" class="outline-3">
-    <h3 id="partitioning-real-world-example">Real world example</h3>
-    <div class="outline-text-3" id="text-partitioning-real-world-example">
-    <p>
-    First set your keymap so that you type the correct password when encrypting your partition.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">loadkeys $<span class="org-variable-name">KEYMAP</span>
-    </pre>
-    </div>
-
-    <p>
-    Wipe file system of your drive.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">wipefs --all /dev/$<span class="org-variable-name">YOURDRIVE</span>
-    </pre>
-    </div>
-
-    <p>
-    Use cfdisk to create new partitions.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cfdisk /dev/$<span class="org-variable-name">YOURDRIVE</span>
-    </pre>
-    </div>
-
-    <p>
-    Select GPT and create partitions for boot and root. Don&rsquo;t forget to change the partition type of boot to EFI System. Now you should have the single drive for everything layout.
-    </p>
-
-    <p>
-    Now, encrypt your root.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random luksFormat $<span class="org-variable-name">ROOTPARTITION</span>
-    </pre>
-    </div>
-
-    <p>
-    Decrypt your root partition.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cryptsetup luksOpen $<span class="org-variable-name">ROOTPARTITION</span> root
-    </pre>
-    </div>
-
-    <p>
-    Create physical volume and volume group
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">pvcreate /dev/mapper/root
-    vgcreate pool /dev/mapper/root
-    </pre>
-    </div>
-
-    <p>
-    Create 16G swap partition.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">lvcreate -L 16G -n swap pool
-    </pre>
-    </div>
-
-    <p>
-    Create root partition.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">lvcreate -l 100%FREE -n root pool
-    </pre>
-    </div>
-
-    <p>
-    Make file system.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mkfs.fat -F32 $<span class="org-variable-name">BOOTPARTITION</span>
-    mkswap /dev/mapper/pool-swap
-    mkfs.ext4 /dev/mapper/pool-root
-    </pre>
-    </div>
-
-    <p>
-    Mount the root partition first.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mount /dev/mapper/pool-root /mnt
-    </pre>
-    </div>
-
-    <p>
-    Create required directories.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mkdir /mnt/boot
-    mkdir /mnt/home
-    </pre>
-    </div>
-
-    <p>
-    Mount boot.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mount $<span class="org-variable-name">BOOTPARTITION</span> /mnt/boot
-    </pre>
-    </div>
-
-    <p>
-    Mount swap.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">swapon /dev/mapper/pool-swap
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-org9bc14a4" class="outline-3">
-    <h3 id="org9bc14a4">Useful commands</h3>
-    <div class="outline-text-3" id="text-org9bc14a4">
-    </div>
-
-    <div id="outline-container-orgd901d28" class="outline-4">
-    <h4 id="orgd901d28">wipefs</h4>
-    <div class="outline-text-4" id="text-orgd901d28">
-    <p>
-    Use wipefs to wipe file system to change from GPT to MBR or vice versa.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">wipefs --all  /dev/YOURDRIVE
-    </pre>
-    </div>
-
-    <p>
-    WARNING! THIS WILL WIPE ALL DATA!
-    </p>
-    </div>
-    </div>
-
-    <div id="outline-container-orge989f68" class="outline-4">
-    <h4 id="orge989f68">cfdisk</h4>
-    <div class="outline-text-4" id="text-orge989f68">
-    <p>
-    cfdisk allows you to partition very easily. Just type
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cfdisk /dev/YOURDRIVE
-    </pre>
-    </div>
-
-    <p>
-    Choose GPT or MBR then start create partitions. Make sure to change type of partition to EFI for boot partition if on UEFI. Also change type to swap if creating swap partition.
-    </p>
-
-    <p>
-    This command can also be used to format USB and SD cards. Very useful.
-    </p>
-    </div>
-    </div>
-
-    <div id="outline-container-orgf00c28c" class="outline-4">
-    <h4 id="orgf00c28c">mkfs</h4>
-    <div class="outline-text-4" id="text-orgf00c28c">
-    <p>
-    mkfs allows you to actually format the partition to file system that you want.
-    </p>
-
-    <p>
-    For EXT4
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mkfs.ext4 /dev/YOURPARTITION
-    </pre>
-    </div>
-
-    <p>
-    For FAT32
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mkfs.vfat -F32  /dev/YOURPARTITION
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-org74c48aa" class="outline-4">
-    <h4 id="org74c48aa">cryptsetup</h4>
-    <div class="outline-text-4" id="text-org74c48aa">
-    <p>
-    To encrypt
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random luksFormat /dev/YOURPARTITION
-    </pre>
-    </div>
-
-    <p>
-    Or the simpler version
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cryptsetup luksFormat /dev/YOURPARTITION
-    </pre>
-    </div>
-
-    <p>
-    Key file encryption example
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random --key-file key luksFormat $<span class="org-variable-name">ROOTPARTITION</span>
-    </pre>
-    </div>
-
-    <p>
-    To decrypt
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">cryptsetup luksOpen /dev/YOURPARTITION YOURMAPPEDNAME
-    </pre>
-    </div>
-
-    <p>
-    Key file decryption
-    </p>
-    <div class="org-src-container">
-    <pre class="src src-sh">cryptsetup --key-file key luksOpen $<span class="org-variable-name">ROOTPARTITION</span> root
-    </pre>
-    </div>
-
-    <p>
-    Create key file using dd command.
-    </p>
-    </div>
-    </div>
-
-    <div id="outline-container-org62f5327" class="outline-4">
-    <h4 id="org62f5327">dd</h4>
-    <div class="outline-text-4" id="text-org62f5327">
-    <p>
-    Use dd to create key file, create bootable USB and many others.
-    </p>
-
-    <p>
-    Use this to create key file
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">dd <span class="org-variable-name">if</span>=/dev/urandom <span class="org-variable-name">of</span>=key <span class="org-variable-name">bs</span>=1024 <span class="org-variable-name">count</span>=20
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-orgedb6848" class="outline-4">
-    <h4 id="orgedb6848">LVM stuff</h4>
-    <div class="outline-text-4" id="text-orgedb6848">
-    <p>
-    To create physical volume
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">pvcreate /dev/mapper/YOURMAPPEDNAME
-    </pre>
-    </div>
-
-    <p>
-    Create volume group
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">vgcreate pool /dev/mapper/YOURMAPPEDNAME
-    </pre>
-    </div>
-
-    <p>
-    Create logical volume
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">lvcreate -l 50G -n root pool
-    </pre>
-    </div>
-
-    <p>
-    Create logical volume with all remaining space
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">lvcreate -L 100%FREE -n root pool
-    </pre>
-    </div>
-
-    <p>
-    Use something like home or root or pool for NAME
-    </p>
-
-    <p>
-    Part 1: Base system installation
-    </p>
-    <p>
-    :CUSTOM_ID: base-system-installation
-    </p>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-install-base-system" class="outline-3">
-    <h3 id="install-base-system">Install base system</h3>
-    <div class="outline-text-3" id="text-install-base-system">
-    <p>
-    This will install all the required files and packages to mnt. You can change the repository URL and probably should change some packages. Also add /musl to end of URL for musl version (<a href="https://alpha.de.repo.voidlinux.org/current/musl">https://alpha.de.repo.voidlinux.org/current/musl</a>).
-    </p>
-
-    <p>
-    See <a href="../../04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.html">this</a> to decide which packages to install.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y --repository=https://alpha.de.repo.voidlinux.org/current -r /mnt base-minimal lvm2 cryptsetup grub-x86_64-efi neovim NetworkManager elogind eudev e2fsprogs usbutils pciutils mdocml linux kbd iputils iproute2 ncurses bash oksh dbus-elogind dbus-elogind-libs dbus-elogind-x11 polkit git opendoas
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-misc-stuff" class="outline-3">
-    <h3 id="misc-stuff">Miscellaneous things to do</h3>
-    <div class="outline-text-3" id="text-misc-stuff">
-    <p>
-    Change umask for better security (From Arch Linux wiki).
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">sed -i <span class="org-string">'s/022/077/g'</span> /mnt/etc/profile
-    </pre>
-    </div>
-
-    <p>
-    If you are using keyfiles then copy the key file to somewhere in /mnt.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mkdir /mnt/var/local
-    cp key /mnt/var/local/
-    </pre>
-    </div>
-
-    <p>
-    If you are using keyfiles then also add an entry to crypttab to auto decrypt your partition using key file. home is name of the partition, the part after UUID= is a function to get UUID of the partition and the last part is the path to key file.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"home UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $HOMEPARTITION</span><span class="org-string">) /var/local/key"</span> &gt; /mnt/etc/crypttab
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-mount-additional" class="outline-3">
-    <h3 id="mount-additional">Mount the additional stuff</h3>
-    <div class="outline-text-3" id="text-mount-additional">
-    <p>
-    Mount some devices and stuff that&rsquo;s required.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-keyword">for</span> dir<span class="org-keyword"> in</span> dev proc sys run; <span class="org-keyword">do</span> mkdir -p /mnt/$<span class="org-variable-name">dir</span> ; mount --rbind /$<span class="org-variable-name">dir</span> /mnt/$<span class="org-variable-name">dir</span> ; mount --make-rslave /mnt/$<span class="org-variable-name">dir</span> ; <span class="org-keyword">done</span>
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-chroot" class="outline-3">
-    <h3 id="chroot">Chroot</h3>
-    <div class="outline-text-3" id="text-chroot">
-    <div class="org-src-container">
-    <pre class="src src-sh">chroot /mnt /bin/bash
-    </pre>
-    </div>
-
-    <p>
-    Part 2: Basic system setup
-    </p>
-    <p>
-    :CUSTOM_ID: basic-system-setup
-    </p>
-
-    <p>
-    In this section, we will setup the system and make it bootable.
-    </p>
-    </div>
-    </div>
-
-    <div id="outline-container-change-root-password-and-set-permissions" class="outline-3">
-    <h3 id="change-root-password-and-set-permissions">Change root password and set permissions</h3>
-    <div class="outline-text-3" id="text-change-root-password-and-set-permissions">
-    <p>
-    Change root password.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">passwd root
-    </pre>
-    </div>
-
-    <p>
-    Set ownership of /. The first root is the user root and second root is the group root.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">chown root:root /
-    </pre>
-    </div>
-
-    <p>
-    Set permission.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">chmod 755 /
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-create-user" class="outline-3">
-    <h3 id="create-user">Create user</h3>
-    <div class="outline-text-3" id="text-create-user">
-    <p>
-    Add a new user.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">useradd -m -s /bin/oksh -U -G wheel,users,audio,video,input $<span class="org-variable-name">USERNAME</span>
-    </pre>
-    </div>
-
-    <p>
-    Set password for new user.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">passwd $<span class="org-variable-name">USERNAME</span>
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-setup-locale-timezone-network" class="outline-3">
-    <h3 id="setup-locale-timezone-network">Setup locale, time zone, network services etc</h3>
-    <div class="outline-text-3" id="text-setup-locale-timezone-network">
-    <p>
-    Set locale. Make sure to change if different.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">en_US.UTF-8 UTF-8<span class="org-string">" &gt;&gt; /etc/default/libc-locales</span>
-    </pre>
-    </div>
-
-    <p>
-    If using glibc instead of musl then set glibc-locales as well.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-reconfigure -f glibc-locales
-    </pre>
-    </div>
-
-    <p>
-    Set timezone.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">ln -s /usr/share/zoneinfo/$<span class="org-variable-name">TIMEZONE</span> &gt; /etc/localtime
-    </pre>
-    </div>
-
-    <p>
-    Sync the hardware/bios clock.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">hwclock --systohc --utc
-    </pre>
-    </div>
-
-    <p>
-    Set host name.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">HOSTNAME</span> &gt; /etc/hostname
-    </pre>
-    </div>
-
-    <p>
-    If you want to auto decrypt on boot then add an entry in dracut.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">'install_items+=" /var/local/key /etc/crypttab "'</span> &gt; /etc/dracut.conf.d/10-crypt.conf
-    </pre>
-    </div>
-
-    <p>
-    Make sure to use this to enable only the features needed for your PC.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">'hostonly=yes'</span> &gt; /etc/dracut.conf.d/hostonly.conf
-    </pre>
-    </div>
-
-    <p>
-    Add some services that you want like NetworkManager.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">ln -s /etc/sv/NetworkManager /var/service/
-    ln -s /etc/sv/dbus /var/service/
-    ln -s /etc/sv/polkitd /var/service/
-    ln -s /etc/sv/elogind /var/service/
-    </pre>
-    </div>
-
-    <p>
-    Add the user to network so that user can use nmtui without root permission.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">gpasswd -a <span class="org-string">"$USERNAME"</span> network
-    </pre>
-    </div>
-
-    <p>
-    I also setup doas so that when I boot into the system, I can use doas.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"permit persist keepenv :wheel"</span> &gt; /etc/doas.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv root"</span> &gt;&gt; /etc/doas.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd reboot"</span> &gt;&gt; /etc/doas.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd poweroff"</span> &gt;&gt; /etc/doas.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd zzz"</span> &gt;&gt; /etc/doas.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd ZZZ"</span> &gt;&gt; /etc/doas.conf
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-setup-fstab" class="outline-3">
-    <h3 id="setup-fstab">Setup fstab</h3>
-    <div class="outline-text-3" id="text-setup-fstab">
-    <p>
-    Note: fstab is pronounced fs tab (for file system table). Not f stab :).
-    </p>
-
-    <p>
-    Here just change the variable to the partition that will be mounted on startup.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $HOMEPARTITION</span><span class="org-string">) /home   ext4    defaults                0       0"</span> &gt; /etc/fstab
-    <span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $ROOTPARTITION</span><span class="org-string">) /   ext4    defaults                    0       0"</span> &gt;&gt; /etc/fstab
-    <span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $SWAPPARTITION</span><span class="org-string">) none   swap    defaults                    0       0"</span> &gt;&gt; /etc/fstab
-    <span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $BOOTPARTITION</span><span class="org-string">) /boot   vfat    defaults                    0       0"</span> &gt;&gt; /etc/fstab
-    </pre>
-    </div>
-
-    <p>
-    For example, in this case, $BOOTPARTITION should be something like /dev/sda1, $ROOTPARTITION is /dev/mapper/pool-root, $SWAPARTITION is /dev/mapper/pool-swap.
-    </p>
-
-    <p>
-    If using key file for home or other partition then make sure to use the one that is going to be mounted. For example, /dev/mapper/home if not using LVM and /dev/mapper/pool-home if using LVM.
-    </p>
-    </div>
-    </div>
-
-    <div id="outline-container-setup-bootloader" class="outline-3">
-    <h3 id="setup-bootloader">Setup boot loader</h3>
-    <div class="outline-text-3" id="text-setup-bootloader">
-    <p>
-    Note: This section can be improved so that it is easier.
-    </p>
-
-    <p>
-    Add this to allow decryption of encrypted partition.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"GRUB_ENABLE_CRYPTODISK=y"</span> &gt;&gt; /etc/default/grub
-    </pre>
-    </div>
-
-    <p>
-    Add this to specify the encrypted partition.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"rd.auto=1 cryptdevice=UUID= quiet"</span> &gt;&gt; /etc/default/grub
-    </pre>
-    </div>
-
-    <p>
-    Now, copy the UUID of the encrypted partition. In this case it is /dev/sda2.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $ROOTPARTITIONORG</span><span class="org-string">)"</span> &gt;&gt; /etc/default/grub
-    </pre>
-    </div>
-
-    <p>
-    Edit the grub config.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">vim /etc/default/grub
-    </pre>
-    </div>
-
-    <p>
-    Make sure to combine them so that it is like this.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-variable-name">GRUB_CMDLINE_LINUX_DEFAULT</span>=<span class="org-string">"loglevel=4 rd.auto=1 cryptdevice=UUID=$YOURUUID:lvm quiet"</span>
-    </pre>
-    </div>
-
-    <p>
-    The :lvm is needed if you are using LVM. If not then you can omit this part.
-    </p>
-
-    <p>
-    Now, install and configure bootloader.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=<span class="org-string">"Void Linux"</span> --recheck
-    grub-mkconfig -o /boot/grub/grub.cfg
-    </pre>
-    </div>
-
-    <p>
-    Most bios are buggy and they assume the directory and file names to boot from. To solve this, copy the necessary stuff to the directory that windows use. And rename them to the one that windows use.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mkdir /boot/EFI/BOOT
-    cp <span class="org-string">"/boot/EFI/Void Linux/grubx64.efi"</span> /boot/EFI/BOOT/bootx64.efi
-    rm -rf <span class="org-string">"/boot/EFI/Void Linux"</span>
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-reconfigure-kernel" class="outline-3">
-    <h3 id="reconfigure-kernel">Reconfigure kernel</h3>
-    <div class="outline-text-3" id="text-reconfigure-kernel">
-    <p>
-    Reconfigure kernel to build all the modules, firmwares and set dracut etc.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-reconfigure -fa
-    </pre>
-    </div>
-    </div>
-    </div>
-
-    <div id="outline-container-reboot" class="outline-3">
-    <h3 id="reboot">Reboot</h3>
-    <div class="outline-text-3" id="text-reboot">
-    <p>
-    Just do
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">reboot
-    </pre>
-    </div>
-
-    <p>
-    to reboot into your new system.
-    </p>
 
     <p>
-    Part 3: Ricing
+    The why
     </p>
     <p>
-    :CUSTOM_ID: ricing
+    :CUSTOM_ID: the-why
     </p>
-
-    <p>
-    In this section, we will install some additional software, remove unnecessary services and setup more services and dotfiles.
-    </p>
-    </div>
-    </div>
-
-    <div id="outline-container-ricing-install-software" class="outline-3">
-    <h3 id="ricing-install-software">Install software</h3>
-    <div class="outline-text-3" id="text-ricing-install-software">
-    <p>
-    This section lists some packages that I use. Some of the packages are there just so people can choose it as an option.
-    </p>
-    </div>
-
-    <ul class="org-ul">
-    <li><a id="ricing-install-software-repo"></a>Install additional repo<br>
-    <div class="outline-text-5" id="text-ricing-install-software-repo">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y void-repo-nonfree
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-media"></a>Media packages<br>
-    <div class="outline-text-5" id="text-ricing-install-software-media">
-    <p>
-    Leave out bluetooth if you don&rsquo;t use them. Install stuff for alsa and jack if you use them.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y pipewire libspa-bluetooth mpv yt-dlp ffmpeg pipe-viewer pulsemixer ncmpcpp mpd cmus mpc newsboat sxiv
-    </pre>
-    </div>
-    </div>
-    </li>
 
-    <li><a id="ricing-install-software-graphics-drivers"></a>Graphics drivers<br>
-    <div class="outline-text-5" id="text-ricing-install-software-graphics-drivers">
+    <div id="outline-container-privacy-and-security" class="outline-3">
+    <h3 id="privacy-and-security">1. Privacy and Security</h3>
+    <div class="outline-text-3" id="text-privacy-and-security">
     <p>
-    Includes Intel and amd. You should only need one of them.
+    I2P is designed to be secure and private by design. It is not possible to know the IP address of both client or server and communication is encrypted. So, you can finally torrent privately without VPN!  Websites don&rsquo;t need to enable https or other stuff on top of http which makes life much easier just like back in the old days.
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y mesa mesa-dri vulkan-loader mesa-vaapi mesa-vdpa vdpauinfo libva-utils libva-vdpau-driver xf86-video-amdgpu mesa-vulkan-radeon intel-video-accel mesa-vulkan-intel xf86-video-intel
-    </pre>
     </div>
     </div>
-    </li>
 
-    <li><a id="ricing-install-software-browsers"></a>Browsers<br>
-    <div class="outline-text-5" id="text-ricing-install-software-browsers">
+    <div id="outline-container-actually-being-able-to-own-your-server-and-domain" class="outline-3">
+    <h3 id="actually-being-able-to-own-your-server-and-domain">2. Actually being able to own your server and domain</h3>
+    <div class="outline-text-3" id="text-actually-being-able-to-own-your-server-and-domain">
     <p>
-    Don&rsquo;t install tor browser if on musl. Use flatpak instead.
+    I2P uses public and private key for communication which means that your server address will be the public key. So instead of having to buy domain names from shady companies and having to pay for it the rest of your life (using not so private payment method), you can just own your address. By the way, you can backup the keys if required. This means that you can have your server at your home as your ip address won&rsquo;t be tied to the domain.
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y firefox chromium netsurf w3m lynx torbrowser-launcher
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-android"></a>Android<br>
-    <div class="outline-text-5" id="text-ricing-install-software-android">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y android-tools simple-mtpfs android-udev-rules
-    </pre>
-    </div>
     </div>
-    </li>
-
-    <li><a id="ricing-install-software-printer"></a>Printer<br>
-    <div class="outline-text-5" id="text-ricing-install-software-printer">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y cups cups-filters sane gutenprint
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-input-method"></a>Japanese/Chinese/Korean input method.<br>
-    <div class="outline-text-5" id="text-ricing-install-software-input-method">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y fcitx fcitx-mozc fcitx-configtool libfcitx-gtk3 libfcitx-gtk libfcitx
-    </pre>
     </div>
-    </div>
-    </li>
 
-    <li><a id="ricing-install-software-hostname-resolution"></a>Hostname resolution<br>
-    <div class="outline-text-5" id="text-ricing-install-software-hostname-resolution">
+    <div id="outline-container-ai-generated-content" class="outline-3">
+    <h3 id="ai-generated-content">3. AI genrated content</h3>
+    <div class="outline-text-3" id="text-ai-generated-content">
     <p>
-    Don&rsquo;t install nss-mdns if on musl. (To be updated)
+    The clear web has been for a while now, ran by AI. This has accelarated and become worse due to recent advance in AI. I am not against AI but the way they are used. Auto generated contents are everywhere. Are they useful? Sometimes they might be. But most are shallow content with high quality SEO optimisation which puts the lesser known high quality website into rank \(5.78*10^9=b\) . Most websites also contain only the same information found elsewhere. There are no new or unique ideas because AI do not have them (yet). This will keep getting worse as everything will be auto generated in the future. Images, Videos, Sounds, Text and maybe even some programming so that all you need is to tell AI what kind of website you want and it will create and keep it running for you.
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y avahi avahi-utils nss-mdns nsss mDNSResponder
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-bluetooth"></a>Bluetooth<br>
-    <div class="outline-text-5" id="text-ricing-install-software-bluetooth">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y bluez
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-compile"></a>Things needed to compile suckless tools.<br>
-    <div class="outline-text-5" id="text-ricing-install-software-compile">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y  pkg-config libX11-devel libXft-devel libXinerama-devel libXrandr-devel make tcc gcc libgcc-devel musl musl-devel glib glib-devel
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-fonts"></a>Fonts<br>
-    <div class="outline-text-5" id="text-ricing-install-software-fonts">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y noto-fonts-cjk noto-fonts-emoji noto-fonts-ttf noto-fonts-ttf-extra font-awesome
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-office"></a>Office<br>
-    <div class="outline-text-5" id="text-ricing-install-software-office">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y libreoffice texlive-bin
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-image-editors"></a>Image editors<br>
-    <div class="outline-text-5" id="text-ricing-install-software-image-editors">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y gimp inkskape krita
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-virtual-machine"></a>Virtual Machine<br>
-    <div class="outline-text-5" id="text-ricing-install-software-virtual-machine">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y virt-manager virt-manager-tools libvirt qemu
-    </pre>
     </div>
     </div>
-    </li>
 
-    <li><a id="ricing-install-software-xorg"></a>xorg<br>
-    <div class="outline-text-5" id="text-ricing-install-software-xorg">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y xorg-minimal
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-text-editors"></a>Text editors<br>
-    <div class="outline-text-5" id="text-ricing-install-software-text-editors">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y emacs-gtk3 neovim sam
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-password-managers"></a>Password managers<br>
-    <div class="outline-text-5" id="text-ricing-install-software-password-managers">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y keepassxc pass
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-misc"></a>Misc<br>
-    <div class="outline-text-5" id="text-ricing-install-software-misc">
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-install -S -y htop calcurse wget curl cmatrix neofetch dunst dosfstools libnotify exfat-utils ntfs-3g maim xclip socklog-void ntp  snooze xset xsetroot man-db setxkbmap xdg-user-dirs xrandr xss-lock unzip unrar intel-ucode ufw arandr xdpyinfo redshift man-pages man-pages-posix xdotool xrdb tmux xwallpaper unclutter-xfixes atool picom aria2 python3-pip libinput less openssh flatpak xdg-user-dirs-gtk xdg-desktop-portal xdg-desktop-portal-gtk python3-distro python3-magic libcaca python3-dbus libinput-gestures tlp-rdw smartmontools acpilight
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-flatpak"></a>Flatpak<br>
-    <div class="outline-text-5" id="text-ricing-install-software-flatpak">
-    <div class="org-src-container">
-    <pre class="src src-sh">flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    </pre>
-    </div>
-    </div>
-    </li>
-
-    <li><a id="ricing-install-software-flatpak-apps"></a>Flatpak apps<br>
-    <div class="outline-text-5" id="text-ricing-install-software-flatpak-apps">
-    <div class="org-src-container">
-    <pre class="src src-sh">flatpak --user install flathub com.microsoft.Teams
-    flatpak --user install flathub org.kde.kdenlive
-    flatpak --user install flathub com.valvesoftware.Steam
-    flatpak --user install flathub com.bitwarden.desktop
-    flatpak --user install flathub com.github.micahflee.torbrowser-launcher
-    </pre>
-    </div>
-    </div>
-    </li>
-    </ul>
-    </div>
-
-    <div id="outline-container-remove-unnecessary-services" class="outline-3">
-    <h3 id="remove-unnecessary-services">Remove unnecessary services</h3>
-    <div class="outline-text-3" id="text-remove-unnecessary-services">
+    <div id="outline-container-convienience" class="outline-3">
+    <h3 id="convienience">4. Convienience</h3>
+    <div class="outline-text-3" id="text-convienience">
     <p>
-    Remove unless you need them.
+    It is just genuinely easier to browse website, download torrents, serve websites, chat, and do everything else that can be done on clear web but in a way that is private and secure. You can host your website from home and own your domain. I think it is even possible to host your own email server on I2P. Or you can use the many available p2p apps so that you get the benefit of p2p without the problem of revealing your ip address. It&rsquo;s harder to doxx and ddos your entire home network.
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">rm /var/service/agetty-tty6
-    rm /var/service/agetty-tty5
-    rm /var/service/agetty-tty4
-    rm /var/service/agetty-tty3
-
-    touch /etc/sv/agetty-tty6/down
-    touch /etc/sv/agetty-tty5/down
-    touch /etc/sv/agetty-tty4/down
-    touch /etc/sv/agetty-tty3/down
-    </pre>
-    </div>
-    </div>
-    </div>
 
-    <div id="outline-container-setup-services-dotfiles-etc" class="outline-3">
-    <h3 id="setup-services-dotfiles-etc">Setup services, dotfiles etc</h3>
-    <div class="outline-text-3" id="text-setup-services-dotfiles-etc">
     <p>
-    Enable firewall
+    The How
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">xbps-reconfigure ufw
-    ufw enable
-    </pre>
-    </div>
-
     <p>
-    Enable some services on startup.
+    :CUSTOM_ID: the-how
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">ln -s /etc/sv/ufw /var/service/
-    ln -s /etc/sv/socklog-unix /var/service/
-    ln -s /etc/sv/nanoklogd /var/service/
-    ln -s /etc/sv/avahi-daemon /var/service/
-    ln -s /etc/sv/cupsd /var/service/
-    ln -s /etc/sv/isc-ntpd /var/service/
-    ln -s /etc/sv/libvirtd /var/service/
-    ln -s /etc/sv/virtlockd /var/service/
-    ln -s /etc/sv/virtlogd /var/service/
-    ln -s /etc/sv/bluetoothd /var/service/
-    ln -s /etc/sv/tlp /var/service/
-    </pre>
-    </div>
 
     <p>
-    Add user to group so you can use virtual machines and bluetooth.
+    This one is easy. Just install I2P and start using it. If you are hosting a website on clear web then you can host a website for I2P. You can mirror the website, switch entirely to I2P or just post new stuff on I2P while keeping the old website running on clear web. If you are torrenting then you can use I2P (Some stuff may not be available or exclusively available). If you post videos then you can post it on I2P through your website or you can even torrent it. You can stream audio. You can probably live stream video. There are already some game servers as well (Not sure of latency and stuff though). For communication, you can use IRC, XMPP, I2P-Bote, Email, Tox, Retroshare, Jami, probably Matrix and many more that are missing. The point is that you can pretty much do everything you need to just within I2P.
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">gpasswd -a <span class="org-string">"$USER"</span> libvirt
-    gpasswd -a <span class="org-string">"$USER"</span> bluetooth
-    gpasswd -a <span class="org-string">"$USER"</span> kvm
-    </pre>
-    </div>
 
     <p>
-    Enable hostname resolution in avahi.
+    Some Downsides
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"passwd:         files"</span> &gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"group:          files"</span> &gt;&gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"shadow:         files"</span> &gt;&gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"hosts:          files mdns mdns4_minimal mdns4 myhostname mdns_minimal [NOTFOUND=return] dns"</span> &gt;&gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"networks:       files"</span> &gt;&gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"protocols:      files"</span> &gt;&gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"services:       files"</span> &gt;&gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"ethers:         files"</span> &gt;&gt; /etc/nsswitch.conf
-    <span class="org-builtin">echo</span> <span class="org-string">"rpc:            files"</span> &gt;&gt; /etc/nsswitch.conf
-    </pre>
-    </div>
-
     <p>
-    Lock before suspend
+    :CUSTOM_ID: some-downsides
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"#!/bin/sh"</span> &gt; /etc/zzz.d/suspend/lockbefore
-    <span class="org-builtin">echo</span> <span class="org-string">"xset s activate"</span> &gt;&gt; /etc/zzz.d/suspend/lockbefore
-    <span class="org-builtin">echo</span> <span class="org-string">"sleep 1"</span> &gt;&gt; /etc/zzz.d/suspend/lockbefore
-    chmod +x /etc/zzz.d/suspend/lockbefore
-    </pre>
     </div>
-
-    <p>
-    Rootless xorg for security.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">sed -i <span class="org-string">'s/yes/no/g'</span> /etc/X11/Xwrapper.config
-    </pre>
     </div>
 
+    <div id="outline-container-bloat" class="outline-3">
+    <h3 id="bloat">Bloat</h3>
+    <div class="outline-text-3" id="text-bloat">
     <p>
-    Lock down boot for security.
+    I2P Java requires you to load all the Java stuff and has many apps bundled such as torrent client, web server and email client. The protocol iteself has some overhead (compared to clear web) due to the way things are done but that is to be expected. i2pd is the C++ implemenation of I2P protocol is more efficienct and without all the bundled apps. However, I2P Java is certainly useful for those who seek ease of use or want to use it on another OS such as NetBSD (Or I2P bote).
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">chmod 700 /boot
-    </pre>
     </div>
-
-    <p>
-    Lock down root account.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">doas passwd --lock root
-    </pre>
     </div>
 
+    <div id="outline-container-slow" class="outline-3">
+    <h3 id="slow">Slow</h3>
+    <div class="outline-text-3" id="text-slow">
     <p>
-    Create directories and files so that they do not get created in $HOME
+    I2P is slow. There is no denying that. But most of it is due to not having enough participants. More people joining I2P will make the network more robust and faster. But it would still be slower than clear web.
     </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh">mkdir -p .config/mpd/playlists .local/bin .local/share/bash .local/share/calcurse/notes .local/share/gnupg .local/share/newsboat .local/share/pass .local/share/python .config/git .local/share/games
-
-    touch .local/share/python/python_history
-    touch .config/git/config
-    touch .config/git/credentials
-    </pre>
     </div>
-
-    <p>
-    Install dwm, st, dmenu, dwmblocks, slock and copy dotfiles to the appropriate directories.
-    </p>
-
-    <div class="org-src-container">
-    <pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">Create directory for all these stuffs.</span>
-    mkdir -p /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
-    <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff <span class="org-comment-delimiter"># </span><span class="org-comment">Change directory to new directory.</span>
-
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my dwm configuration.</span>
-    git clone https://gitlab.com/zagyarakushi/mydwm
-    <span class="org-builtin">cd</span> mydwm
-    make
-    doas make install
-    <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
-
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my st configuration.</span>
-    git clone https://gitlab.com/zagyarakushi/myst
-    <span class="org-builtin">cd</span> myst
-    make
-    doas make install
-    <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
-
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my dmenu configuraiton.</span>
-    git clone https://gitlab.com/zagyarakushi/mydmenu
-    <span class="org-builtin">cd</span> mydmenu
-    make
-    doas make install
-    <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
-
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my dwmblocks configuration.</span>
-    git clone https://gitlab.com/zagyarakushi/mydwmblocks
-    <span class="org-builtin">cd</span> mydwmblocks
-    make
-    doas make install
-    <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
-
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my slock configuration.</span>
-    git clone https://gitlab.com/zagyarakushi/myslock
-    <span class="org-builtin">cd</span> myslock
-    make
-    doas make install
-    <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
-
-    <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and setup my dotfiles.</span>
-    git clone https://gitlab.com/zagyarakushi/myrice
-    <span class="org-builtin">cd</span> myrice
-    <span class="org-comment-delimiter">#</span><span class="org-comment">cp -r .bashrc .profile .config .local .themes .icons /home/$USER/</span>
-
-    ln -sv .bashrc ~/.bashrc
-    ln -sv .profile ~/.profile
-    ln -sv .config ~/.config
-    ln -sv .local ~/.local
-    ln -sv .themes ~/.themes
-    ln -sv .icons ~/.icons
-    </pre>
     </div>
-
-    <p>
-    Part 4: The scripts
-    </p>
-    <p>
-    :CUSTOM_ID: the-scripts
-    </p>
-
-    <p>
-    You can automate the installation, setup and ricing by using scripts.
-    </p>
 
+    <div id="outline-container-latency" class="outline-3">
+    <h3 id="latency">Latency</h3>
+    <div class="outline-text-3" id="text-latency">
     <p>
-    See <a href="https://gitlab.com/zagyarakushi/zarbs">this repo</a> for more information 
+    You will probably have high latency. So anything that&rsquo;s realtime may not be so suitable for now.
     </p>
 
     <p>
@@ -1334,16 +134,7 @@
     </p>
 
     <p>
-    This is just how I install Void Linux. The installation method is very similar for other distribution such as Arch Linux, Gentoo and others. Some differences are in packages names, different services and configuration files.
-    </p>
-
-    <p>
-    You should be able to install any linux distribution (and maybe even BSDs!) now.
-    You also should be able to setup anything that a person could expect from Ubuntu or Windows to work out of the box.
-    </p>
-
-    <p>
-    If you have created your own script then next time you setup your machine, all you have to do is input passwords, do tiny amount of manual configuration and it will be setup just the way you want it.
+    I will be moving to I2P and this will probably be the last post on clear web. The reasons are because I can own my domain without registration and host the website from home.
     </p>
 
     <p>
@@ -1359,6 +150,1341 @@
     </div>
     </div>
     ]]></description>
+</item>
+<item>
+  <title>How to install Void Linux the minimalist way</title>
+  <link>https://zagyarakushi.gitlab.io/posts/2022/09/26/how-to-install-void-linux-the-minimalist-way.html</link>
+  <author> (Zagyarakushi)</author>
+  <guid isPermaLink="false">https://zagyarakushi.gitlab.io/posts/2022/09/26/how-to-install-void-linux-the-minimalist-way.html</guid>
+  <pubDate>26 Sep 2022</pubDate>
+
+  <description><![CDATA[<p>
+  This is only one of many ways to install Void Linux. A (very) primitive install script is also available to speed up the process. Please also read the Void Linux documentation and Arch Linux wiki which contains pretty much everything you need to know.
+  </p>
+
+  <p>
+  Part 0: The preparation
+  </p>
+  <p>
+  :CUSTOM_ID: preparation
+  </p>
+
+  <div id="outline-container-partitioning" class="outline-3">
+  <h3 id="partitioning">Intro to partitioning</h3>
+  <div class="outline-text-3" id="text-partitioning">
+  <p>
+  The absolute minimum you need is a boot partition and root partition (for UEFI/GPT). You can further customize to have /home or /usr as separate partition or even a separate drive. For example, boot and root on SSD and home on HDD.
+  </p>
+  </div>
+
+  <div id="outline-container-example-partitioning-uefi" class="outline-4">
+  <h4 id="example-partitioning-uefi">Some examples for UEFI/GPT:</h4>
+  <div class="outline-text-4" id="text-example-partitioning-uefi">
+  </div>
+  <ul class="org-ul">
+  <li><a id="two-drives"></a>The HDD for /home example<br>
+  <div class="outline-text-5" id="text-two-drives">
+  <pre class="example">
+  SSD = /dev/sda
+  HDD = /dev/sdb
+  /dev/sda1 formatted as F32 and mounted on /boot
+  /dev/sda2 formatted as EXT4 and mounted on /
+  /dev/sdb1 formatted as EXT4 and mounted on /home
+  </pre>
+  </div>
+  </li>
+
+  <li><a id="single-drive"></a>The single drive for everything example<br>
+  <div class="outline-text-5" id="text-single-drive">
+  <pre class="example">
+  HDD = /dev/sda
+  /dev/sda1 formatted as F32 and mounted on /boot
+  /dev/sda2 formatted as EXT4 and mounted on /
+  </pre>
+  </div>
+  </li>
+
+  <li><a id="single-drive-with-swap"></a>The single drive for everything but with swap example<br>
+  <div class="outline-text-5" id="text-single-drive-with-swap">
+  <pre class="example">
+  HDD = /dev/sda
+  /dev/sda1 formatted as F32 and mounted on /boot
+  /dev/sda2 formatted as swap and mounted as swap
+  /dev/sda3 formatted as EXT4 and mounted on /
+  </pre>
+  </div>
+  </li>
+  </ul>
+  </div>
+
+  <div id="outline-container-example-partitioning-bios" class="outline-4">
+  <h4 id="example-partitioning-bios">Some examples for BIOS/MBR:</h4>
+  <div class="outline-text-4" id="text-example-partitioning-bios">
+  </div>
+  <ul class="org-ul">
+  <li><a id="single-drive-bios"></a>The single drive for everything (literally) example<br>
+  <div class="outline-text-5" id="text-single-drive-bios">
+  <pre class="example">
+  HDD = /dev/sd
+  /dev/sda1 formatted as EXT4 and mounted on /
+  </pre>
+
+  <p>
+  You can also do something similar to UEFI partitioning.
+  </p>
+  </div>
+  </li>
+  </ul>
+  </div>
+
+  <div id="outline-container-disk-encryption" class="outline-4">
+  <h4 id="disk-encryption">Disk encryption and LVM</h4>
+  <div class="outline-text-4" id="text-disk-encryption">
+  <p>
+  You should really encrypt anything that may contain sensitive information. We have the basic partitioning but we don&rsquo;t have encryption. Encryption is easy on Linux but there are some rules to follow. Rule 1: Don&rsquo;t encrypt the boot partition. Okay, you CAN encrypt it and some people seem to have managed to do but I have never got it to work. Rule 2: If you don&rsquo;t want to type like 3 or 4 passwords on boot then create key files to auto decrypt all the other partitions or use LVM.
+  </p>
+
+  <p>
+  There are also additional security stuff you can do such as secure boot with your own signing key, AEM (anti evil maid), GRUB passwords, boot partition on removable drive, TPM and more. See <a href="https://wiki.archlinux.org/title/security">this</a> for more.
+  </p>
+  </div>
+
+  <ul class="org-ul">
+  <li><a id="two-drives-with-encryption"></a>The HDD for /home example<br>
+  <div class="outline-text-5" id="text-two-drives-with-encryption">
+  <p>
+  This doesn&rsquo;t use LVM.
+  </p>
+
+  <pre class="example">
+  SSD = /dev/sda
+  HDD = /dev/sdb
+  /dev/sda1 formatted as F32 and  mounted on /boot
+  /dev/sda2 encrypted using cryptsetup
+  /dev/mapper/root formatted as EXT4 and mounted on /
+  /dev/sdb1 encrypted using cryptsetup but with key files
+  /dev/mapper/home formatted as EXT4 and mounted on /home
+  </pre>
+  </div>
+  </li>
+
+  <li><a id="single-drive-encryption"></a>The single drive for everything example<br>
+  <div class="outline-text-5" id="text-single-drive-encryption">
+  <pre class="example">
+  HDD = /dev/sda
+  /dev/sda1 formatted as F32 and mounted on /boot
+  /dev/sda2 encrypted using cryptsetup
+  /dev/mapper/root formatted as EXT4 and mounted on /
+  </pre>
+  </div>
+  </li>
+
+  <li><a id="single-drive-with-swap-encryption"></a>The single drive for everything but with swap example<br>
+  <div class="outline-text-5" id="text-single-drive-with-swap-encryption">
+  <pre class="example">
+  HDD = /dev/sda
+  /dev/sda1 formatted as F32 and mounted on /boot
+  /dev/sda2 encrypted using cryptsetup
+  /dev/mapper/root format as lvm device and create pool
+  /dev/mapper/pool-root formatted as EXT4 and mounted on /
+  /dev/mapper/pool-swap formatted as swap and mounted as swap
+  </pre>
+  </div>
+  </li>
+
+  <li><a id="single-drive-bios-encryption"></a>The single drive for everything (literally) example<br>
+  <div class="outline-text-5" id="text-single-drive-bios-encryption">
+  <p>
+  This is for BIOS/MBR.
+  </p>
+
+  <pre class="example">
+  HDD = /dev/sda
+  /dev/sda1 encrypted using cryptsetup (--luks1)
+  /dev/mapper/root formatted as EXT4 and mounted on /
+  </pre>
+
+  <p>
+  You can also do something similar to UEFI partitioning.
+  </p>
+  </div>
+  </li>
+  </ul>
+  </div>
+  </div>
+
+  <div id="outline-container-partitioning-real-world-example" class="outline-3">
+  <h3 id="partitioning-real-world-example">Real world example</h3>
+  <div class="outline-text-3" id="text-partitioning-real-world-example">
+  <p>
+  First set your keymap so that you type the correct password when encrypting your partition.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">loadkeys $<span class="org-variable-name">KEYMAP</span>
+  </pre>
+  </div>
+
+  <p>
+  Wipe file system of your drive.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">wipefs --all /dev/$<span class="org-variable-name">YOURDRIVE</span>
+  </pre>
+  </div>
+
+  <p>
+  Use cfdisk to create new partitions.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cfdisk /dev/$<span class="org-variable-name">YOURDRIVE</span>
+  </pre>
+  </div>
+
+  <p>
+  Select GPT and create partitions for boot and root. Don&rsquo;t forget to change the partition type of boot to EFI System. Now you should have the single drive for everything layout.
+  </p>
+
+  <p>
+  Now, encrypt your root.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random luksFormat $<span class="org-variable-name">ROOTPARTITION</span>
+  </pre>
+  </div>
+
+  <p>
+  Decrypt your root partition.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cryptsetup luksOpen $<span class="org-variable-name">ROOTPARTITION</span> root
+  </pre>
+  </div>
+
+  <p>
+  Create physical volume and volume group
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">pvcreate /dev/mapper/root
+  vgcreate pool /dev/mapper/root
+  </pre>
+  </div>
+
+  <p>
+  Create 16G swap partition.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">lvcreate -L 16G -n swap pool
+  </pre>
+  </div>
+
+  <p>
+  Create root partition.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">lvcreate -l 100%FREE -n root pool
+  </pre>
+  </div>
+
+  <p>
+  Make file system.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mkfs.fat -F32 $<span class="org-variable-name">BOOTPARTITION</span>
+  mkswap /dev/mapper/pool-swap
+  mkfs.ext4 /dev/mapper/pool-root
+  </pre>
+  </div>
+
+  <p>
+  Mount the root partition first.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mount /dev/mapper/pool-root /mnt
+  </pre>
+  </div>
+
+  <p>
+  Create required directories.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mkdir /mnt/boot
+  mkdir /mnt/home
+  </pre>
+  </div>
+
+  <p>
+  Mount boot.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mount $<span class="org-variable-name">BOOTPARTITION</span> /mnt/boot
+  </pre>
+  </div>
+
+  <p>
+  Mount swap.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">swapon /dev/mapper/pool-swap
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-org3aa45bb" class="outline-3">
+  <h3 id="org3aa45bb">Useful commands</h3>
+  <div class="outline-text-3" id="text-org3aa45bb">
+  </div>
+
+  <div id="outline-container-orgd576215" class="outline-4">
+  <h4 id="orgd576215">wipefs</h4>
+  <div class="outline-text-4" id="text-orgd576215">
+  <p>
+  Use wipefs to wipe file system to change from GPT to MBR or vice versa.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">wipefs --all  /dev/YOURDRIVE
+  </pre>
+  </div>
+
+  <p>
+  WARNING! THIS WILL WIPE ALL DATA!
+  </p>
+  </div>
+  </div>
+
+  <div id="outline-container-orgdf6fd03" class="outline-4">
+  <h4 id="orgdf6fd03">cfdisk</h4>
+  <div class="outline-text-4" id="text-orgdf6fd03">
+  <p>
+  cfdisk allows you to partition very easily. Just type
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cfdisk /dev/YOURDRIVE
+  </pre>
+  </div>
+
+  <p>
+  Choose GPT or MBR then start create partitions. Make sure to change type of partition to EFI for boot partition if on UEFI. Also change type to swap if creating swap partition.
+  </p>
+
+  <p>
+  This command can also be used to format USB and SD cards. Very useful.
+  </p>
+  </div>
+  </div>
+
+  <div id="outline-container-org50c6310" class="outline-4">
+  <h4 id="org50c6310">mkfs</h4>
+  <div class="outline-text-4" id="text-org50c6310">
+  <p>
+  mkfs allows you to actually format the partition to file system that you want.
+  </p>
+
+  <p>
+  For EXT4
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mkfs.ext4 /dev/YOURPARTITION
+  </pre>
+  </div>
+
+  <p>
+  For FAT32
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mkfs.vfat -F32  /dev/YOURPARTITION
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-org06110da" class="outline-4">
+  <h4 id="org06110da">cryptsetup</h4>
+  <div class="outline-text-4" id="text-org06110da">
+  <p>
+  To encrypt
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random luksFormat /dev/YOURPARTITION
+  </pre>
+  </div>
+
+  <p>
+  Or the simpler version
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cryptsetup luksFormat /dev/YOURPARTITION
+  </pre>
+  </div>
+
+  <p>
+  Key file encryption example
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cryptsetup -y -y -c aes-xts-plain64 -s 512 -h sha512 --use-random --key-file key luksFormat $<span class="org-variable-name">ROOTPARTITION</span>
+  </pre>
+  </div>
+
+  <p>
+  To decrypt
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">cryptsetup luksOpen /dev/YOURPARTITION YOURMAPPEDNAME
+  </pre>
+  </div>
+
+  <p>
+  Key file decryption
+  </p>
+  <div class="org-src-container">
+  <pre class="src src-sh">cryptsetup --key-file key luksOpen $<span class="org-variable-name">ROOTPARTITION</span> root
+  </pre>
+  </div>
+
+  <p>
+  Create key file using dd command.
+  </p>
+  </div>
+  </div>
+
+  <div id="outline-container-org26dcfa4" class="outline-4">
+  <h4 id="org26dcfa4">dd</h4>
+  <div class="outline-text-4" id="text-org26dcfa4">
+  <p>
+  Use dd to create key file, create bootable USB and many others.
+  </p>
+
+  <p>
+  Use this to create key file
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">dd <span class="org-variable-name">if</span>=/dev/urandom <span class="org-variable-name">of</span>=key <span class="org-variable-name">bs</span>=1024 <span class="org-variable-name">count</span>=20
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-org0fdde05" class="outline-4">
+  <h4 id="org0fdde05">LVM stuff</h4>
+  <div class="outline-text-4" id="text-org0fdde05">
+  <p>
+  To create physical volume
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">pvcreate /dev/mapper/YOURMAPPEDNAME
+  </pre>
+  </div>
+
+  <p>
+  Create volume group
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">vgcreate pool /dev/mapper/YOURMAPPEDNAME
+  </pre>
+  </div>
+
+  <p>
+  Create logical volume
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">lvcreate -l 50G -n root pool
+  </pre>
+  </div>
+
+  <p>
+  Create logical volume with all remaining space
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">lvcreate -L 100%FREE -n root pool
+  </pre>
+  </div>
+
+  <p>
+  Use something like home or root or pool for NAME
+  </p>
+
+  <p>
+  Part 1: Base system installation
+  </p>
+  <p>
+  :CUSTOM_ID: base-system-installation
+  </p>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-install-base-system" class="outline-3">
+  <h3 id="install-base-system">Install base system</h3>
+  <div class="outline-text-3" id="text-install-base-system">
+  <p>
+  This will install all the required files and packages to mnt. You can change the repository URL and probably should change some packages. Also add /musl to end of URL for musl version (<a href="https://alpha.de.repo.voidlinux.org/current/musl">https://alpha.de.repo.voidlinux.org/current/musl</a>).
+  </p>
+
+  <p>
+  See <a href="../../04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.html">this</a> to decide which packages to install.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y --repository=https://alpha.de.repo.voidlinux.org/current -r /mnt base-minimal lvm2 cryptsetup grub-x86_64-efi neovim NetworkManager elogind eudev e2fsprogs usbutils pciutils mdocml linux kbd iputils iproute2 ncurses bash oksh dbus-elogind dbus-elogind-libs dbus-elogind-x11 polkit git opendoas
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-misc-stuff" class="outline-3">
+  <h3 id="misc-stuff">Miscellaneous things to do</h3>
+  <div class="outline-text-3" id="text-misc-stuff">
+  <p>
+  Change umask for better security (From Arch Linux wiki).
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">sed -i <span class="org-string">'s/022/077/g'</span> /mnt/etc/profile
+  </pre>
+  </div>
+
+  <p>
+  If you are using keyfiles then copy the key file to somewhere in /mnt.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mkdir /mnt/var/local
+  cp key /mnt/var/local/
+  </pre>
+  </div>
+
+  <p>
+  If you are using keyfiles then also add an entry to crypttab to auto decrypt your partition using key file. home is name of the partition, the part after UUID= is a function to get UUID of the partition and the last part is the path to key file.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"home UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $HOMEPARTITION</span><span class="org-string">) /var/local/key"</span> &gt; /mnt/etc/crypttab
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-mount-additional" class="outline-3">
+  <h3 id="mount-additional">Mount the additional stuff</h3>
+  <div class="outline-text-3" id="text-mount-additional">
+  <p>
+  Mount some devices and stuff that&rsquo;s required.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-keyword">for</span> dir<span class="org-keyword"> in</span> dev proc sys run; <span class="org-keyword">do</span> mkdir -p /mnt/$<span class="org-variable-name">dir</span> ; mount --rbind /$<span class="org-variable-name">dir</span> /mnt/$<span class="org-variable-name">dir</span> ; mount --make-rslave /mnt/$<span class="org-variable-name">dir</span> ; <span class="org-keyword">done</span>
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-chroot" class="outline-3">
+  <h3 id="chroot">Chroot</h3>
+  <div class="outline-text-3" id="text-chroot">
+  <div class="org-src-container">
+  <pre class="src src-sh">chroot /mnt /bin/bash
+  </pre>
+  </div>
+
+  <p>
+  Part 2: Basic system setup
+  </p>
+  <p>
+  :CUSTOM_ID: basic-system-setup
+  </p>
+
+  <p>
+  In this section, we will setup the system and make it bootable.
+  </p>
+  </div>
+  </div>
+
+  <div id="outline-container-change-root-password-and-set-permissions" class="outline-3">
+  <h3 id="change-root-password-and-set-permissions">Change root password and set permissions</h3>
+  <div class="outline-text-3" id="text-change-root-password-and-set-permissions">
+  <p>
+  Change root password.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">passwd root
+  </pre>
+  </div>
+
+  <p>
+  Set ownership of /. The first root is the user root and second root is the group root.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">chown root:root /
+  </pre>
+  </div>
+
+  <p>
+  Set permission.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">chmod 755 /
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-create-user" class="outline-3">
+  <h3 id="create-user">Create user</h3>
+  <div class="outline-text-3" id="text-create-user">
+  <p>
+  Add a new user.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">useradd -m -s /bin/oksh -U -G wheel,users,audio,video,input $<span class="org-variable-name">USERNAME</span>
+  </pre>
+  </div>
+
+  <p>
+  Set password for new user.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">passwd $<span class="org-variable-name">USERNAME</span>
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-setup-locale-timezone-network" class="outline-3">
+  <h3 id="setup-locale-timezone-network">Setup locale, time zone, network services etc</h3>
+  <div class="outline-text-3" id="text-setup-locale-timezone-network">
+  <p>
+  Set locale. Make sure to change if different.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">en_US.UTF-8 UTF-8<span class="org-string">" &gt;&gt; /etc/default/libc-locales</span>
+  </pre>
+  </div>
+
+  <p>
+  If using glibc instead of musl then set glibc-locales as well.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-reconfigure -f glibc-locales
+  </pre>
+  </div>
+
+  <p>
+  Set timezone.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">ln -s /usr/share/zoneinfo/$<span class="org-variable-name">TIMEZONE</span> &gt; /etc/localtime
+  </pre>
+  </div>
+
+  <p>
+  Sync the hardware/bios clock.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">hwclock --systohc --utc
+  </pre>
+  </div>
+
+  <p>
+  Set host name.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> $<span class="org-variable-name">HOSTNAME</span> &gt; /etc/hostname
+  </pre>
+  </div>
+
+  <p>
+  If you want to auto decrypt on boot then add an entry in dracut.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">'install_items+=" /var/local/key /etc/crypttab "'</span> &gt; /etc/dracut.conf.d/10-crypt.conf
+  </pre>
+  </div>
+
+  <p>
+  Make sure to use this to enable only the features needed for your PC.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">'hostonly=yes'</span> &gt; /etc/dracut.conf.d/hostonly.conf
+  </pre>
+  </div>
+
+  <p>
+  Add some services that you want like NetworkManager.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">ln -s /etc/sv/NetworkManager /var/service/
+  ln -s /etc/sv/dbus /var/service/
+  ln -s /etc/sv/polkitd /var/service/
+  ln -s /etc/sv/elogind /var/service/
+  </pre>
+  </div>
+
+  <p>
+  Add the user to network so that user can use nmtui without root permission.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">gpasswd -a <span class="org-string">"$USERNAME"</span> network
+  </pre>
+  </div>
+
+  <p>
+  I also setup doas so that when I boot into the system, I can use doas.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"permit persist keepenv :wheel"</span> &gt; /etc/doas.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv root"</span> &gt;&gt; /etc/doas.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd reboot"</span> &gt;&gt; /etc/doas.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd poweroff"</span> &gt;&gt; /etc/doas.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd zzz"</span> &gt;&gt; /etc/doas.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"permit nopass keepenv :wheel cmd ZZZ"</span> &gt;&gt; /etc/doas.conf
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-setup-fstab" class="outline-3">
+  <h3 id="setup-fstab">Setup fstab</h3>
+  <div class="outline-text-3" id="text-setup-fstab">
+  <p>
+  Note: fstab is pronounced fs tab (for file system table). Not f stab :).
+  </p>
+
+  <p>
+  Here just change the variable to the partition that will be mounted on startup.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $HOMEPARTITION</span><span class="org-string">) /home   ext4    defaults                0       0"</span> &gt; /etc/fstab
+  <span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $ROOTPARTITION</span><span class="org-string">) /   ext4    defaults                    0       0"</span> &gt;&gt; /etc/fstab
+  <span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $SWAPPARTITION</span><span class="org-string">) none   swap    defaults                    0       0"</span> &gt;&gt; /etc/fstab
+  <span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $BOOTPARTITION</span><span class="org-string">) /boot   vfat    defaults                    0       0"</span> &gt;&gt; /etc/fstab
+  </pre>
+  </div>
+
+  <p>
+  For example, in this case, $BOOTPARTITION should be something like /dev/sda1, $ROOTPARTITION is /dev/mapper/pool-root, $SWAPARTITION is /dev/mapper/pool-swap.
+  </p>
+
+  <p>
+  If using key file for home or other partition then make sure to use the one that is going to be mounted. For example, /dev/mapper/home if not using LVM and /dev/mapper/pool-home if using LVM.
+  </p>
+  </div>
+  </div>
+
+  <div id="outline-container-setup-bootloader" class="outline-3">
+  <h3 id="setup-bootloader">Setup boot loader</h3>
+  <div class="outline-text-3" id="text-setup-bootloader">
+  <p>
+  Note: This section can be improved so that it is easier.
+  </p>
+
+  <p>
+  Add this to allow decryption of encrypted partition.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"GRUB_ENABLE_CRYPTODISK=y"</span> &gt;&gt; /etc/default/grub
+  </pre>
+  </div>
+
+  <p>
+  Add this to specify the encrypted partition.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"rd.auto=1 cryptdevice=UUID= quiet"</span> &gt;&gt; /etc/default/grub
+  </pre>
+  </div>
+
+  <p>
+  Now, copy the UUID of the encrypted partition. In this case it is /dev/sda2.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $ROOTPARTITIONORG</span><span class="org-string">)"</span> &gt;&gt; /etc/default/grub
+  </pre>
+  </div>
+
+  <p>
+  Edit the grub config.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">vim /etc/default/grub
+  </pre>
+  </div>
+
+  <p>
+  Make sure to combine them so that it is like this.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-variable-name">GRUB_CMDLINE_LINUX_DEFAULT</span>=<span class="org-string">"loglevel=4 rd.auto=1 cryptdevice=UUID=$YOURUUID:lvm quiet"</span>
+  </pre>
+  </div>
+
+  <p>
+  The :lvm is needed if you are using LVM. If not then you can omit this part.
+  </p>
+
+  <p>
+  Now, install and configure bootloader.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=<span class="org-string">"Void Linux"</span> --recheck
+  grub-mkconfig -o /boot/grub/grub.cfg
+  </pre>
+  </div>
+
+  <p>
+  Most bios are buggy and they assume the directory and file names to boot from. To solve this, copy the necessary stuff to the directory that windows use. And rename them to the one that windows use.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mkdir /boot/EFI/BOOT
+  cp <span class="org-string">"/boot/EFI/Void Linux/grubx64.efi"</span> /boot/EFI/BOOT/bootx64.efi
+  rm -rf <span class="org-string">"/boot/EFI/Void Linux"</span>
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-reconfigure-kernel" class="outline-3">
+  <h3 id="reconfigure-kernel">Reconfigure kernel</h3>
+  <div class="outline-text-3" id="text-reconfigure-kernel">
+  <p>
+  Reconfigure kernel to build all the modules, firmwares and set dracut etc.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-reconfigure -fa
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-reboot" class="outline-3">
+  <h3 id="reboot">Reboot</h3>
+  <div class="outline-text-3" id="text-reboot">
+  <p>
+  Just do
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">reboot
+  </pre>
+  </div>
+
+  <p>
+  to reboot into your new system.
+  </p>
+
+  <p>
+  Part 3: Ricing
+  </p>
+  <p>
+  :CUSTOM_ID: ricing
+  </p>
+
+  <p>
+  In this section, we will install some additional software, remove unnecessary services and setup more services and dotfiles.
+  </p>
+  </div>
+  </div>
+
+  <div id="outline-container-ricing-install-software" class="outline-3">
+  <h3 id="ricing-install-software">Install software</h3>
+  <div class="outline-text-3" id="text-ricing-install-software">
+  <p>
+  This section lists some packages that I use. Some of the packages are there just so people can choose it as an option.
+  </p>
+  </div>
+
+  <ul class="org-ul">
+  <li><a id="ricing-install-software-repo"></a>Install additional repo<br>
+  <div class="outline-text-5" id="text-ricing-install-software-repo">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y void-repo-nonfree
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-media"></a>Media packages<br>
+  <div class="outline-text-5" id="text-ricing-install-software-media">
+  <p>
+  Leave out bluetooth if you don&rsquo;t use them. Install stuff for alsa and jack if you use them.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y pipewire libspa-bluetooth mpv yt-dlp ffmpeg pipe-viewer pulsemixer ncmpcpp mpd cmus mpc newsboat sxiv
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-graphics-drivers"></a>Graphics drivers<br>
+  <div class="outline-text-5" id="text-ricing-install-software-graphics-drivers">
+  <p>
+  Includes Intel and amd. You should only need one of them.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y mesa mesa-dri vulkan-loader mesa-vaapi mesa-vdpa vdpauinfo libva-utils libva-vdpau-driver xf86-video-amdgpu mesa-vulkan-radeon intel-video-accel mesa-vulkan-intel xf86-video-intel
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-browsers"></a>Browsers<br>
+  <div class="outline-text-5" id="text-ricing-install-software-browsers">
+  <p>
+  Don&rsquo;t install tor browser if on musl. Use flatpak instead.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y firefox chromium netsurf w3m lynx torbrowser-launcher
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-android"></a>Android<br>
+  <div class="outline-text-5" id="text-ricing-install-software-android">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y android-tools simple-mtpfs android-udev-rules
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-printer"></a>Printer<br>
+  <div class="outline-text-5" id="text-ricing-install-software-printer">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y cups cups-filters sane gutenprint
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-input-method"></a>Japanese/Chinese/Korean input method.<br>
+  <div class="outline-text-5" id="text-ricing-install-software-input-method">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y fcitx fcitx-mozc fcitx-configtool libfcitx-gtk3 libfcitx-gtk libfcitx
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-hostname-resolution"></a>Hostname resolution<br>
+  <div class="outline-text-5" id="text-ricing-install-software-hostname-resolution">
+  <p>
+  Don&rsquo;t install nss-mdns if on musl. (To be updated)
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y avahi avahi-utils nss-mdns nsss mDNSResponder
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-bluetooth"></a>Bluetooth<br>
+  <div class="outline-text-5" id="text-ricing-install-software-bluetooth">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y bluez
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-compile"></a>Things needed to compile suckless tools.<br>
+  <div class="outline-text-5" id="text-ricing-install-software-compile">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y  pkg-config libX11-devel libXft-devel libXinerama-devel libXrandr-devel make tcc gcc libgcc-devel musl musl-devel glib glib-devel
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-fonts"></a>Fonts<br>
+  <div class="outline-text-5" id="text-ricing-install-software-fonts">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y noto-fonts-cjk noto-fonts-emoji noto-fonts-ttf noto-fonts-ttf-extra font-awesome
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-office"></a>Office<br>
+  <div class="outline-text-5" id="text-ricing-install-software-office">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y libreoffice texlive-bin
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-image-editors"></a>Image editors<br>
+  <div class="outline-text-5" id="text-ricing-install-software-image-editors">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y gimp inkskape krita
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-virtual-machine"></a>Virtual Machine<br>
+  <div class="outline-text-5" id="text-ricing-install-software-virtual-machine">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y virt-manager virt-manager-tools libvirt qemu
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-xorg"></a>xorg<br>
+  <div class="outline-text-5" id="text-ricing-install-software-xorg">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y xorg-minimal
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-text-editors"></a>Text editors<br>
+  <div class="outline-text-5" id="text-ricing-install-software-text-editors">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y emacs-gtk3 neovim sam
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-password-managers"></a>Password managers<br>
+  <div class="outline-text-5" id="text-ricing-install-software-password-managers">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y keepassxc pass
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-misc"></a>Misc<br>
+  <div class="outline-text-5" id="text-ricing-install-software-misc">
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-install -S -y htop calcurse wget curl cmatrix neofetch dunst dosfstools libnotify exfat-utils ntfs-3g maim xclip socklog-void ntp  snooze xset xsetroot man-db setxkbmap xdg-user-dirs xrandr xss-lock unzip unrar intel-ucode ufw arandr xdpyinfo redshift man-pages man-pages-posix xdotool xrdb tmux xwallpaper unclutter-xfixes atool picom aria2 python3-pip libinput less openssh flatpak xdg-user-dirs-gtk xdg-desktop-portal xdg-desktop-portal-gtk python3-distro python3-magic libcaca python3-dbus libinput-gestures tlp-rdw smartmontools acpilight
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-flatpak"></a>Flatpak<br>
+  <div class="outline-text-5" id="text-ricing-install-software-flatpak">
+  <div class="org-src-container">
+  <pre class="src src-sh">flatpak --user remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  </pre>
+  </div>
+  </div>
+  </li>
+
+  <li><a id="ricing-install-software-flatpak-apps"></a>Flatpak apps<br>
+  <div class="outline-text-5" id="text-ricing-install-software-flatpak-apps">
+  <div class="org-src-container">
+  <pre class="src src-sh">flatpak --user install flathub com.microsoft.Teams
+  flatpak --user install flathub org.kde.kdenlive
+  flatpak --user install flathub com.valvesoftware.Steam
+  flatpak --user install flathub com.bitwarden.desktop
+  flatpak --user install flathub com.github.micahflee.torbrowser-launcher
+  </pre>
+  </div>
+  </div>
+  </li>
+  </ul>
+  </div>
+
+  <div id="outline-container-remove-unnecessary-services" class="outline-3">
+  <h3 id="remove-unnecessary-services">Remove unnecessary services</h3>
+  <div class="outline-text-3" id="text-remove-unnecessary-services">
+  <p>
+  Remove unless you need them.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">rm /var/service/agetty-tty6
+  rm /var/service/agetty-tty5
+  rm /var/service/agetty-tty4
+  rm /var/service/agetty-tty3
+
+  touch /etc/sv/agetty-tty6/down
+  touch /etc/sv/agetty-tty5/down
+  touch /etc/sv/agetty-tty4/down
+  touch /etc/sv/agetty-tty3/down
+  </pre>
+  </div>
+  </div>
+  </div>
+
+  <div id="outline-container-setup-services-dotfiles-etc" class="outline-3">
+  <h3 id="setup-services-dotfiles-etc">Setup services, dotfiles etc</h3>
+  <div class="outline-text-3" id="text-setup-services-dotfiles-etc">
+  <p>
+  Enable firewall
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">xbps-reconfigure ufw
+  ufw enable
+  </pre>
+  </div>
+
+  <p>
+  Enable some services on startup.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">ln -s /etc/sv/ufw /var/service/
+  ln -s /etc/sv/socklog-unix /var/service/
+  ln -s /etc/sv/nanoklogd /var/service/
+  ln -s /etc/sv/avahi-daemon /var/service/
+  ln -s /etc/sv/cupsd /var/service/
+  ln -s /etc/sv/isc-ntpd /var/service/
+  ln -s /etc/sv/libvirtd /var/service/
+  ln -s /etc/sv/virtlockd /var/service/
+  ln -s /etc/sv/virtlogd /var/service/
+  ln -s /etc/sv/bluetoothd /var/service/
+  ln -s /etc/sv/tlp /var/service/
+  </pre>
+  </div>
+
+  <p>
+  Add user to group so you can use virtual machines and bluetooth.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">gpasswd -a <span class="org-string">"$USER"</span> libvirt
+  gpasswd -a <span class="org-string">"$USER"</span> bluetooth
+  gpasswd -a <span class="org-string">"$USER"</span> kvm
+  </pre>
+  </div>
+
+  <p>
+  Enable hostname resolution in avahi.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"passwd:         files"</span> &gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"group:          files"</span> &gt;&gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"shadow:         files"</span> &gt;&gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"hosts:          files mdns mdns4_minimal mdns4 myhostname mdns_minimal [NOTFOUND=return] dns"</span> &gt;&gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"networks:       files"</span> &gt;&gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"protocols:      files"</span> &gt;&gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"services:       files"</span> &gt;&gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"ethers:         files"</span> &gt;&gt; /etc/nsswitch.conf
+  <span class="org-builtin">echo</span> <span class="org-string">"rpc:            files"</span> &gt;&gt; /etc/nsswitch.conf
+  </pre>
+  </div>
+
+  <p>
+  Lock before suspend
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"#!/bin/sh"</span> &gt; /etc/zzz.d/suspend/lockbefore
+  <span class="org-builtin">echo</span> <span class="org-string">"xset s activate"</span> &gt;&gt; /etc/zzz.d/suspend/lockbefore
+  <span class="org-builtin">echo</span> <span class="org-string">"sleep 1"</span> &gt;&gt; /etc/zzz.d/suspend/lockbefore
+  chmod +x /etc/zzz.d/suspend/lockbefore
+  </pre>
+  </div>
+
+  <p>
+  Rootless xorg for security.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">sed -i <span class="org-string">'s/yes/no/g'</span> /etc/X11/Xwrapper.config
+  </pre>
+  </div>
+
+  <p>
+  Lock down boot for security.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">chmod 700 /boot
+  </pre>
+  </div>
+
+  <p>
+  Lock down root account.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">doas passwd --lock root
+  </pre>
+  </div>
+
+  <p>
+  Create directories and files so that they do not get created in $HOME
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh">mkdir -p .config/mpd/playlists .local/bin .local/share/bash .local/share/calcurse/notes .local/share/gnupg .local/share/newsboat .local/share/pass .local/share/python .config/git .local/share/games
+
+  touch .local/share/python/python_history
+  touch .config/git/config
+  touch .config/git/credentials
+  </pre>
+  </div>
+
+  <p>
+  Install dwm, st, dmenu, dwmblocks, slock and copy dotfiles to the appropriate directories.
+  </p>
+
+  <div class="org-src-container">
+  <pre class="src src-sh"><span class="org-comment-delimiter"># </span><span class="org-comment">Create directory for all these stuffs.</span>
+  mkdir -p /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
+  <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff <span class="org-comment-delimiter"># </span><span class="org-comment">Change directory to new directory.</span>
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my dwm configuration.</span>
+  git clone https://gitlab.com/zagyarakushi/mydwm
+  <span class="org-builtin">cd</span> mydwm
+  make
+  doas make install
+  <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my st configuration.</span>
+  git clone https://gitlab.com/zagyarakushi/myst
+  <span class="org-builtin">cd</span> myst
+  make
+  doas make install
+  <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my dmenu configuraiton.</span>
+  git clone https://gitlab.com/zagyarakushi/mydmenu
+  <span class="org-builtin">cd</span> mydmenu
+  make
+  doas make install
+  <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my dwmblocks configuration.</span>
+  git clone https://gitlab.com/zagyarakushi/mydwmblocks
+  <span class="org-builtin">cd</span> mydwmblocks
+  make
+  doas make install
+  <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and install my slock configuration.</span>
+  git clone https://gitlab.com/zagyarakushi/myslock
+  <span class="org-builtin">cd</span> myslock
+  make
+  doas make install
+  <span class="org-builtin">cd</span> /home/$<span class="org-variable-name">USER</span>/.local/share/gitstuff
+
+  <span class="org-comment-delimiter"># </span><span class="org-comment">Clone and setup my dotfiles.</span>
+  git clone https://gitlab.com/zagyarakushi/myrice
+  <span class="org-builtin">cd</span> myrice
+  <span class="org-comment-delimiter">#</span><span class="org-comment">cp -r .bashrc .profile .config .local .themes .icons /home/$USER/</span>
+
+  ln -sv .bashrc ~/.bashrc
+  ln -sv .profile ~/.profile
+  ln -sv .config ~/.config
+  ln -sv .local ~/.local
+  ln -sv .themes ~/.themes
+  ln -sv .icons ~/.icons
+  </pre>
+  </div>
+
+  <p>
+  Part 4: The scripts
+  </p>
+  <p>
+  :CUSTOM_ID: the-scripts
+  </p>
+
+  <p>
+  You can automate the installation, setup and ricing by using scripts.
+  </p>
+
+  <p>
+  See <a href="https://gitlab.com/zagyarakushi/zarbs">this repo</a> for more information 
+  </p>
+
+  <p>
+  Conclusion
+  </p>
+  <p>
+  :CUSTOM_ID: conclusion
+  </p>
+
+  <p>
+  This is just how I install Void Linux. The installation method is very similar for other distribution such as Arch Linux, Gentoo and others. Some differences are in packages names, different services and configuration files.
+  </p>
+
+  <p>
+  You should be able to install any linux distribution (and maybe even BSDs!) now.
+  You also should be able to setup anything that a person could expect from Ubuntu or Windows to work out of the box.
+  </p>
+
+  <p>
+  If you have created your own script then next time you setup your machine, all you have to do is input passwords, do tiny amount of manual configuration and it will be setup just the way you want it.
+  </p>
+
+  <p>
+  Want to help?
+  </p>
+  <p>
+  :CUSTOM_ID: want-to-help
+  </p>
+
+  <p>
+  You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+  </p>
+  </div>
+  </div>
+  ]]></description>
 </item>
 <item>
   <title>How to get m i n i m a l i s t Void Linux setup</title>
@@ -1391,14 +1517,14 @@
   </p>
 
 
-  <figure id="orgd77c221">
+  <figure id="org2b70e35">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-system.png" alt="void-linux-base-system.png">
 
   <figcaption><span class="figure-number">Figure 1: </span>Template for base-system</figcaption>
   </figure>
 
 
-  <figure id="org38f60af">
+  <figure id="org51640ff">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-minimal.png" alt="void-linux-base-minimal.png">
 
   <figcaption><span class="figure-number">Figure 2: </span>Template for base-minimal</figcaption>
@@ -1418,14 +1544,14 @@
   </p>
 
 
-  <figure id="org55c7e88">
+  <figure id="org239a41c">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-template.png" alt="void-linux-xorg-template.png">
 
   <figcaption><span class="figure-number">Figure 3: </span>Template for xorg</figcaption>
   </figure>
 
 
-  <figure id="org7f43012">
+  <figure id="org7323f19">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-minimal-template.png" alt="void-linux-xorg-minimal-template.png">
 
   <figcaption><span class="figure-number">Figure 4: </span>Template for xorg-minimal</figcaption>

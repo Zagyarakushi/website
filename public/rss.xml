@@ -14,8 +14,8 @@
   <link>https://zagyarakushi.gitlab.io/</link>
   <description>This blog is dedicated to help people ascend to higher level and become woke. I will cover topics such as Linux, open source, news, opinions, programming, privacy and security. Also don’t forget to be l33t h4x0r, minimalist and A E S T H E T I C A L.</description>
   <language>en</language>
-  <pubDate>10 Apr 2023</pubDate>
-  <lastBuildDate>10 Apr 2023</lastBuildDate>
+  <pubDate>20 Jul 2023</pubDate>
+  <lastBuildDate>20 Jul 2023</lastBuildDate>
   <generator>Emacs 28.1 Org-mode 9.5.2</generator>
   <webMaster>(Zagyarakushi)</webMaster>
   <image>
@@ -443,14 +443,14 @@
   </div>
   </div>
 
-  <div id="outline-container-org3aa45bb" class="outline-3">
-  <h3 id="org3aa45bb">Useful commands</h3>
-  <div class="outline-text-3" id="text-org3aa45bb">
+  <div id="outline-container-orgb141582" class="outline-3">
+  <h3 id="orgb141582">Useful commands</h3>
+  <div class="outline-text-3" id="text-orgb141582">
   </div>
 
-  <div id="outline-container-orgd576215" class="outline-4">
-  <h4 id="orgd576215">wipefs</h4>
-  <div class="outline-text-4" id="text-orgd576215">
+  <div id="outline-container-orgf4c9e1a" class="outline-4">
+  <h4 id="orgf4c9e1a">wipefs</h4>
+  <div class="outline-text-4" id="text-orgf4c9e1a">
   <p>
   Use wipefs to wipe file system to change from GPT to MBR or vice versa.
   </p>
@@ -466,9 +466,9 @@
   </div>
   </div>
 
-  <div id="outline-container-orgdf6fd03" class="outline-4">
-  <h4 id="orgdf6fd03">cfdisk</h4>
-  <div class="outline-text-4" id="text-orgdf6fd03">
+  <div id="outline-container-org54c36d7" class="outline-4">
+  <h4 id="org54c36d7">cfdisk</h4>
+  <div class="outline-text-4" id="text-org54c36d7">
   <p>
   cfdisk allows you to partition very easily. Just type
   </p>
@@ -488,9 +488,9 @@
   </div>
   </div>
 
-  <div id="outline-container-org50c6310" class="outline-4">
-  <h4 id="org50c6310">mkfs</h4>
-  <div class="outline-text-4" id="text-org50c6310">
+  <div id="outline-container-org5c2f439" class="outline-4">
+  <h4 id="org5c2f439">mkfs</h4>
+  <div class="outline-text-4" id="text-org5c2f439">
   <p>
   mkfs allows you to actually format the partition to file system that you want.
   </p>
@@ -515,9 +515,9 @@
   </div>
   </div>
 
-  <div id="outline-container-org06110da" class="outline-4">
-  <h4 id="org06110da">cryptsetup</h4>
-  <div class="outline-text-4" id="text-org06110da">
+  <div id="outline-container-orgc17e584" class="outline-4">
+  <h4 id="orgc17e584">cryptsetup</h4>
+  <div class="outline-text-4" id="text-orgc17e584">
   <p>
   To encrypt
   </p>
@@ -568,9 +568,9 @@
   </div>
   </div>
 
-  <div id="outline-container-org26dcfa4" class="outline-4">
-  <h4 id="org26dcfa4">dd</h4>
-  <div class="outline-text-4" id="text-org26dcfa4">
+  <div id="outline-container-orgc8c2cd4" class="outline-4">
+  <h4 id="orgc8c2cd4">dd</h4>
+  <div class="outline-text-4" id="text-orgc8c2cd4">
   <p>
   Use dd to create key file, create bootable USB and many others.
   </p>
@@ -586,9 +586,9 @@
   </div>
   </div>
 
-  <div id="outline-container-org0fdde05" class="outline-4">
-  <h4 id="org0fdde05">LVM stuff</h4>
-  <div class="outline-text-4" id="text-org0fdde05">
+  <div id="outline-container-org50634d7" class="outline-4">
+  <h4 id="org50634d7">LVM stuff</h4>
+  <div class="outline-text-4" id="text-org50634d7">
   <p>
   To create physical volume
   </p>
@@ -1517,14 +1517,14 @@
   </p>
 
 
-  <figure id="org2b70e35">
+  <figure id="orgef5e00c">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-system.png" alt="void-linux-base-system.png">
 
   <figcaption><span class="figure-number">Figure 1: </span>Template for base-system</figcaption>
   </figure>
 
 
-  <figure id="org51640ff">
+  <figure id="org6ac4c23">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-minimal.png" alt="void-linux-base-minimal.png">
 
   <figcaption><span class="figure-number">Figure 2: </span>Template for base-minimal</figcaption>
@@ -1544,14 +1544,14 @@
   </p>
 
 
-  <figure id="org239a41c">
+  <figure id="org72b58ca">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-template.png" alt="void-linux-xorg-template.png">
 
   <figcaption><span class="figure-number">Figure 3: </span>Template for xorg</figcaption>
   </figure>
 
 
-  <figure id="org7323f19">
+  <figure id="org4e18f10">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-minimal-template.png" alt="void-linux-xorg-minimal-template.png">
 
   <figcaption><span class="figure-number">Figure 4: </span>Template for xorg-minimal</figcaption>

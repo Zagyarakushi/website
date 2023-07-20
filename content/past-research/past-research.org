@@ -1,0 +1,9 @@
+#+TITLE: Zagyarakushi | zagyarakushi.gitlab.io
+#+OPTIONS: title:nil
+#+META_TYPE: website
+#+DESCRIPTION: Zagyarakushi's past research
+
+#+ATTR_HTML: :class sitemap
+
+- [[file:Mitigating Against Attacks on BB84 Quantum Key Distribution][Mitigating Against Attacks on BB84 Quantum Key Distribution]] /Posted on 2021-04-01/
+- [[file:An investigation into quantum decoherence reduction techniques.pdf][An investigation into quantum decoherence reduction techniques]] /Posted on 2020-05-11/

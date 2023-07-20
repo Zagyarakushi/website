@@ -443,14 +443,14 @@
   </div>
   </div>
 
-  <div id="outline-container-orgb141582" class="outline-3">
-  <h3 id="orgb141582">Useful commands</h3>
-  <div class="outline-text-3" id="text-orgb141582">
+  <div id="outline-container-org08c757f" class="outline-3">
+  <h3 id="org08c757f">Useful commands</h3>
+  <div class="outline-text-3" id="text-org08c757f">
   </div>
 
-  <div id="outline-container-orgf4c9e1a" class="outline-4">
-  <h4 id="orgf4c9e1a">wipefs</h4>
-  <div class="outline-text-4" id="text-orgf4c9e1a">
+  <div id="outline-container-org3061de7" class="outline-4">
+  <h4 id="org3061de7">wipefs</h4>
+  <div class="outline-text-4" id="text-org3061de7">
   <p>
   Use wipefs to wipe file system to change from GPT to MBR or vice versa.
   </p>
@@ -466,9 +466,9 @@
   </div>
   </div>
 
-  <div id="outline-container-org54c36d7" class="outline-4">
-  <h4 id="org54c36d7">cfdisk</h4>
-  <div class="outline-text-4" id="text-org54c36d7">
+  <div id="outline-container-orgc983a0c" class="outline-4">
+  <h4 id="orgc983a0c">cfdisk</h4>
+  <div class="outline-text-4" id="text-orgc983a0c">
   <p>
   cfdisk allows you to partition very easily. Just type
   </p>
@@ -488,9 +488,9 @@
   </div>
   </div>
 
-  <div id="outline-container-org5c2f439" class="outline-4">
-  <h4 id="org5c2f439">mkfs</h4>
-  <div class="outline-text-4" id="text-org5c2f439">
+  <div id="outline-container-org8da4802" class="outline-4">
+  <h4 id="org8da4802">mkfs</h4>
+  <div class="outline-text-4" id="text-org8da4802">
   <p>
   mkfs allows you to actually format the partition to file system that you want.
   </p>
@@ -515,9 +515,9 @@
   </div>
   </div>
 
-  <div id="outline-container-orgc17e584" class="outline-4">
-  <h4 id="orgc17e584">cryptsetup</h4>
-  <div class="outline-text-4" id="text-orgc17e584">
+  <div id="outline-container-orgc4e51ab" class="outline-4">
+  <h4 id="orgc4e51ab">cryptsetup</h4>
+  <div class="outline-text-4" id="text-orgc4e51ab">
   <p>
   To encrypt
   </p>
@@ -568,9 +568,9 @@
   </div>
   </div>
 
-  <div id="outline-container-orgc8c2cd4" class="outline-4">
-  <h4 id="orgc8c2cd4">dd</h4>
-  <div class="outline-text-4" id="text-orgc8c2cd4">
+  <div id="outline-container-org06b892d" class="outline-4">
+  <h4 id="org06b892d">dd</h4>
+  <div class="outline-text-4" id="text-org06b892d">
   <p>
   Use dd to create key file, create bootable USB and many others.
   </p>
@@ -586,9 +586,9 @@
   </div>
   </div>
 
-  <div id="outline-container-org50634d7" class="outline-4">
-  <h4 id="org50634d7">LVM stuff</h4>
-  <div class="outline-text-4" id="text-org50634d7">
+  <div id="outline-container-orgf55cf92" class="outline-4">
+  <h4 id="orgf55cf92">LVM stuff</h4>
+  <div class="outline-text-4" id="text-orgf55cf92">
   <p>
   To create physical volume
   </p>
@@ -1517,14 +1517,14 @@
   </p>
 
 
-  <figure id="orgef5e00c">
+  <figure id="orga2f9826">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-system.png" alt="void-linux-base-system.png">
 
   <figcaption><span class="figure-number">Figure 1: </span>Template for base-system</figcaption>
   </figure>
 
 
-  <figure id="org6ac4c23">
+  <figure id="orga0be2fa">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-base-minimal.png" alt="void-linux-base-minimal.png">
 
   <figcaption><span class="figure-number">Figure 2: </span>Template for base-minimal</figcaption>
@@ -1544,14 +1544,14 @@
   </p>
 
 
-  <figure id="org72b58ca">
+  <figure id="org43a87f2">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-template.png" alt="void-linux-xorg-template.png">
 
   <figcaption><span class="figure-number">Figure 3: </span>Template for xorg</figcaption>
   </figure>
 
 
-  <figure id="org4e18f10">
+  <figure id="orgb519c3e">
   <img src="../../../../res/img/2022/04/How to get m i n i m a l i s t Void Linux setup/void-linux-xorg-minimal-template.png" alt="void-linux-xorg-minimal-template.png">
 
   <figcaption><span class="figure-number">Figure 4: </span>Template for xorg-minimal</figcaption>

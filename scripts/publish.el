@@ -383,8 +383,27 @@ and PUB-DIR the output directory."
          :publishing-function 'rw/publish-redirect
          :publishing-directory (expand-file-name "public" rw--root)
          :redirect-layout (expand-file-name "layouts/redirect.html" rw--root))
+   (list "past-research"
+         :base-directory (expand-file-name "content/past-research" rw--root)
+         :base-extension "org"
+         :recursive nil
+         :exclude (regexp-opt '("rss.org" "index.org" "404.org"))
+         :publishing-function 'rw/org-html-publish-to-html
+         :publishing-directory (expand-file-name "public/past-research" rw--root)
+         :html-head-include-default-style nil
+         :html-head-include-scripts nil
+         :html-preamble-format (rw--pre/postamble-format 'preamble)
+         :html-postamble t
+         :html-postamble-format (rw--pre/postamble-format 'postamble)
+         :html-format-headline-function 'rw/org-html-format-headline-function
+         :html-link-home rw-url
+         :html-home/up-format ""
+         :author "Zagyarakushi"
+         :email ""
+         :meta-image "res/icons/ogimage.png"
+         :meta-type "website")
    (list "site"
-         :components '("blog-posts" "blog-rss" "blog-static" "projects" "main" "blog-redirects"))
+         :components '("blog-posts" "blog-rss" "blog-static" "projects" "past-research" "main" "blog-redirects"))
    ))
 
 (defun rw-publish-all ()

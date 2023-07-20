@@ -29,3 +29,11 @@ Check out the YouTube channel on [[https://invidious.osi.kr/channel/UCin0MCwCp9X
 
 #+INCLUDE: projects/projects.org :lines "7-12"
 [[file:projects/projects.org][See more...]]
+
+* Past Research
+:PROPERTIES:
+:CUSTOM_ID: Past-Research
+:END:
+
+#+INCLUDE: past-research/past-research.org :lines "7-12"
+[[file:past-research/past-research.org][See more...]]

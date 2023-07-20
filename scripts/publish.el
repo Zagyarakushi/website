@@ -200,6 +200,22 @@ returned by `org-list-to-lisp'."
                                         ; TODO use org-list-to-subtree instead
             (org-list-to-org filtered-list))))
 
+;;  Changed function name to add a unique description per sitemap
+(defun rw/org-publish-past-research-sitemap (title list)
+  "Generate sitemap as a string, having TITLE.
+LIST is an internal representation for the files to include, as
+returned by `org-list-to-lisp'."
+  (let ((filtered-list (cl-remove-if (lambda (x)
+                                       (and (sequencep x) (null (car x))))
+                                     list)))
+    (concat "#+TITLE: " title "\n"
+            "#+OPTIONS: title:nil\n"
+            "#+META_TYPE: website\n"
+            "#+DESCRIPTION: Zagyarakushi's past research\n"
+            "\n#+ATTR_HTML: :class sitemap\n"
+                                        ; TODO use org-list-to-subtree instead
+            (org-list-to-org filtered-list))))
+
 (defun rw/org-publish-sitemap-entry (entry style project)
   "Format for sitemap ENTRY, as a string.
 ENTRY is a file name.  STYLE is the style of the sitemap.
@@ -370,6 +386,32 @@ and PUB-DIR the output directory."
          :sitemap-style 'list
          :sitemap-sort-files 'anti-chronologically
          :sitemap-function 'rw/org-publish-project-sitemap
+         :sitemap-format-entry 'rw/org-publish-sitemap-entry
+         :author "Zagyarakushi"
+         :email ""
+         :meta-image "res/icons/ogimage.png"
+         :meta-type "article")
+   (list "past-research"
+         :base-directory (expand-file-name "content/past-research" rw--root)
+         :base-extension "org"
+         :recursive nil
+         :exclude (regexp-opt '("rss.org" "past-research.org"))
+         :publishing-function 'rw/org-html-publish-to-html
+         :publishing-directory (expand-file-name "public/past-research" rw--root)
+         :html-head-include-default-style nil
+         :html-head-include-scripts nil
+         :html-preamble-format (rw--pre/postamble-format 'preamble)
+         :html-postamble t
+         :html-postamble-format (rw--pre/postamble-format 'postamble)
+         :html-format-headline-function 'rw/org-html-format-headline-function
+         :html-link-home rw-url
+         :html-home/up-format ""
+         :auto-sitemap t
+         :sitemap-filename "past-research.org"
+         :sitemap-title rw-title
+         :sitemap-style 'list
+         :sitemap-sort-files 'anti-chronologically
+         :sitemap-function 'rw/org-publish-past-research-sitemap
          :sitemap-format-entry 'rw/org-publish-sitemap-entry
          :author "Zagyarakushi"
          :email ""

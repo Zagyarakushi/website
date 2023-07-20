@@ -5,15 +5,10 @@
 
 * About
 :PROPERTIES:
-:CUSTOM_ID: About
+:CUSTOM_ID: about
 :END:
 
-I am a recent computer science graduate.
+I am computer science graduate.
 I'm a philomath determined to be a polymath.
 
 The name Zagyarakushi is based on Za Warudo. If you know, you know.
-
-Contact me at:
-#+begin_src
-i2p
-#+end_src

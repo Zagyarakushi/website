@@ -310,7 +310,7 @@ and PUB-DIR the output directory."
          :html-format-headline-function 'rw/org-html-format-headline-function
          :html-link-home rw-url
          :html-home/up-format ""
-         :auto-sitemap nil
+         :auto-sitemap t
          :sitemap-filename "blog.org"
          :sitemap-title rw-title
          :sitemap-style 'list
@@ -332,13 +332,13 @@ and PUB-DIR the output directory."
          :html-link-home rw-url
          :html-link-use-abs-url t
          :html-link-org-files-as-html t
-         :auto-sitemap nil
+         :auto-sitemap t
          :sitemap-filename "rss.org"
          :sitemap-title rw-title
          :sitemap-style 'list
          :sitemap-sort-files 'anti-chronologically
          :sitemap-function 'rw/format-rss-feed
-         :sitemap-format-entry 'rw/format-rss-feed-entry
+         ;; :sitemap-format-entry 'rw/format-rss-feed-entry
          :rss-image-url "https://zagyarakushi.gitlab.io/res/icons/android-chrome-192x192.png"
          :author "Zagyarakushi"
          :email "")
@@ -364,7 +364,7 @@ and PUB-DIR the output directory."
          :html-format-headline-function 'rw/org-html-format-headline-function
          :html-link-home rw-url
          :html-home/up-format ""
-         :auto-sitemap nil
+         :auto-sitemap t
          :sitemap-filename "projects.org"
          :sitemap-title rw-title
          :sitemap-style 'list

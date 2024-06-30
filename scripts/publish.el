@@ -253,7 +253,7 @@ and PUB-DIR the output directory."
          (from (with-temp-buffer
                  (insert-file-contents filename)
                  (if (re-search-forward regexp nil t)
-		     (org-element-property :value (org-element-at-point))))))
+		                 (org-element-property :value (org-element-at-point))))))
     (when from
       (let* ((to-name (file-name-sans-extension (file-name-nondirectory filename)))
              (to-file (format "/%s.html" to-name))
@@ -310,7 +310,7 @@ and PUB-DIR the output directory."
          :html-format-headline-function 'rw/org-html-format-headline-function
          :html-link-home rw-url
          :html-home/up-format ""
-         :auto-sitemap t
+         :auto-sitemap nil
          :sitemap-filename "blog.org"
          :sitemap-title rw-title
          :sitemap-style 'list
@@ -332,7 +332,7 @@ and PUB-DIR the output directory."
          :html-link-home rw-url
          :html-link-use-abs-url t
          :html-link-org-files-as-html t
-         :auto-sitemap t
+         :auto-sitemap nil
          :sitemap-filename "rss.org"
          :sitemap-title rw-title
          :sitemap-style 'list
@@ -364,7 +364,7 @@ and PUB-DIR the output directory."
          :html-format-headline-function 'rw/org-html-format-headline-function
          :html-link-home rw-url
          :html-home/up-format ""
-         :auto-sitemap t
+         :auto-sitemap nil
          :sitemap-filename "projects.org"
          :sitemap-title rw-title
          :sitemap-style 'list

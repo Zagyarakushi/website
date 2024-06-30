@@ -273,6 +273,8 @@ https://www.w3.org/TR/epub-33
 
 And my epub from scratch template.
 
+https://gitlab.com/zagyarakushi/epub-from-scratch-template
+
 * Conclusion
 :PROPERTIES:
 :CUSTOM_ID: conclusion

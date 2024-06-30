@@ -1,0 +1,288 @@
+#+title: Manually creating epub from scratch (With template)
+#+DATE: <2024-04-10 Wed>
+#+DESCRIPTION: This post shows you how and why you may want to create epub from scratch.
+
+* The why
+:PROPERTIES:
+:CUSTOM_ID: the-why
+:END:
+
+I needed to create an ebook in epub format in Japanese. First issue I had was not being able to display the text vertically. I tried to use LibreOffice export to epub option, tried to use Calibre to mess around with options, I tried to look through the exported epub to try and change some stuff. Nothing worked. I am sure there is a way to do it through these software but I was not able to find a way to make it work. Second issue I had was the layout was messed up even in horizontal mode. There were weird inconsistencies and gaps between paragraphs or re-flow issues.  By then, I had wasted enough time and decided to create epub from scratch.
+
+Not sure if it exists now but there was no complete guide to creating an epub from scratch when I did my epub (especially for epub 3.3). Here is my attempt at it. You can also find the template on GitLab and GitHub.
+
+* The how
+:PROPERTIES:
+:CUSTOM_ID: the-how
+:END:
+
+epub format is just a regular zip file but with a different extension. You can change the extension to zip and extract it to see the contents. It contains some meta information files that ebook readers use to know how to put all the files together to display it on screen. Rest of the files are content files such as text, images, videos, audios etc. Just like a website.
+
+Inside, you will find that there are some files and folders. The basic structure of epub is shown below.
+
+#+begin_src
+.
+├── META-INF
+│   └── container.xml
+├── mimetype
+└── OEBPS
+    ├── content.opf
+    ├── images
+    │   └── cover.jpg
+    ├── styles
+    │   └── stylesheet.css
+    └── text
+        ├── text2.xhtml
+        ├── text3.xhtml
+        ├── text.xhtml
+        └── nav.xhtml
+
+#+end_src
+
+** META-INF
+:PROPERTIES:
+:CUSTOM_ID: meta-inf
+:END:
+
+In this folder, there is a file called container.xml. This defines the location of content.opf . You may change the name of the content folder (in this case OEBPS) to something else and this must be changed in the container.xml file. You may have more information and files in this folder but container.xml is required.
+
+Here is an example of container.xml.
+
+#+begin_src xml
+
+<?xml version='1.0' encoding='utf-8'?>
+<container xmlns="urn:oasis:names:tc:opendocument:xmlns:container" version="1.0">
+  <rootfiles>
+    <rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/>
+  </rootfiles>
+</container>
+
+#+end_src
+
+** mimetype
+:PROPERTIES:
+:CUSTOM_ID: mimetype
+:END:
+
+This defines that this file is an epub file.
+
+Here is the content.
+
+#+begin_src
+
+application/epub+zip
+
+#+end_src
+
+** OEBPS
+:PROPERTIES:
+:CUSTOM_ID: oebps
+:END:
+
+As stated in the META_INF section, you can change the name of the folder if you wish. The most important file in this folder is content.opf. This defines the location and order of the content to be displayed. You can also define certain metadata.
+
+*** content.ops
+:PROPERTIES:
+:CUSTOM_ID: contentops
+:END:
+
+Here is an example content.opf
+
+#+begin_src xml
+
+<?xml version="1.0"  encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="unique-identifier" version="3.0">
+  <metadata xmlns="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:identifier id="unique-identifier">b62482e5-6a3a-4f4c-b73a-ee3292ff8068</dc:identifier>
+    <dc:title>Title</dc:title>
+    <dc:language>en</dc:language>
+    <meta property="dcterms:modified">2024-04-27T13:00:00Z</meta>
+    <dc:creator id="creator">Creator Name</dc:creator>
+    <meta refines="#creator" property="role" scheme="marc:relators" id="role">aut</meta>
+    <meta refines="#creator" property="alternate-script" xml:lang="ja">Creator Name</meta>
+    <meta refines="#creator" property="file-as">Name, Creator</meta>
+  </metadata>
+  <manifest>
+    <item id="cover"
+          href="./images/cover.jpg"
+          properties="cover-image"
+          media-type="image/jpeg"/>
+    <item id="text"
+          href="./text/text.xhtml"
+          media-type="application/xhtml+xml"/>
+    <item id="text2"
+          href="./text/text2.xhtml"
+          properties="nav"
+          media-type="application/xhtml+xml"/>
+    <item id="text3"
+          href="./text/text3.xhtml"
+          properties="nav"
+          media-type="application/xhtml+xml"/>
+    <item id="nav"
+          href="./text/nav.xhtml"
+          properties="nav"
+          media-type="application/xhtml+xml"/>
+    <item id="css"
+          href="./styles/stylesheet.css"
+          media-type="text/css"/>
+  </manifest>
+  <spine page-progression-direction="rtl">
+    <itemref idref="nav"/>
+    <itemref idref="text"/>
+    <itemref idref="text2"/>
+    <itemref idref="text3"/>
+  </spine>
+</package>
+
+
+#+end_src
+
+You will need to change identifier, title, language etc. In the manifest section, you will need to specify anything that will be included in the book. Even if they are not text pages. For example, images, videos and audios will need to go here. Spine section is where you specify the order of things. Mostly pages. Anything included here will be visible as a page. So in this case, if you don't want table of contents, then you can remove it here and it won't show up as a page. However, it will still be shown in the ebook reader as table of contents.
+
+*** nav.xhtml
+:PROPERTIES:
+:CUSTOM_ID: nav
+:END:
+
+This is the file that will show up on the ebook reader as table of contents. It does not have to be called nav.xhtml but needs to include a special metadata.
+
+#+begin_src xml
+
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns:epub="http://www.idpf.org/2007/ops" xmlns="http://www.w3.org/1999/xhtml">
+  <head><title>Table of Contents</title></head>
+  <body>
+    <nav epub:type="toc">
+      <h1>Table of Contents</h1>
+      <ol>
+        <li>
+          <a href="text.xhtml">Cover</a>
+        </li>
+        <li>
+          <a href="text2.xhtml">Title</a>
+        </li>
+        <li>
+          <a href="text3.xhtml">Wisdom</a>
+        </li>
+        <li>
+          <a href="text4.xhtml">Disclaimer</a>
+        </li>
+      </ol>
+    </nav>
+  </body>
+</html>
+
+#+end_src
+
+*** Stylesheet
+:PROPERTIES:
+:CUSTOM_ID: stylesheet
+:END:
+
+This is a standard css file. You can change the layout and the way your contents are displayed.
+
+Example.
+
+#+begin_src css
+
+@page {
+    margin:  5px 5px 5px 5px
+}
+
+body {
+    writing-mode: vertical-rl
+}
+
+.upright-text {
+    text-orientation: upright
+}
+
+.center-text {
+    text-align: center
+}
+
+.horizontal-text {
+    writing-mode: horizontal-tb
+}
+
+#+end_src
+
+*** The content file
+:PROPERTIES:
+:CUSTOM_ID: content-file
+:END:
+
+This is where your content lives.
+
+#+begin_src xml
+
+<?xml version='1.0' encoding='utf-8'?>
+<html xmlns='http://www.w3.org/1999/xhtml' xml:lang='en'>
+  <head>
+    <meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+    <link href='../styles/stylesheet.css' rel='stylesheet' type='text/css'/>
+    <title>TITLE</title>
+  </head>
+  <body>
+    <div class="center-text horizontal-text">
+      <h2>HEADER</h2>
+    </div>
+    <p>Some text here</p>
+    <p>You can also use<br />
+        breaks</p>
+  </body>
+</html>
+
+#+end_src
+
+** Zipping the folder
+:PROPERTIES:
+:CUSTOM_ID: zipping
+:END:
+
+You need to zip the folder in a way that it becomes a valid epub file.
+
+I found the following  command to work well.
+
+To create the zip and add the mimetype file.
+
+#+begin_src bash
+
+zip -0Xq book.epub mimetype
+
+#+end_src
+
+To add rest of the files to that zip. Excluding mimetype file.
+
+#+begin_src  bash
+
+zip -Xr9Dq book.epub * -x mimetype
+
+#+end_src
+
+These two commands should be run in the root directory of the book.
+
+* Resources
+:PROPERTIES:
+:CUSTOM_ID:  resources
+:END:
+
+The most useful resource is the latest epub spec.
+
+https://www.w3.org/TR/epub-33
+
+And my epub from scratch template.
+
+* Conclusion
+:PROPERTIES:
+:CUSTOM_ID: conclusion
+:END:
+
+You should now be able to create epub from scratch. And have complete control over your ebook.
+
+* Want to help?
+:PROPERTIES:
+:CUSTOM_ID: want-to-help
+:END:
+
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

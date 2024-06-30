@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2023-11-19 -->
+<!-- 2024-06-30 -->
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>How to install Void Linux the minimalist way</title>
@@ -338,14 +338,14 @@ Mount swap.
 </div>
 </div>
 
-<div id="outline-container-orgba4b96a" class="outline-3">
-<h3 id="orgba4b96a"><a href="#orgba4b96a">Useful commands</a></h3>
-<div class="outline-text-3" id="text-orgba4b96a">
+<div id="outline-container-orgbbdda4e" class="outline-3">
+<h3 id="orgbbdda4e"><a href="#orgbbdda4e">Useful commands</a></h3>
+<div class="outline-text-3" id="text-orgbbdda4e">
 </div>
 
-<div id="outline-container-orgafb8770" class="outline-4">
-<h4 id="orgafb8770"><a href="#orgafb8770">wipefs</a></h4>
-<div class="outline-text-4" id="text-orgafb8770">
+<div id="outline-container-orgff51cc8" class="outline-4">
+<h4 id="orgff51cc8"><a href="#orgff51cc8">wipefs</a></h4>
+<div class="outline-text-4" id="text-orgff51cc8">
 <p>
 Use wipefs to wipe file system to change from GPT to MBR or vice versa.
 </p>
@@ -361,9 +361,9 @@ WARNING! THIS WILL WIPE ALL DATA!
 </div>
 </div>
 
-<div id="outline-container-org182337d" class="outline-4">
-<h4 id="org182337d"><a href="#org182337d">cfdisk</a></h4>
-<div class="outline-text-4" id="text-org182337d">
+<div id="outline-container-org2f3cd6b" class="outline-4">
+<h4 id="org2f3cd6b"><a href="#org2f3cd6b">cfdisk</a></h4>
+<div class="outline-text-4" id="text-org2f3cd6b">
 <p>
 cfdisk allows you to partition very easily. Just type
 </p>
@@ -383,9 +383,9 @@ This command can also be used to format USB and SD cards. Very useful.
 </div>
 </div>
 
-<div id="outline-container-orgea391b6" class="outline-4">
-<h4 id="orgea391b6"><a href="#orgea391b6">mkfs</a></h4>
-<div class="outline-text-4" id="text-orgea391b6">
+<div id="outline-container-orgb3fb917" class="outline-4">
+<h4 id="orgb3fb917"><a href="#orgb3fb917">mkfs</a></h4>
+<div class="outline-text-4" id="text-orgb3fb917">
 <p>
 mkfs allows you to actually format the partition to file system that you want.
 </p>
@@ -410,9 +410,9 @@ For FAT32
 </div>
 </div>
 
-<div id="outline-container-org5f11023" class="outline-4">
-<h4 id="org5f11023"><a href="#org5f11023">cryptsetup</a></h4>
-<div class="outline-text-4" id="text-org5f11023">
+<div id="outline-container-org531f090" class="outline-4">
+<h4 id="org531f090"><a href="#org531f090">cryptsetup</a></h4>
+<div class="outline-text-4" id="text-org531f090">
 <p>
 To encrypt
 </p>
@@ -463,9 +463,9 @@ Create key file using dd command.
 </div>
 </div>
 
-<div id="outline-container-org55fc802" class="outline-4">
-<h4 id="org55fc802"><a href="#org55fc802">dd</a></h4>
-<div class="outline-text-4" id="text-org55fc802">
+<div id="outline-container-org8348c52" class="outline-4">
+<h4 id="org8348c52"><a href="#org8348c52">dd</a></h4>
+<div class="outline-text-4" id="text-org8348c52">
 <p>
 Use dd to create key file, create bootable USB and many others.
 </p>
@@ -481,9 +481,9 @@ Use this to create key file
 </div>
 </div>
 
-<div id="outline-container-orged209a6" class="outline-4">
-<h4 id="orged209a6"><a href="#orged209a6">LVM stuff</a></h4>
-<div class="outline-text-4" id="text-orged209a6">
+<div id="outline-container-org958afc6" class="outline-4">
+<h4 id="org958afc6"><a href="#org958afc6">LVM stuff</a></h4>
+<div class="outline-text-4" id="text-org958afc6">
 <p>
 To create physical volume
 </p>
@@ -578,7 +578,7 @@ If you are using keyfiles then also add an entry to crypttab to auto decrypt you
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"home UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $HOMEPARTITION</span><span class="org-string">) /var/local/key"</span> &gt; /mnt/etc/crypttab
+<pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"home UUID=$(blkid -s UUID -o value $HOMEPARTITION) /var/local/key"</span> &gt; /mnt/etc/crypttab
 </pre>
 </div>
 </div>
@@ -787,10 +787,10 @@ Here just change the variable to the partition that will be mounted on startup.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $HOMEPARTITION</span><span class="org-string">) /home   ext4    defaults                0       0"</span> &gt; /etc/fstab
-<span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $ROOTPARTITION</span><span class="org-string">) /   ext4    defaults                    0       0"</span> &gt;&gt; /etc/fstab
-<span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $SWAPPARTITION</span><span class="org-string">) none   swap    defaults                    0       0"</span> &gt;&gt; /etc/fstab
-<span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $BOOTPARTITION</span><span class="org-string">) /boot   vfat    defaults                    0       0"</span> &gt;&gt; /etc/fstab
+<pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(blkid -s UUID -o value $HOMEPARTITION) /home   ext4    defaults                0       0"</span> &gt; /etc/fstab
+<span class="org-builtin">echo</span> <span class="org-string">"UUID=$(blkid -s UUID -o value $ROOTPARTITION) /   ext4    defaults                    0       0"</span> &gt;&gt; /etc/fstab
+<span class="org-builtin">echo</span> <span class="org-string">"UUID=$(blkid -s UUID -o value $SWAPPARTITION) none   swap    defaults                    0       0"</span> &gt;&gt; /etc/fstab
+<span class="org-builtin">echo</span> <span class="org-string">"UUID=$(blkid -s UUID -o value $BOOTPARTITION) /boot   vfat    defaults                    0       0"</span> &gt;&gt; /etc/fstab
 </pre>
 </div>
 
@@ -834,7 +834,7 @@ Now, copy the UUID of the encrypted partition. In this case it is /dev/sda2.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(</span><span class="org-sh-quoted-exec">blkid -s UUID -o value $ROOTPARTITIONORG</span><span class="org-string">)"</span> &gt;&gt; /etc/default/grub
+<pre class="src src-sh"><span class="org-builtin">echo</span> <span class="org-string">"UUID=$(blkid -s UUID -o value $ROOTPARTITIONORG)"</span> &gt;&gt; /etc/default/grub
 </pre>
 </div>
 

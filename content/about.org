@@ -8,7 +8,7 @@
 :CUSTOM_ID: about
 :END:
 
-I am computer science graduate.
+I am a computer science graduate.
 I'm a philomath determined to be a polymath.
 
 The name Zagyarakushi is based on Za Warudo. If you know, you know.

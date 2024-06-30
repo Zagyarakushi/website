@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:atom="http://www.w3.org/2005/Atom"
+     xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+     xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+     xmlns:georss="http://www.georss.org/georss"
+     xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
+     xmlns:media="http://search.yahoo.com/mrss/"><channel>
+  <title>Zagyarakushi | zagyarakushi.gitlab.io</title>
+  <atom:link href="https://zagyarakushi.gitlab.io/rss.xml" rel="self" type="application/rss+xml" />
+  <link>https://zagyarakushi.gitlab.io/</link>
+  <description>This blog is dedicated to help people ascend to higher level and become woke. I will cover topics such as Linux, open source, news, opinions, programming, privacy and security. Also don’t forget to be l33t h4x0r, minimalist and A E S T H E T I C A L.</description>
+  <language>en</language>
+  <pubDate>30 Jun 2024</pubDate>
+  <lastBuildDate>30 Jun 2024</lastBuildDate>
+  <generator>Emacs 29.4 Org-mode 9.6.15</generator>
+  <webMaster>(Zagyarakushi)</webMaster>
+  <image>
+    <url>https://zagyarakushi.gitlab.io/res/icons/android-chrome-192x192.png</url>
+    <title>Zagyarakushi | zagyarakushi.gitlab.io</title>
+    <link>https://zagyarakushi.gitlab.io/</link>
+  </image>
+
+  <p>
+    <a href="2023/03/31/leaving-the-clear-web.html">Leaving the Clear Web for I2P</a>
+    <a href="2022/09/26/how-to-install-void-linux-the-minimalist-way.html">How to install Void Linux the minimalist way</a>
+    <a href="2022/04/26/how-to-get-m-i-n-i-m-a-l-i-s-t-void-linux-setup.html">How to get m i n i m a l i s t Void Linux setup</a>
+    <a href="2022/03/21/chad-becomes-virgin-and-goes-to-the-dark-side.html">Chad becomes Virgin and goes to the dark side</a>
+  </p>
+</channel>
+</rss>

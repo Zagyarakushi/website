@@ -1,5 +1,5 @@
 #+title: Manually creating epub from scratch (With template)
-#+DATE: <2024-04-10 Wed>
+#+DATE: <2024-06-29 Sat>
 #+DESCRIPTION: This post shows you how and why you may want to create epub from scratch.
 
 * The why

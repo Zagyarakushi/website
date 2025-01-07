@@ -18,6 +18,8 @@ I also decided to keep uploading content to my clearnet blog and YouTube channel
 
 Finally, currently, there are no communication methods between us. Well, except for the YouTube comment section. I want to setup couple of ways to contact such as irc and any other simple and private option. Once they are setup, I would like to hear your thoughts on this blog and YouTube channel. Oh, and I also want my videos to be available on i2p. Which is going to be interesting...
 
+I am alive btw.
+
 * Want to help?
 :PROPERTIES:
 :CUSTOM_ID: want-to-help

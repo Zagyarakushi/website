@@ -1,0 +1,26 @@
+#+title: Server upgrade, new i2p link and plans for the future 
+#+DATE: <2025-01-07 Sat>
+#+DESCRIPTION: See title. 
+
+Bit late but happy new year everyone!
+
+Some of you have noticed that the i2p site was down for some time. This was due to a server upgrade. And I am extremely happy that some of you have noticed this. I didn't think anyone would notice or care. Apologies to whom I did not reply. There is a reason for this. Sometimes, I just want to disappear into far away fantasy lands. But things like this keep me going. So thank you kind stranger!
+
+Due to the upgrade, the supposedly backed up dat file for the website has been lost. So the website now lives at http://gyboervediprqlkhiq474suntd5qpltetknhbatj2vih42lsufsa.b32.i2p/
+
+I still haven't backed up the dat file... I plan to do so soon (hopefully). Always make sure to backup and test your backup people.
+
+AS for future plans, idk ¯\_(ツ)_/¯. I initially started this blog to improve my writing. And also to share knowledge that took me 100s of hours of web browsing in a simple way. YouTube channel was created for the same reason. But instead of writing, talking. Did you know that most humans can use a muscle in their throat to cause vibration in the air that passes over it when they exhale? When it is done in a coordinated manner, apparently, this is called talking. 
+
+Anyway, as a general direction, I want to take this blog and channel into an experimental thing. An experiment to become a modern renaissance man like person. An experiment to see if in modern age, a person can develop knowledge like a tree. Deeply rooted and expert in one topic. Considered an expert in several branches and casts a shadow over a wide area. And not just developing and improving but creating a blue print that anyone can follow. Including the thought process prior to the experiment, the failures and after thoughts. I feel science nowadays doesn't include the thoughts and failures. I have read some papers before 1980s and they are fascinating. It's like looking inside the mind of a genius and seeing their thoughts. Point is, to give ideas to improve whatever you are doing in life. The actual experiment might not give any ideas but the thought process might.
+
+I also decided to keep uploading content to my clearnet blog and YouTube channel. My reasoning is that if I can make someone aware of i2p, privacy, linux or whatever, it is much better for the society. I might allow bots to crawl this site as well. In order to encourage the use of i2p, I want to post exclusive content only on i2p. But I don't know what I want to post.
+
+Finally, currently, there are no communication methods between us. Well, except for the YouTube comment section. I want to setup couple of ways to contact such as irc and any other simple and private option. Once they are setup, I would like to hear your thoughts on this blog and YouTube channel. Oh, and I also want my videos to be available on i2p. Which is going to be interesting...
+
+* Want to help?
+:PROPERTIES:
+:CUSTOM_ID: want-to-help
+:END:
+
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.

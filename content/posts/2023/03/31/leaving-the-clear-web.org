@@ -2,7 +2,7 @@
 #+DATE: <2023-04-10 Mon>
 #+DESCRIPTION: This post shows you why and how to leave the clear web
 
-My I2P website is now live at: http://362vxf2h4i7ci4vkos727uu4gsngopt4mmttrafrirqiff64ehsa.b32.i2p/
+Update 2025: My I2P website is now live at: http://gyboervediprqlkhiq474suntd5qpltetknhbatj2vih42lsufsa.b32.i2p/
 
 Obviously, not to be taken literally as you won't be able to access necessary stuff if you completely cut off clear web.
 

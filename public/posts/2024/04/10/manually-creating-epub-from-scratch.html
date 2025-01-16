@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2025-01-16 -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Manually creating epub from scratch (With template)</title>
+<meta name="author" content="Zagyarakushi" />
+<meta name="description" content="This post shows you how and why you may want to create epub from scratch." />
+<meta name="generator" content="Org Mode" />
+<meta name="robots" content="noindex">
+<meta name="robots" content="nofollow">
+<meta name="robots" content="noarchive">
+<meta name="robots" content="nocache">
+<meta name="robots" content="notranslate">
+<meta name="robots" content="noimageindex">
+<meta name="robots" content="nosnippet">
+<meta name="referrer" content="noreferrer">
+<link rel="stylesheet" type="text/css" href="/res/css/simple.css">
+<link rel="stylesheet" type="text/css" href="/res/css/custom.css">
+<link rel="alternate" type="application/rss+xml" href="/rss.xml" title="RSS feed">
+<link rel="apple-touch-icon" sizes="180x180" href="https://zagyarakushi.gitlab.io/res/icons/apple-touch-icon.png">
+<link rel="manifest" href="https://zagyarakushi.gitlab.io/res/icons/site.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="https://zagyarakushi.gitlab.io/res/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://zagyarakushi.gitlab.io/res/icons/favicon-16x16.png">
+<link rel="icon" type="image/x-icon" href="https://zagyarakushi.gitlab.io/res/icons/favicon.ico">
+<meta property="og:title" content="Manually creating epub from scratch (With template)">
+<meta property="og:url" content="https://zagyarakushi.gitlab.io/posts/2024/04/10/manually-creating-epub-from-scratch.html">
+<meta property="og:description" content="This post shows you how and why you may want to create epub from scratch.">
+<meta property="og:image" content="https://zagyarakushi.gitlab.io/res/icons/ogimage.png">
+<meta property="og:type" content="article">
+<meta property="article:author" content="Zagyarakushi">
+<meta property="article:published_time" content="2024-06-29T00:00:00+0100">
+<meta property="twitter:title" content="Manually creating epub from scratch (With template)">
+<meta property="twitter:url" content="https://zagyarakushi.gitlab.io/posts/2024/04/10/manually-creating-epub-from-scratch.html">
+<meta property="twitter:image" content="https://zagyarakushi.gitlab.io/res/icons/ogimage.png">
+<meta property="twitter:description" content="This post shows you how and why you may want to create epub from scratch.">
+<meta property="twitter:card" content="summary">
+</head>
+<body>
+<header id="top" class="status">
+<h1><a href="/" title="Zagyarakushi">Zagyarakushi</a></h1>
+<nav>
+  <a href="/">Home</a>
+  <a href="/posts/blog.html">Blog</a>
+  <a href="/projects/projects.html">Projects</a>
+  <a href="/interesting.html">Interesting Stuff</a>
+  <a href="/past-research/past-research.html">Past Research</a>
+  <a href="/about.html">About</a>
+  <a href="/donate.html">Donate</a>
+</nav>
+<div id="last-updated">Last Updated: 2024-07-10</div>
+</header>
+<main id="content" class="content">
+<header>
+<h1 class="title">Manually creating epub from scratch (With template)</h1>
+<p class="subtitle" role="doc-subtitle">Posted on 2024-06-29</p>
+</header>
+<section id="outline-container-the-why" class="outline-2">
+<h2 id="the-why"><a href="#the-why">The why</a></h2>
+<div class="outline-text-2" id="text-the-why">
+<p>
+I needed to create an ebook in epub format in Japanese. First issue I had was not being able to display the text vertically. I tried to use LibreOffice export to epub option, tried to use Calibre to mess around with options, I tried to look through the exported epub to try and change some stuff. Nothing worked. I am sure there is a way to do it through these software but I was not able to find a way to make it work. Second issue I had was the layout was messed up even in horizontal mode. There were weird inconsistencies and gaps between paragraphs or re-flow issues.  By then, I had wasted enough time and decided to create epub from scratch.
+</p>
+
+<p>
+Not sure if it exists now but there was no complete guide to creating an epub from scratch when I did my epub (especially for epub 3.3). Here is my attempt at it. You can also find the template on GitLab and GitHub.
+</p>
+</div>
+</section>
+
+<section id="outline-container-the-how" class="outline-2">
+<h2 id="the-how"><a href="#the-how">The how</a></h2>
+<div class="outline-text-2" id="text-the-how">
+<p>
+epub format is just a regular zip file but with a different extension. You can change the extension to zip and extract it to see the contents. It contains some meta information files that ebook readers use to know how to put all the files together to display it on screen. Rest of the files are content files such as text, images, videos, audios etc. Just like a website.
+</p>
+
+<p>
+Inside, you will find that there are some files and folders. The basic structure of epub is shown below.
+</p>
+
+<pre class="example">
+.
+├── META-INF
+│   └── container.xml
+├── mimetype
+└── OEBPS
+    ├── content.opf
+    ├── images
+    │   └── cover.jpg
+    ├── styles
+    │   └── stylesheet.css
+    └── text
+        ├── text2.xhtml
+        ├── text3.xhtml
+        ├── text.xhtml
+        └── nav.xhtml
+
+</pre>
+</div>
+
+<div id="outline-container-meta-inf" class="outline-3">
+<h3 id="meta-inf"><a href="#meta-inf">META-INF</a></h3>
+<div class="outline-text-3" id="text-meta-inf">
+<p>
+In this folder, there is a file called container.xml. This defines the location of content.opf . You may change the name of the content folder (in this case OEBPS) to something else and this must be changed in the container.xml file. You may have more information and files in this folder but container.xml is required.
+</p>
+
+<p>
+Here is an example of container.xml.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">
+<span class="org-nxml-processing-instruction-delimiter">&lt;?</span><span class="org-nxml-processing-instruction-target">xml</span> <span class="org-nxml-processing-instruction-content">version='1.0' encoding='utf-8'</span><span class="org-nxml-processing-instruction-delimiter">?&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">container</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span>=<span class="org-string">"urn:oasis:names:tc:opendocument:xmlns:container"</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">"1.0"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">rootfiles</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">rootfile</span> <span class="org-nxml-attribute-local-name">full-path</span>=<span class="org-string">"OEBPS/content.opf"</span> <span class="org-nxml-attribute-local-name">media-type</span>=<span class="org-string">"application/oebps-package+xml"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">rootfiles</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">container</span><span class="org-nxml-tag-delimiter">&gt;</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-mimetype" class="outline-3">
+<h3 id="mimetype"><a href="#mimetype">mimetype</a></h3>
+<div class="outline-text-3" id="text-mimetype">
+<p>
+This defines that this file is an epub file.
+</p>
+
+<p>
+Here is the content.
+</p>
+
+<pre class="example">
+
+application/epub+zip
+
+</pre>
+</div>
+</div>
+
+<div id="outline-container-oebps" class="outline-3">
+<h3 id="oebps"><a href="#oebps">OEBPS</a></h3>
+<div class="outline-text-3" id="text-oebps">
+<p>
+As stated in the META_INF section, you can change the name of the folder if you wish. The most important file in this folder is content.opf. This defines the location and order of the content to be displayed. You can also define certain metadata.
+</p>
+</div>
+
+<div id="outline-container-contentops" class="outline-4">
+<h4 id="contentops"><a href="#contentops">content.ops</a></h4>
+<div class="outline-text-4" id="text-contentops">
+<p>
+Here is an example content.opf
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">
+<span class="org-nxml-processing-instruction-delimiter">&lt;?</span><span class="org-nxml-processing-instruction-target">xml</span> <span class="org-nxml-processing-instruction-content">version="1.0"  encoding="UTF-8"</span><span class="org-nxml-processing-instruction-delimiter">?&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">package</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span>=<span class="org-string">"http://www.idpf.org/2007/opf"</span> <span class="org-nxml-attribute-local-name">unique-identifier</span>=<span class="org-string">"unique-identifier"</span> <span class="org-nxml-attribute-local-name">version</span>=<span class="org-string">"3.0"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">metadata</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span>=<span class="org-string">"http://www.idpf.org/2007/opf"</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span><span class="org-nxml-namespace-attribute-colon">:</span><span class="org-nxml-namespace-attribute-prefix">dc</span>=<span class="org-string">"http://purl.org/dc/elements/1.1/"</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span><span class="org-nxml-namespace-attribute-colon">:</span><span class="org-nxml-namespace-attribute-prefix">dcterms</span>=<span class="org-string">"http://purl.org/dc/terms/"</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span><span class="org-nxml-namespace-attribute-colon">:</span><span class="org-nxml-namespace-attribute-prefix">opf</span>=<span class="org-string">"http://www.idpf.org/2007/opf"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">identifier</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"unique-identifier"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">b62482e5-6a3a-4f4c-b73a-ee3292ff8068</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">identifier</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">title</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Title</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">title</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">language</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">en</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">language</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">meta</span> <span class="org-nxml-attribute-local-name">property</span>=<span class="org-string">"dcterms:modified"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">2024-04-27T13:00:00Z</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">meta</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">creator</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"creator"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Creator Name</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-prefix">dc</span><span class="org-nxml-element-colon">:</span><span class="org-nxml-element-local-name">creator</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">meta</span> <span class="org-nxml-attribute-local-name">refines</span>=<span class="org-string">"#creator"</span> <span class="org-nxml-attribute-local-name">property</span>=<span class="org-string">"role"</span> <span class="org-nxml-attribute-local-name">scheme</span>=<span class="org-string">"marc:relators"</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"role"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">aut</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">meta</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">meta</span> <span class="org-nxml-attribute-local-name">refines</span>=<span class="org-string">"#creator"</span> <span class="org-nxml-attribute-local-name">property</span>=<span class="org-string">"alternate-script"</span> <span class="org-nxml-attribute-prefix">xml</span><span class="org-nxml-attribute-colon">:</span><span class="org-nxml-attribute-local-name">lang</span>=<span class="org-string">"ja"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Creator Name</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">meta</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">meta</span> <span class="org-nxml-attribute-local-name">refines</span>=<span class="org-string">"#creator"</span> <span class="org-nxml-attribute-local-name">property</span>=<span class="org-string">"file-as"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Name, Creator</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">meta</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">metadata</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">manifest</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">item</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"cover"</span>
+          <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"./images/cover.jpg"</span>
+          <span class="org-nxml-attribute-local-name">properties</span>=<span class="org-string">"cover-image"</span>
+          <span class="org-nxml-attribute-local-name">media-type</span>=<span class="org-string">"image/jpeg"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">item</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"text"</span>
+          <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"./text/text.xhtml"</span>
+          <span class="org-nxml-attribute-local-name">media-type</span>=<span class="org-string">"application/xhtml+xml"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">item</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"text2"</span>
+          <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"./text/text2.xhtml"</span>
+          <span class="org-nxml-attribute-local-name">properties</span>=<span class="org-string">"nav"</span>
+          <span class="org-nxml-attribute-local-name">media-type</span>=<span class="org-string">"application/xhtml+xml"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">item</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"text3"</span>
+          <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"./text/text3.xhtml"</span>
+          <span class="org-nxml-attribute-local-name">properties</span>=<span class="org-string">"nav"</span>
+          <span class="org-nxml-attribute-local-name">media-type</span>=<span class="org-string">"application/xhtml+xml"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">item</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"nav"</span>
+          <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"./text/nav.xhtml"</span>
+          <span class="org-nxml-attribute-local-name">properties</span>=<span class="org-string">"nav"</span>
+          <span class="org-nxml-attribute-local-name">media-type</span>=<span class="org-string">"application/xhtml+xml"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">item</span> <span class="org-nxml-attribute-local-name">id</span>=<span class="org-string">"css"</span>
+          <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"./styles/stylesheet.css"</span>
+          <span class="org-nxml-attribute-local-name">media-type</span>=<span class="org-string">"text/css"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">manifest</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">spine</span> <span class="org-nxml-attribute-local-name">page-progression-direction</span>=<span class="org-string">"rtl"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">itemref</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"nav"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">itemref</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"text"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">itemref</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"text2"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">itemref</span> <span class="org-nxml-attribute-local-name">idref</span>=<span class="org-string">"text3"</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">spine</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">package</span><span class="org-nxml-tag-delimiter">&gt;</span>
+
+
+</pre>
+</div>
+
+<p>
+You will need to change identifier, title, language etc. In the manifest section, you will need to specify anything that will be included in the book. Even if they are not text pages. For example, images, videos and audios will need to go here. Spine section is where you specify the order of things. Mostly pages. Anything included here will be visible as a page. So in this case, if you don&rsquo;t want table of contents, then you can remove it here and it won&rsquo;t show up as a page. However, it will still be shown in the ebook reader as table of contents.
+</p>
+</div>
+</div>
+
+<div id="outline-container-nav" class="outline-4">
+<h4 id="nav"><a href="#nav">nav.xhtml</a></h4>
+<div class="outline-text-4" id="text-nav">
+<p>
+This is the file that will show up on the ebook reader as table of contents. It does not have to be called nav.xhtml but needs to include a special metadata.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">
+<span class="org-nxml-processing-instruction-delimiter">&lt;?</span><span class="org-nxml-processing-instruction-target">xml</span> <span class="org-nxml-processing-instruction-content">version='1.0' encoding='utf-8'</span><span class="org-nxml-processing-instruction-delimiter">?&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">html</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span><span class="org-nxml-namespace-attribute-colon">:</span><span class="org-nxml-namespace-attribute-prefix">epub</span>=<span class="org-string">"http://www.idpf.org/2007/ops"</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span>=<span class="org-string">"http://www.w3.org/1999/xhtml"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">head</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-element-local-name">title</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Table of Contents</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">title</span><span class="org-nxml-tag-delimiter">&gt;&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">head</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">body</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">nav</span> <span class="org-nxml-attribute-prefix">epub</span><span class="org-nxml-attribute-colon">:</span><span class="org-nxml-attribute-local-name">type</span>=<span class="org-string">"toc"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">h1</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Table of Contents</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">h1</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">ol</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+          <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">a</span> <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"text.xhtml"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Cover</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">a</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+          <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">a</span> <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"text2.xhtml"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Title</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">a</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+          <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">a</span> <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"text3.xhtml"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Wisdom</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">a</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+          <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">a</span> <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">"text4.xhtml"</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Disclaimer</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">a</span><span class="org-nxml-tag-delimiter">&gt;</span>
+        <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">li</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">ol</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">nav</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">body</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">html</span><span class="org-nxml-tag-delimiter">&gt;</span>
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-stylesheet" class="outline-4">
+<h4 id="stylesheet"><a href="#stylesheet">Stylesheet</a></h4>
+<div class="outline-text-4" id="text-stylesheet">
+<p>
+This is a standard css file. You can change the layout and the way your contents are displayed.
+</p>
+
+<p>
+Example.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-css">
+<span class="org-builtin">@page</span> {
+    <span class="org-css-property">margin</span>:  5px 5px 5px 5px
+}
+
+<span class="org-css-selector">body</span> {
+    <span class="org-css-property">writing-mode</span>: vertical-rl
+}
+
+<span class="org-css-selector">.upright-text</span> {
+    <span class="org-css-property">text-orientation</span>: upright
+}
+
+<span class="org-css-selector">.center-text</span> {
+    <span class="org-css-property">text-align</span>: center
+}
+
+<span class="org-css-selector">.horizontal-text</span> {
+    <span class="org-css-property">writing-mode</span>: horizontal-tb
+}
+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-content-file" class="outline-4">
+<h4 id="content-file"><a href="#content-file">The content file</a></h4>
+<div class="outline-text-4" id="text-content-file">
+<p>
+This is where your content lives.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-xml">
+<span class="org-nxml-processing-instruction-delimiter">&lt;?</span><span class="org-nxml-processing-instruction-target">xml</span> <span class="org-nxml-processing-instruction-content">version='1.0' encoding='utf-8'</span><span class="org-nxml-processing-instruction-delimiter">?&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">html</span> <span class="org-nxml-namespace-attribute-xmlns">xmlns</span>=<span class="org-string">'http://www.w3.org/1999/xhtml'</span> <span class="org-nxml-attribute-prefix">xml</span><span class="org-nxml-attribute-colon">:</span><span class="org-nxml-attribute-local-name">lang</span>=<span class="org-string">'en'</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">head</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">meta</span> <span class="org-nxml-attribute-local-name">http-equiv</span>=<span class="org-string">'Content-Type'</span> <span class="org-nxml-attribute-local-name">content</span>=<span class="org-string">'text/html; charset=UTF-8'</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">link</span> <span class="org-nxml-attribute-local-name">href</span>=<span class="org-string">'../styles/stylesheet.css'</span> <span class="org-nxml-attribute-local-name">rel</span>=<span class="org-string">'stylesheet'</span> <span class="org-nxml-attribute-local-name">type</span>=<span class="org-string">'text/css'</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">title</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">TITLE</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">title</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">head</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">body</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">div</span> <span class="org-nxml-attribute-local-name">class</span>=<span class="org-string">"center-text horizontal-text"</span><span class="org-nxml-tag-delimiter">&gt;</span>
+      <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">h2</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">HEADER</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">h2</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">div</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">p</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">Some text here</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">p</span><span class="org-nxml-tag-delimiter">&gt;</span>
+    <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">p</span><span class="org-nxml-tag-delimiter">&gt;</span><span class="org-nxml-text">You can also use</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-element-local-name">br</span> <span class="org-nxml-tag-slash">/</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-text">        breaks</span><span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">p</span><span class="org-nxml-tag-delimiter">&gt;</span>
+  <span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">body</span><span class="org-nxml-tag-delimiter">&gt;</span>
+<span class="org-nxml-tag-delimiter">&lt;</span><span class="org-nxml-tag-slash">/</span><span class="org-nxml-element-local-name">html</span><span class="org-nxml-tag-delimiter">&gt;</span>
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-zipping" class="outline-3">
+<h3 id="zipping"><a href="#zipping">Zipping the folder</a></h3>
+<div class="outline-text-3" id="text-zipping">
+<p>
+You need to zip the folder in a way that it becomes a valid epub file.
+</p>
+
+<p>
+I found the following  command to work well.
+</p>
+
+<p>
+To create the zip and add the mimetype file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">
+zip -0Xq book.epub mimetype
+
+</pre>
+</div>
+
+<p>
+To add rest of the files to that zip. Excluding mimetype file.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-bash">
+zip -Xr9Dq book.epub * -x mimetype
+
+</pre>
+</div>
+
+<p>
+These two commands should be run in the root directory of the book.
+</p>
+</div>
+</div>
+</section>
+
+<section id="outline-container-resources" class="outline-2">
+<h2 id="resources"><a href="#resources">Resources</a></h2>
+<div class="outline-text-2" id="text-resources">
+<p>
+The most useful resource is the latest epub spec.
+</p>
+
+<p>
+<a href="https://www.w3.org/TR/epub-33">https://www.w3.org/TR/epub-33</a>
+</p>
+
+<p>
+And my epub from scratch template.
+</p>
+
+<p>
+<a href="https://gitlab.com/zagyarakushi/epub-from-scratch-template">https://gitlab.com/zagyarakushi/epub-from-scratch-template</a>
+</p>
+</div>
+</section>
+
+<section id="outline-container-conclusion" class="outline-2">
+<h2 id="conclusion"><a href="#conclusion">Conclusion</a></h2>
+<div class="outline-text-2" id="text-conclusion">
+<p>
+You should now be able to create epub from scratch. And have complete control over your ebook.
+</p>
+</div>
+</section>
+
+<section id="outline-container-want-to-help" class="outline-2">
+<h2 id="want-to-help"><a href="#want-to-help">Want to help?</a></h2>
+<div class="outline-text-2" id="text-want-to-help">
+<p>
+You can share it! This website disallow all bots from crawling and indexing so without your help, no one would discover this website.
+</p>
+</div>
+</section>
+</main>
+<footer id="postamble" class="status">
+<a href="/rss.xml">RSS feed</a><br />
+<a href="https://gitlab.com/zagyarakushi/zagyarakushi.gitlab.io/-/archive/master/zagyarakushi.gitlab.io-master.zip">Download entire website</a><br />
+<a href="https://gitlab.com/zagyarakushi/zagyarakushi.gitlab.io">View source code</a>
+
+<!-- This code is based on footnote from Thomas Ingram's site https://taingram.org/ with some minor modifications -->
+<div class="copyright">
+  Copyright &copy; 2022-2025 Zagyarakushi some rights reserved<br />
+  Content is available under
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    CC-BY-SA 4.0
+  </a> unless otherwise noted
+</div>
+<div class="cc-badge">
+  <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+  </a>
+</div>
+</div>
+<div class="generated">
+  Created with <a href="https://www.gnu.org/software/emacs/">Emacs</a> 28.1 (<a href="https://orgmode.org">Org</a> mode
+  9.5.2) on <a href="https://www.gnu.org">GNU</a>/<a href="https://www.kernel.org/">Linux</a>
+</div>
+</footer>
+</body>
+</html>

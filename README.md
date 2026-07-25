@@ -29,4 +29,5 @@ The original layout was inspired by the excellent work of [to1ne](https://gitlab
 
 ## 📄 License
 
-MIT License
+Website code: MIT License
+Content: Creative Commons Attribution 4.0
